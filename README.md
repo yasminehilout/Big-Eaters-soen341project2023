@@ -6,7 +6,7 @@
 
 - Artur Gubaidullin 40208924
 - Yasmine Hilout 40214158
-- Louis Villemure
+- Louis Villemure 40210315
 - Justin Cheng
 - Scott McDonald
 - name id
