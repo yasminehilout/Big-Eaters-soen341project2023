@@ -5,7 +5,7 @@
 ## 2.   Team Members:
 
 - Artur Gubaidullin 40208924
-- Yasmine Hilout 
+- Yasmine Hilout 40214158
 - Louis Villemure
 - Justin Cheng
 - Scott McDonald
