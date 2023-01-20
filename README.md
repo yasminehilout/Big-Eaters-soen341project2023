@@ -1,6 +1,8 @@
 # Career Services Application
 
-## Team Members:
+## 1.   Description
+
+## 2.   Team Members:
 
 - Artur Gubaidullin 40208924
 - Yasmine Hilout 
@@ -8,3 +10,5 @@
 - Justin Cheng
 - Scott McDonald
 - name id
+
+## 3.	Project Approach and Technology 
