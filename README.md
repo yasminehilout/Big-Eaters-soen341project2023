@@ -4,7 +4,7 @@ Team Members: (MUST ALSO INCLUDE SKILLS/STRENGTHS AND ROLE)\
 Yasmine Hilout (GITHUB USERNAME REPLACE HERE) STUDENT ID\
 Artur Gubaidullin (GITHUB USERNAME REPLACE HERE) STUDENT ID\
 Justin Cheng (justncheng) 40210279 Role: Software Developer, Skills: Java, HTML, CSS, JavaScript\
-Louis Villemure (GITHUB USERNAME REPLACE HERE) STUDENT ID\
+Louis Villemure (lo-vil) 40210315 Role: Software Engineer, Skills: Java, React, HTML, CSS, JavaScript, Lisp, Prolog, C, C#, Python, SQL, Angular\
 Scott Mcdonalds (GITHUB USERNAME REPLACE HERE) STUDENT ID\
 Catalina Tipa (ctmoon20) 40210368 
 
