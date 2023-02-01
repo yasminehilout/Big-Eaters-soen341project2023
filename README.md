@@ -1,12 +1,12 @@
 # Big-Eaters-soen341project2023
 
-Team Members: (MUST ALSO INCLUDE SKILLS/STRENGTHS AND ROLE)
+Team Members: (MUST ALSO INCLUDE SKILLS/STRENGTHS AND ROLE)\
 Yasmine Hilout 40214158 Role: Product Manager, Skills: Java, Python, Html, CSS, Dart, Flutter\
-Artur Gubaidullin (GITHUB USERNAME REPLACE HERE) STUDENT ID
-Justin Cheng (justncheng) 40210279 Role: Software Developer, Skills: Java, HTML, CSS, JavaScript
-Louis Villemure (lo-vil) 40210315 Role: Software Engineer, Skills: Java, React, HTML, CSS, JavaScript, Lisp, Prolog, C, C#, Python, SQL, Angular
-Scott Mcdonalds (GITHUB USERNAME REPLACE HERE) STUDENT ID
-Catalina Tipa (ctmoon20) 40210368 Role: Front-end Software Developer Skills: Java, HTML, CSS, JavaScript
+Artur Gubaidullin (GITHUB USERNAME REPLACE HERE) STUDENT ID\
+Justin Cheng (justncheng) 40210279 Role: Software Developer, Skills: Java, HTML, CSS, JavaScript\
+Louis Villemure (lo-vil) 40210315 Role: Software Engineer, Skills: Java, React, HTML, CSS, JavaScript, Lisp, Prolog, C, C#, Python, SQL, Angular\
+Scott Mcdonalds (GITHUB USERNAME REPLACE HERE) STUDENT ID\
+Catalina Tipa (ctmoon20) 40210368 Role: Front-end Software Developer Skills: Java, HTML, CSS, JavaScript\
 
 # Objectives
 
