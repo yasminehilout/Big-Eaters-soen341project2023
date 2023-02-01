@@ -6,7 +6,7 @@ Artur Gubaidullin (GITHUB USERNAME REPLACE HERE) STUDENT ID\
 Justin Cheng (justncheng) 40210279 Role: Software Developer, Skills: Java, HTML, CSS, JavaScript\
 Louis Villemure (GITHUB USERNAME REPLACE HERE) STUDENT ID\
 Scott Mcdonalds (GITHUB USERNAME REPLACE HERE) STUDENT ID\
-Catalina Tipa (GITHUB USERNAME REPLACE HERE) STUDENT ID\
+Catalina Tipa (GITHUB USERNAME REPLACE HERE) STUDENT ID
 
 # Objectives
 
@@ -21,7 +21,7 @@ Internships can be difficult to find and obtain. This web application centralize
 3 Users types, employer, candidate, and admin\
 Employer: Create account, login, browse candidates, create job posting, select potential candidates for interview, view candidates which fit requirements? (Expand here)\
 Candidate: Create account, login, browse job postings, create and tailor profile to preference, upload resume, login through linkedin?, view postings based on skill? (Expand here)\
-Admin: Manage all users, profiles and postings, (Expand here)\
+Admin: Manage all users, profiles and postings, (Expand here)
 
 # Languages & Techniques:
 - HTML
