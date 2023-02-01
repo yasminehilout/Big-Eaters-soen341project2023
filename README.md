@@ -6,7 +6,7 @@ Artur Gubaidullin (GITHUB USERNAME REPLACE HERE) STUDENT ID\
 Justin Cheng (justncheng) 40210279 Role: Software Developer, Skills: Java, HTML, CSS, JavaScript\
 Louis Villemure (GITHUB USERNAME REPLACE HERE) STUDENT ID\
 Scott Mcdonalds (GITHUB USERNAME REPLACE HERE) STUDENT ID\
-Catalina Tipa (GITHUB USERNAME REPLACE HERE) STUDENT ID
+Catalina Tipa (ctmoon20) 40210368 
 
 # Objectives
 
