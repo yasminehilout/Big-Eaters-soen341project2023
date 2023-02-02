@@ -16,7 +16,7 @@ Internships can be difficult to find and obtain. This web application centralize
 
 ## 2.   Team Members:
 
-- Yasmine Hilout 40214158:
+- Yasmine Hilout (yasminehilout) 40214158:
   - Role: Product Manager, 
   - Skills: Java, Python, Html, CSS, Dart, Flutter
 - Artur Gubaidullin (LegendArtur) 40208924:
