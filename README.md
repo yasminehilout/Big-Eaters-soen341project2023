@@ -21,3 +21,11 @@ All users are able to create an account and login to an existing account.
 ## 2. Team Members:
 
 ## 3.	Project Approach
+The creation of this project is done using the following languages:
+- HTML
+- CSS
+- JavaScript
+- Bootstrap
+- ReactJS
+- Firebase (TBD)
+
