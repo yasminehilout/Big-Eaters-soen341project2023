@@ -23,10 +23,10 @@ Internships can be difficult to find and obtain. This web application centralize
   - Role: Solutions Architect
   - Skills: Java, ReactJS, HTML, CSS, JavaScript, Lisp, Clojure, C#, Python, MySQL, PowerPoint
 - Justin Cheng (justncheng) 40210279: 
-  - Role: Software Developer, 
+  - Role: Front-end Developer, 
   - Skills: Java, HTML, CSS, JavaScript
 - Louis Villemure (lo-vil) 40210315 
-  - Role: Software Engineer, 
+  - Role: Back-end Engineer, 
   - Skills: Java, React, HTML, CSS, JavaScript, Lisp, Prolog, C, C#, Python, SQL, Angular
 - Scott Mcdonalds (Millow02) STUDENT ID
 - Catalina Tipa (ctmoon20) 40210368 
