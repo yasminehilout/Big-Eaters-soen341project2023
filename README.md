@@ -19,7 +19,7 @@ All users are able to create an account and login to an existing account.
 
 
 ## 2. Team Members:
-**Yasmine Hilout** (yasminehilout) 40214158:
+- **Yasmine Hilout** (yasminehilout) 40214158:
   - Role: Product Manager
   - Skills: Java, Python, Html, CSS, Dart, Flutter
 - **Artur Gubaidullin** (LegendArtur) 40208924:
@@ -37,11 +37,8 @@ All users are able to create an account and login to an existing account.
   - Skills: Java, HTML, CSS, JavaScript
 
 ## 3.	Project Approach
-The creation of this project is done using the following languages:
-- HTML
-- CSS
-- JavaScript
-- Bootstrap
+### The creation of this project is done using the following languages and technologies:
+- HTML, CSS, JavaScript
 - ReactJS
+- REDUX
 - Firebase (TBD)
-
