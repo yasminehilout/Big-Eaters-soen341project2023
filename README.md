@@ -36,7 +36,9 @@ All users are able to create an account and login to an existing account.
   - Role: Front-end Software Developer 
   - Skills: Java, HTML, CSS, JavaScript
 
+
 ## 3.	Project Approach
+
 ### The creation of this project is done using the following languages and technologies:
 - HTML, CSS, JavaScript
 - ReactJS
