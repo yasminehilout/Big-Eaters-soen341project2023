@@ -19,6 +19,22 @@ All users are able to create an account and login to an existing account.
 
 
 ## 2. Team Members:
+**Yasmine Hilout** (yasminehilout) 40214158:
+  - Role: Product Manager
+  - Skills: Java, Python, Html, CSS, Dart, Flutter
+- **Artur Gubaidullin** (LegendArtur) 40208924:
+  - Role: Solutions Architect
+  - Skills: Java, ReactJS, HTML, CSS, JavaScript, Lisp, Clojure, C#, Python, MySQL, PowerPoint
+- **Justin Cheng** (justncheng) 40210279: 
+  - Role: Front-end Developer, 
+  - Skills: Java, HTML, CSS, JavaScript
+- **Louis Villemure** (lo-vil) 40210315:
+  - Role: Back-end Engineer, 
+  - Skills: Java, React, HTML, CSS, JavaScript, Lisp, Prolog, C, C#, Python, SQL, Angular
+- **Scott McDonald** (Millow02) 40211626
+- **Catalina Tipa** (ctmoon20) 40210368 
+  - Role: Front-end Software Developer 
+  - Skills: Java, HTML, CSS, JavaScript
 
 ## 3.	Project Approach
 The creation of this project is done using the following languages:
