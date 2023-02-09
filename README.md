@@ -32,6 +32,8 @@ All users are able to create an account and login to an existing account.
   - Role: Back-end Engineer, 
   - Skills: Java, React, HTML, CSS, JavaScript, Lisp, Prolog, C, C#, Python, SQL, Angular
 - **Scott McDonald** (Millow02) 40211626
+  -  Role: Back-end Engineer,
+  - Skills: Java, HTML, CSS, JavaScript, React, C#
 - **Catalina Tipa** (ctmoon20) 40210368 
   - Role: Front-end Software Developer 
   - Skills: Java, HTML, CSS, JavaScript
