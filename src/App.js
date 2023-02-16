@@ -6,7 +6,6 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useCollectiuonData } from 'react-firebase-hooks/firestore';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDzK_rT73XCYPNOw0soKnw5jyEPkCjW2YQ",
@@ -19,7 +18,6 @@ firebase.initializeApp({
 })
 
 const auth = firebase.auth();
-const firestore = firebase.firestore();
 
 function App() {
 
