@@ -37,10 +37,6 @@ function App() {
   );
 }
 
-function Postings() {
-
-}
-
 function SignInButton() {
   const signInWithGoogle = () => {
     const provider =  new firebase.auth.GoogleAuthProvider();
