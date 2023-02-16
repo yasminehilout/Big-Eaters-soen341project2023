@@ -45,4 +45,4 @@ All users are able to create an account and login to an existing account.
 - HTML, CSS, JavaScript
 - ReactJS
 - REDUX
-- Firebase (TBD)
+- Firebase
