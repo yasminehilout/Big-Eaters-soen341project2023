@@ -98,27 +98,28 @@ export const Browsing = () => {
             <div>
                 {jobList.map((job) => (
                     <div>
-                        <h1 style={{ color: job.needCoop ? "green" : "red" }}>
+                        <h1>
                             {job.title}
                         </h1>
                         <p> Year Of Start: {job.yearOfStart} </p>
+                        <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
 
                         <button onClick={() => deleteJob(job.id)}> Delete This Job</button>
 
+                        {/* Update Title */}
                         <input
                             placeholder="new title..."
                             onChange={(e) => setUpdatedTitle(e.target.value)}
                         />
                         <button onClick={() => updateJobTitle(job.id)}> Update Title</button>
+
+                        {/* File Upload */}
+                        <input
+                            type="file"
+                            onChange={(e) => setFileUpload(e.target.files[0])} />
+                        <button onClick={uploadFile}> Upload File</button>
                     </div>
                 ))}
-            </div>
-
-            <div>
-                <input
-                    type="file"
-                    onChange={(e) => setFileUpload(e.target.files[0])} />
-                <button onClick={uploadFile}> Upload File</button>
             </div>
         </div>
     );
