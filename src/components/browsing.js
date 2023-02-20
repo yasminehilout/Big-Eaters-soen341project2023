@@ -9,11 +9,15 @@ export const Browsing = () => {
 
     // New Job States
     const [newJobTitle, setNewJobTitle] = useState("");
+    const [newSeason, setNewSeason] = useState("Fall"); // ["Fall", "Winter", "Summer"] 
     const [newYearOfStart, setNewYearOfStart] = useState(0);
     const [needCoop, setNeedCoop] = useState(false);
 
     // Update Title State
     const [updatedTitle, setUpdatedTitle] = useState("");
+
+    // Update Season State
+    const [updatedSeason, setUpdatedSeason] = useState("");
 
     // File Upload State
     const [fileUpload, setFileUpload] = useState(null);
@@ -42,6 +46,7 @@ export const Browsing = () => {
         try {
             await addDoc(jobsCollectionRef, {
                 title: newJobTitle,
+                season: newSeason,
                 yearOfStart: newYearOfStart,
                 needCoop: needCoop,
                 userId: auth?.currentUser?.uid,
@@ -64,6 +69,12 @@ export const Browsing = () => {
         getJobList();
     };
 
+    const updateJobSeason = async (id) => {
+        const jobDoc = doc(db, "jobs", id);
+        await updateDoc(jobDoc, { season: updatedSeason });
+        getJobList();
+    };
+
     const uploadFile = async () => {
         if (!fileUpload) return;
         const filesFolderRef = ref(storage, 'projectFiles/fileUpload.name');
@@ -81,6 +92,13 @@ export const Browsing = () => {
                     placeholder="Job title..."
                     onChange={(e) => setNewJobTitle(e.target.value)}
                 />
+                <label for="seasons">Choose a work season:</label>
+                <select name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
+                    <option value="Fall">Fall</option>
+                    <option value="Winter">Winter</option>
+                    <option value="Spring">Spring</option>
+                    <option value="Summer">Summer</option>
+                </select>
                 <input
                     placeholder="Year Of Start..."
                     type="number"
@@ -101,7 +119,7 @@ export const Browsing = () => {
                         <h1>
                             {job.title}
                         </h1>
-                        <p> Year Of Start: {job.yearOfStart} </p>
+                        <p> Workterm: {job.season} {job.yearOfStart} </p>
                         <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
 
                         <button onClick={() => deleteJob(job.id)}> Delete This Job</button>
@@ -112,6 +130,13 @@ export const Browsing = () => {
                             onChange={(e) => setUpdatedTitle(e.target.value)}
                         />
                         <button onClick={() => updateJobTitle(job.id)}> Update Title</button>
+
+                        {/* Update Season */}
+                        <input
+                            placeholder="new season..."
+                            onChange={(e) => setUpdatedSeason(e.target.value)}
+                        />
+                        <button onClick={() => updateJobSeason(job.id)}> Update Season</button>
 
                         {/* File Upload */}
                         <input
