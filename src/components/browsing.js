@@ -42,7 +42,7 @@ export const Browsing = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const onSubmitJob = async () => {
+    const onCreateJob = async () => {
         try {
             await addDoc(jobsCollectionRef, {
                 title: newJobTitle,
@@ -110,7 +110,7 @@ export const Browsing = () => {
                     onChange={(e) => setNeedCoop(e.target.checked)}
                 />
                 <label> Need Coop </label>
-                <button onClick={onSubmitJob}> Submit Job</button>
+                <button onClick={onCreateJob}> Create Job</button>
             </div>
 
             <div>
