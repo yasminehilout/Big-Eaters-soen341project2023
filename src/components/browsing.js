@@ -20,7 +20,7 @@ export const Browsing = () => {
     const [updatedSeason, setUpdatedSeason] = useState("");
 
     // File Upload State
-    const [fileUpload, setFileUpload] = useState(null);
+    // const [fileUpload, setFileUpload] = useState(null);
 
     const jobsCollectionRef = collection(db, "jobs");
 
@@ -75,15 +75,15 @@ export const Browsing = () => {
         getJobList();
     };
 
-    const uploadFile = async () => {
-        if (!fileUpload) return;
-        const filesFolderRef = ref(storage, 'projectFiles/fileUpload.name');
-        try {
-            await uploadBytes(filesFolderRef, fileUpload);
-        } catch (err) {
-            console.error(err);
-        }
-    };
+    // const uploadFile = async () => {
+    //     if (!fileUpload) return;
+    //     const filesFolderRef = ref(storage, 'projectFiles/fileUpload.name');
+    //     try {
+    //         await uploadBytes(filesFolderRef, fileUpload);
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // };
 
     return (
         <div>
