@@ -138,11 +138,13 @@ export const Browsing = () => {
                         />
                         <button onClick={() => updateJobSeason(job.id)}> Update Season</button>
 
+                        <button onClick={() => {}}>Apply</button>
+
                         {/* File Upload */}
-                        <input
+                        {/* <input
                             type="file"
                             onChange={(e) => setFileUpload(e.target.files[0])} />
-                        <button onClick={uploadFile}> Upload File</button>
+                        <button onClick={uploadFile}> Upload File</button> */}
                     </div>
                 ))}
             </div>
