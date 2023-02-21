@@ -1,4 +1,4 @@
-import { db, auth, storage } from "../config/firebase";
+import { db, auth } from "../config/firebase";
 // import { storage } from "../config/firebase";
 import { useEffect, useState } from 'react';
 import { getDocs, collection, addDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
