@@ -3,6 +3,7 @@ import { db, auth } from "../config/firebase";
 import { useEffect, useState } from 'react';
 import { getDocs, collection, addDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
 // import { ref, uploadBytes } from "firebase/storage";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export const Browsing = () => {
 
@@ -86,9 +87,12 @@ export const Browsing = () => {
     //     }
     // };
 
+    const [user] = useAuthState(auth);
+
     return (
         <div>
-            <div>
+            {user ?
+            <div className="create-job">
                 <input
                     placeholder="Job title..."
                     onChange={(e) => setNewJobTitle(e.target.value)}
@@ -113,7 +117,7 @@ export const Browsing = () => {
                 <label> Need Coop </label>
                 <button onClick={onCreateJob}> Create Job</button>
             </div>
-
+            : <></>}
             <div>
                 {jobList.map((job) => (
                     <div>
@@ -123,29 +127,33 @@ export const Browsing = () => {
                         <p> Workterm: {job.season} {job.yearOfStart} </p>
                         <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
 
-                        <button onClick={() => deleteJob(job.id)}> Delete This Job</button>
+                        {user ?
+                        <div className="modify-job">
+                            <button onClick={() => deleteJob(job.id)}> Delete This Job</button>
 
-                        {/* Update Title */}
-                        <input
-                            placeholder="new title..."
-                            onChange={(e) => setUpdatedTitle(e.target.value)}
-                        />
-                        <button onClick={() => updateJobTitle(job.id)}> Update Title</button>
+                            {/* Update Title */}
+                            <input
+                                placeholder="new title..."
+                                onChange={(e) => setUpdatedTitle(e.target.value)}
+                            />
+                            <button onClick={() => updateJobTitle(job.id)}> Update Title</button>
 
-                        {/* Update Season */}
-                        <input
-                            placeholder="new season..."
-                            onChange={(e) => setUpdatedSeason(e.target.value)}
-                        />
-                        <button onClick={() => updateJobSeason(job.id)}> Update Season</button>
+                            {/* Update Season */}
+                            <input
+                                placeholder="new season..."
+                                onChange={(e) => setUpdatedSeason(e.target.value)}
+                            />
+                            <button onClick={() => updateJobSeason(job.id)}> Update Season</button>
 
-                        <button onClick={() => {}}>Apply</button>
+                            <button onClick={() => {}}>Apply</button>
 
-                        {/* File Upload */}
-                        {/* <input
-                            type="file"
-                            onChange={(e) => setFileUpload(e.target.files[0])} />
-                        <button onClick={uploadFile}> Upload File</button> */}
+                            {/* File Upload */}
+                            {/* <input
+                                type="file"
+                                onChange={(e) => setFileUpload(e.target.files[0])} />
+                            <button onClick={uploadFile}> Upload File</button> */}
+                        </div>
+                        : <></>}
                     </div>
                 ))}
             </div>
