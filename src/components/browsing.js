@@ -95,7 +95,7 @@ export const Browsing = () => {
                     placeholder="Job title..."
                     onChange={(e) => setNewJobTitle(e.target.value)}
                 />
-                <label for="seasons">Choose a work season:</label>
+                <label htmlFor="seasons">Choose a work season:</label>
                 
                 <select class="select-jobpost" name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
                     <option value="Fall">Fall</option>
@@ -124,7 +124,7 @@ export const Browsing = () => {
 
             <div class="div-posts">
                 {jobList.map((job) => (
-                    <div class="div-post">
+                    <div key={job.id} class="div-post">
                         <h1 class="job-header">
                             {job.title}
                         </h1>
