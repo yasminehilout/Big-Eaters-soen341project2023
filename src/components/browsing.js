@@ -3,6 +3,7 @@ import { db, auth } from "../config/firebase";
 import { useEffect, useState } from 'react';
 import { getDocs, collection, addDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
 // import { ref, uploadBytes } from "firebase/storage";
+import "./css/browsing.css";
 
 export const Browsing = () => {
 
@@ -87,59 +88,68 @@ export const Browsing = () => {
     // };
 
     return (
-        <div>
+        <div class="browsing-div">
             <div>
-                <input
+                <input 
+                    class="j-input"
                     placeholder="Job title..."
                     onChange={(e) => setNewJobTitle(e.target.value)}
                 />
                 <label for="seasons">Choose a work season:</label>
-                <select name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
+                
+                <select class="select-jobpost" name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
                     <option value="Fall">Fall</option>
                     <option value="Winter">Winter</option>
                     <option value="Spring">Spring</option>
                     <option value="Summer">Summer</option>
                 </select>
+
                 <input
+                    class="j-input"
                     placeholder="Year Of Start..."
                     type="number"
                     onChange={(e) => setNewYearOfStart(Number(e.target.value))}
                 />
+
                 <input
+                    class="coop-check"
                     type="checkbox"
                     checked={needCoop}
                     onChange={(e) => setNeedCoop(e.target.checked)}
                 />
                 <label> Need Coop </label>
-                <button onClick={onCreateJob}> Create Job</button>
+
+                <button class="j-button" onClick={onCreateJob}> Create Job</button>
             </div>
 
-            <div>
+            <div class="div-posts">
                 {jobList.map((job) => (
-                    <div>
-                        <h1>
+                    <div class="div-post">
+                        <h1 class="job-header">
                             {job.title}
                         </h1>
                         <p> Workterm: {job.season} {job.yearOfStart} </p>
                         <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
 
-                        <button onClick={() => deleteJob(job.id)}> Delete This Job</button>
+                        <button class="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
 
                         {/* Update Title */}
                         <input
+                            class="j-input"
                             placeholder="new title..."
                             onChange={(e) => setUpdatedTitle(e.target.value)}
                         />
-                        <button onClick={() => updateJobTitle(job.id)}> Update Title</button>
+                        <button class="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
 
                         {/* Update Season */}
                         <input
+                            class="j-input"
                             placeholder="new season..."
                             onChange={(e) => setUpdatedSeason(e.target.value)}
                         />
-                        <button onClick={() => updateJobSeason(job.id)}> Update Season</button>
+                        <button class="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
 
-                        <button onClick={() => {}}>Apply</button>
+                        <button class="j-button" onClick={() => {}}>Apply</button>
 
                         {/* File Upload */}
                         {/* <input

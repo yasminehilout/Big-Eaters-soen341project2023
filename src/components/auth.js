@@ -31,21 +31,24 @@ export const Auth = () => {
     };
 
     return (
-        <div>
+        <div class="auth-div" align="right">
             <input 
+                class="b-input"
                 placeholder="Email..." 
                 onChange={(e) => setEmail(e.target.value)}
             />
+            
             <input 
+                class="b-input"
                 placeholder="Password..."
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={signIn}> Sign In</button>
+            <button class="b-signIn" onClick={signIn}> Sign In</button>
 
-            <button onClick={signInWithGoogle}> Sign In With Google</button>
-            
-            <button onClick={logout}> Logout </button>
+            <button class="b-signIn" onClick={signInWithGoogle}> Sign In With Google</button>
+                
+            <button class="b-signIn" onClick={logout}> Logout </button>
         </div>
     );
 };
