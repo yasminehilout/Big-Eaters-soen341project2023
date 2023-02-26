@@ -88,16 +88,16 @@ export const Browsing = () => {
     // };
 
     return (
-        <div class="browsing-div">
+        <div className="browsing-div">
             <div>
                 <input 
-                    class="j-input"
+                    className="j-input"
                     placeholder="Job title..."
                     onChange={(e) => setNewJobTitle(e.target.value)}
                 />
                 <label htmlFor="seasons">Choose a work season:</label>
                 
-                <select class="select-jobpost" name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
+                <select className="select-jobpost" name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
                     <option value="Fall">Fall</option>
                     <option value="Winter">Winter</option>
                     <option value="Spring">Spring</option>
@@ -105,51 +105,51 @@ export const Browsing = () => {
                 </select>
 
                 <input
-                    class="j-input"
+                    className="j-input"
                     placeholder="Year Of Start..."
                     type="number"
                     onChange={(e) => setNewYearOfStart(Number(e.target.value))}
                 />
 
                 <input
-                    class="coop-check"
+                    className="coop-check"
                     type="checkbox"
                     checked={needCoop}
                     onChange={(e) => setNeedCoop(e.target.checked)}
                 />
                 <label> Need Coop </label>
 
-                <button class="j-button" onClick={onCreateJob}> Create Job</button>
+                <button className="j-button" onClick={onCreateJob}> Create Job</button>
             </div>
 
-            <div class="div-posts">
+            <div className="div-posts">
                 {jobList.map((job) => (
-                    <div key={job.id} class="div-post">
-                        <h1 class="job-header">
+                    <div key={job.id} className="div-post">
+                        <h1 className="job-header">
                             {job.title}
                         </h1>
                         <p> Workterm: {job.season} {job.yearOfStart} </p>
                         <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
 
-                        <button class="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
+                        <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
 
                         {/* Update Title */}
                         <input
-                            class="j-input"
+                            className="j-input"
                             placeholder="new title..."
                             onChange={(e) => setUpdatedTitle(e.target.value)}
                         />
-                        <button class="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
+                        <button className="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
 
                         {/* Update Season */}
                         <input
-                            class="j-input"
+                            className="j-input"
                             placeholder="new season..."
                             onChange={(e) => setUpdatedSeason(e.target.value)}
                         />
-                        <button class="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
+                        <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
 
-                        <button class="j-button" onClick={() => {}}>Apply</button>
+                        <button className="j-button" onClick={() => {}}>Apply</button>
 
                         {/* File Upload */}
                         {/* <input
