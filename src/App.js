@@ -1,6 +1,7 @@
 import "./App.css";
 import { Auth } from "./components/auth";
 import { Browsing  } from "./components/browsing";
+import { UploadFile } from "./components/uploadFile";
 
 
 function App() {
