@@ -1,8 +1,7 @@
 import { db, auth } from "../config/firebase";
-// import { storage } from "../config/firebase";
 import { useEffect, useState } from 'react';
 import { getDocs, collection, addDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
-// import { ref, uploadBytes } from "firebase/storage";
+
 
 export const Browsing = () => {
 
@@ -20,8 +19,6 @@ export const Browsing = () => {
     // Update Season State
     const [updatedSeason, setUpdatedSeason] = useState("");
 
-    // File Upload State
-    // const [fileUpload, setFileUpload] = useState(null);
 
     const jobsCollectionRef = collection(db, "jobs");
 
@@ -75,16 +72,6 @@ export const Browsing = () => {
         await updateDoc(jobDoc, { season: updatedSeason });
         getJobList();
     };
-
-    // const uploadFile = async () => {
-    //     if (!fileUpload) return;
-    //     const filesFolderRef = ref(storage, 'projectFiles/fileUpload.name');
-    //     try {
-    //         await uploadBytes(filesFolderRef, fileUpload);
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    // };
 
     return (
         <div>
@@ -141,11 +128,6 @@ export const Browsing = () => {
 
                         <button onClick={() => {}}>Apply</button>
 
-                        {/* File Upload */}
-                        {/* <input
-                            type="file"
-                            onChange={(e) => setFileUpload(e.target.files[0])} />
-                        <button onClick={uploadFile}> Upload File</button> */}
                     </div>
                 ))}
             </div>
