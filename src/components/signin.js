@@ -24,19 +24,22 @@ export const LoginMenu = () => {
     };
 
     return (
-        <div>
+        <>
             <input 
+                className="b-input"
                 placeholder="Email..." 
                 onChange={(e) => setEmail(e.target.value)}
             />
+            
             <input 
+                className="b-input"
                 placeholder="Password..."
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={signIn}> Sign In</button>
+            <button className="b-signIn" onClick={signIn}> Sign In</button>
 
-            <button onClick={signInWithGoogle}> Sign In With Google</button>
-        </div>
+            <button className="b-signIn" onClick={signInWithGoogle}> Sign In With Google</button>
+        </>
     );
 }
