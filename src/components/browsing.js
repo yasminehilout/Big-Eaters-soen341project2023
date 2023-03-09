@@ -128,7 +128,7 @@ export const Browsing = () => {
                         <h1 className="job-header">
                             {job.title}
                         </h1>
-                        <h4>
+                        <h4 className="job-header">
                             {job.description}
                         </h4>
                         <p> Workterm: {job.season} {job.yearOfStart} </p>
