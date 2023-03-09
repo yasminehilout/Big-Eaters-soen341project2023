@@ -1,8 +1,6 @@
 import { db, auth } from "../config/firebase";
-// import { storage } from "../config/firebase";
 import { useEffect, useState } from 'react';
 import { getDocs, collection, addDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
-// import { ref, uploadBytes } from "firebase/storage";
 import "./css/browsing.css";
 
 export const Browsing = () => {
@@ -21,8 +19,6 @@ export const Browsing = () => {
     // Update Season State
     const [updatedSeason, setUpdatedSeason] = useState("");
 
-    // File Upload State
-    // const [fileUpload, setFileUpload] = useState(null);
 
     const jobsCollectionRef = collection(db, "jobs");
 
@@ -77,16 +73,6 @@ export const Browsing = () => {
         getJobList();
     };
 
-    // const uploadFile = async () => {
-    //     if (!fileUpload) return;
-    //     const filesFolderRef = ref(storage, 'projectFiles/fileUpload.name');
-    //     try {
-    //         await uploadBytes(filesFolderRef, fileUpload);
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    // };
-
     return (
         <div className="browsing-div">
             <div>
@@ -96,7 +82,6 @@ export const Browsing = () => {
                     onChange={(e) => setNewJobTitle(e.target.value)}
                 />
                 <label htmlFor="seasons">Choose a work season:</label>
-                
                 <select className="select-jobpost" name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
                     <option value="Fall">Fall</option>
                     <option value="Winter">Winter</option>
@@ -151,11 +136,6 @@ export const Browsing = () => {
 
                         <button className="j-button" onClick={() => {}}>Apply</button>
 
-                        {/* File Upload */}
-                        {/* <input
-                            type="file"
-                            onChange={(e) => setFileUpload(e.target.files[0])} />
-                        <button onClick={uploadFile}> Upload File</button> */}
                     </div>
                 ))}
             </div>
