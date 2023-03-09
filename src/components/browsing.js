@@ -128,6 +128,9 @@ export const Browsing = () => {
                         <h1 className="job-header">
                             {job.title}
                         </h1>
+                        <h4>
+                            {job.description}
+                        </h4>
                         <p> Workterm: {job.season} {job.yearOfStart} </p>
                         <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
 
