@@ -1,6 +1,5 @@
-import firebase from "firebase/app";
 import { auth, googleProvider, db } from '../config/firebase';
-import {query, collection, addDoc, getDocs, where, setDoc, doc } from "firebase/firestore";
+import {query, collection, getDocs, where, setDoc, doc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { useState } from 'react';
 
