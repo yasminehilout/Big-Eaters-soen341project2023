@@ -65,6 +65,7 @@ export const Browsing = () => {
     };
 
     const updateJobTitle = async (id) => {
+        console.log(id);
         const jobDoc = doc(db, "jobs", id);
         await updateDoc(jobDoc, { title: updatedTitle });
         getJobList();
