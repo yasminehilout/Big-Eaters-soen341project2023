@@ -4,7 +4,7 @@
 
 ## VIDEO DEMO OF JOB BROWSING and STUDENT PROFILE
 
-[![thumbnail](https://user-images.githubusercontent.com/29106800/224383781-804f892e-2824-4920-a746-12c5127592ac.PNG)](https://youtu.be/cdFc3UR0IMA)
+[![thumbnail](https://user-images.githubusercontent.com/29106800/224384207-8c9d809b-c39a-4b1f-8af8-dad2b4282008.PNG)](https://youtu.be/cdFc3UR0IMA)
 
 ## 1. Description
 
