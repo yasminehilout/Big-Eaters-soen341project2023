@@ -1,26 +1,22 @@
-import { getDocs, collection, addDoc, deleteDoc, setDoc, updateDoc, doc, where, query } from 'firebase/firestore';
-import { async } from 'q';
-import firebase from 'firebase/compat/app';
-import { useState, useEffect, useRef } from 'react';
-import { db, auth } from "../config/firebase";
-import { useAuthState, useAuth } from "react-firebase-hooks/auth";
+import { updateDoc, doc, } from 'firebase/firestore';
+import { useState } from 'react';
+import { db } from "../config/firebase";
+//import { useAuthState, useAuth } from "react-firebase-hooks/auth";
 //import { studentProfileInputs } from "./student-form-source";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import React from 'react'
 
 export const StudentProfile = () =>  {
     
-    const [studentProfileList, setStudentProfileList] = useState([]);
-
     const auth = getAuth();
-    const user = auth.currentUser;
+    //const user = auth.currentUser;
 
     const [newFirstName, setFirstName] = useState("")
     const [newLastName, setLastName] = useState("")
     const [newEducation, setEducation] = useState("Bachelor")
-    const [newResume, setResume] = useState()
+    //const [newResume, setResume] = useState()
 
-    const studentProfileRef = collection(db, "studentprofile");   
+    //const studentProfileRef = collection(db, "studentprofile");   
 
     const editProfile = async () => {
         auth.onAuthStateChanged( async (user) => {
@@ -61,13 +57,6 @@ export const StudentProfile = () =>  {
                     value={newLastName}
                     onChange={(e) => setLastName(e.target.value)}
                 />;
-                <input
-                    type="text"
-                    placeholder = "Email"
-                    //defaultValue = {}
-                    readOnly
-                />;
-
                 <label for="education">Select Education Level</label>
                 <select name="education" id="education" required onChange={(e) => setEducation(e.target.value)}> 
                     <option value="Bachelor">Bachelor</option> 
