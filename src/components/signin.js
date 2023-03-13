@@ -37,9 +37,11 @@ export const LoginMenu = () => {
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
             />
+
             <button className="b-signIn" onClick={signIn}> Sign In</button>
 
             <button className="b-signIn" onClick={signInWithGoogle}> Sign In With Google</button>
         </>
+
     );
 }
