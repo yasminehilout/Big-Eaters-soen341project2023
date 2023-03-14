@@ -11,7 +11,7 @@ export const Navbar = () => {
 
     return (
         <div className="auth-div" align="right">
-            {user ? <><ProfileMenu /><LogoutMenu /></> : <LoginMenu />}
+            {user ? <><LogoutMenu /><ProfileMenu /></> : <LoginMenu />}
         </div>
     )
 }
