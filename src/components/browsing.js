@@ -1,4 +1,5 @@
 import { db, auth } from "../config/firebase";
+// import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getDocs, getDoc, collection, addDoc, setDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
 // import { ref, set } from "firebase/database";
@@ -29,14 +30,19 @@ export const Browsing = () => {
         try {
             const data = await getDocs(jobsCollectionRef);
             const filteredData = data.docs.map(async (doc) => {
-                const applied = await getApplicationStatus(doc.id);
-                return {...doc.data(),
-                id: doc.id,
-                applied: applied}
+                let applied = false;
+                if (auth.currentUser) {
+                    applied = await getApplicationStatus(doc.id);
+                }
+                return {
+                    ...doc.data(),
+                    id: doc.id,
+                    applied: applied
+                }
             });
             const updatedData = await Promise.all(filteredData);
             setJobList(updatedData);
-            jobList.forEach((e) => {console.log(e.applied)})
+            jobList.forEach((e) => { console.log(e.applied) })
         } catch (err) {
             console.error(err);
         }
@@ -168,12 +174,12 @@ export const Browsing = () => {
                         />
                         <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
 
-        {/* Show different buttons depending on the application status */}
-        {job.applied ? (
-          <button className="j-button">Applied</button>
-        ) : (
-          <button className="j-button" onClick={() => onApply(job.id)}>Apply</button>
-        )}
+                        {/* Show different buttons depending on the application status */}
+                        {job.applied ? (
+                            <button className="j-button">Applied</button>
+                        ) : (
+                            <button className="j-button" onClick={() => onApply(job.id)}>Apply</button>
+                        )}
 
                     </div>
                 ))}
