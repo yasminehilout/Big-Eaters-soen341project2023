@@ -2,6 +2,9 @@ body{
     background-color: rgb(224, 224, 224);
 }
 
+button:hover {
+    cursor: pointer;
+}
 /* Styling for the Login at the top of the page*/
 .auth-div{
     background-color: #4c8bf5;
