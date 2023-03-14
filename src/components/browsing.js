@@ -1,6 +1,8 @@
 import { db, auth } from "../config/firebase";
 import { useEffect, useState } from 'react';
 import { getDocs, collection, addDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
+// import { ref, uploadBytes } from "firebase/storage";
+import { useAuthState } from "react-firebase-hooks/auth";
 import "./css/browsing.css";
 
 export const Browsing = () => {
@@ -73,8 +75,21 @@ export const Browsing = () => {
         getJobList();
     };
 
+    // const uploadFile = async () => {
+    //     if (!fileUpload) return;
+    //     const filesFolderRef = ref(storage, 'projectFiles/fileUpload.name');
+    //     try {
+    //         await uploadBytes(filesFolderRef, fileUpload);
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // };
+
+    const [user] = useAuthState(auth);
+
     return (
         <div className="browsing-div">
+            {user ?
             <div>
                 <input 
                     className="j-input"
@@ -106,7 +121,7 @@ export const Browsing = () => {
 
                 <button className="j-button" onClick={onCreateJob}> Create Job</button>
             </div>
-
+            : <></>}
             <div className="div-posts">
                 {jobList.map((job) => (
                     <div key={job.id} className="div-post">
@@ -116,26 +131,35 @@ export const Browsing = () => {
                         <p> Workterm: {job.season} {job.yearOfStart} </p>
                         <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
 
-                        <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
+                        {user ?
+                        <>
+                            <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
 
-                        {/* Update Title */}
-                        <input
-                            className="j-input"
-                            placeholder="new title..."
-                            onChange={(e) => setUpdatedTitle(e.target.value)}
-                        />
-                        <button className="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
+                            {/* Update Title */}
+                            <input
+                                className="j-input"
+                                placeholder="new title..."
+                                onChange={(e) => setUpdatedTitle(e.target.value)}
+                            />
+                            <button className="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
 
-                        {/* Update Season */}
-                        <input
-                            className="j-input"
-                            placeholder="new season..."
-                            onChange={(e) => setUpdatedSeason(e.target.value)}
-                        />
-                        <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
+                            {/* Update Season */}
+                            <input
+                                className="j-input"
+                                placeholder="new season..."
+                                onChange={(e) => setUpdatedSeason(e.target.value)}
+                            />
+                            <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
 
-                        <button className="j-button" onClick={() => {}}>Apply</button>
+                            <button className="j-button" onClick={() => {}}>Apply</button>
 
+                            {/* File Upload */}
+                            {/* <input
+                                type="file"
+                                onChange={(e) => setFileUpload(e.target.files[0])} />
+                            <button onClick={uploadFile}> Upload File</button> */}
+                        </>
+                        : <></>}
                     </div>
                 ))}
             </div>

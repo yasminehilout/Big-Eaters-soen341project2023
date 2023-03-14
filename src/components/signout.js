@@ -12,6 +12,6 @@ export const LogoutMenu = () => {
         }
     };
     return (
-        <button onClick={logout}> Logout </button>
+        <button className="b-signIn" onClick={logout}> Logout </button>
     );
 }
