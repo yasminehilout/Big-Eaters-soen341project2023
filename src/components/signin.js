@@ -17,6 +17,7 @@ export const LoginMenu = () => {
     const signIn = async () => {
         try{
             await createUserWithEmailAndPassword(auth, email, password);
+            window.location.reload();
             // dispatch(setUserAuthenticated(true));
         } catch (err) {
             console.error(err);
@@ -27,6 +28,8 @@ export const LoginMenu = () => {
     const signInWithGoogle = async () => {
         try{
             await signInWithPopup(auth, googleProvider);
+            window.location.reload();
+
             // dispatch(setUserAuthenticated(true));
         } catch (err) {
             console.error(err);

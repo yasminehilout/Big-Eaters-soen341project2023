@@ -1,9 +1,10 @@
 import { db, auth } from "../config/firebase";
-// import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getDocs, getDoc, collection, addDoc, setDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
-// import { ref, set } from "firebase/database";
 import "./css/browsing.css";
+
+// REDUX
+// import { useSelector, useDispatch } from 'react-redux';
 
 export const Browsing = () => {
 
@@ -20,9 +21,6 @@ export const Browsing = () => {
 
     // Update Season State
     const [updatedSeason, setUpdatedSeason] = useState("");
-
-    // Dictionary of allApplications
-    // const [applicationStatus, setApplicationStatus] = useState({});
 
     const jobsCollectionRef = collection(db, "jobs");
 
