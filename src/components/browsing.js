@@ -1,6 +1,7 @@
 import { db, auth } from "../config/firebase";
 import { useEffect, useState } from 'react';
-import { getDocs, collection, addDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
+import { getDocs, getDoc, collection, addDoc, setDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
+// import { ref, set } from "firebase/database";
 import "./css/browsing.css";
 
 export const Browsing = () => {
@@ -19,17 +20,23 @@ export const Browsing = () => {
     // Update Season State
     const [updatedSeason, setUpdatedSeason] = useState("");
 
+    // Dictionary of allApplications
+    // const [applicationStatus, setApplicationStatus] = useState({});
 
     const jobsCollectionRef = collection(db, "jobs");
 
     const getJobList = async () => {
         try {
             const data = await getDocs(jobsCollectionRef);
-            const filteredData = data.docs.map((doc) => ({
-                ...doc.data(),
+            const filteredData = data.docs.map(async (doc) => {
+                const applied = await getApplicationStatus(doc.id);
+                return {...doc.data(),
                 id: doc.id,
-            }));
-            setJobList(filteredData);
+                applied: applied}
+            });
+            const updatedData = await Promise.all(filteredData);
+            setJobList(updatedData);
+            jobList.forEach((e) => {console.log(e.applied)})
         } catch (err) {
             console.error(err);
         }
@@ -73,10 +80,37 @@ export const Browsing = () => {
         getJobList();
     };
 
+    const getApplicationStatus = async (jobId) => {
+        const user = auth.currentUser;
+        const docRef = doc(db, "jobs", jobId, "applicants", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data());
+        } else {
+            console.log("No such document!");
+        }
+        return docSnap.exists();
+    }
+
+    const onApply = async (jobId) => {
+        console.log(jobId);
+        const user = auth.currentUser;
+        try {
+            await setDoc(doc(db, "jobs", jobId, "applicants", user.uid), {
+                CV: "40 years experience, PHD",
+                name: user.displayName,
+                email: user.email
+            });
+        } catch (err) {
+            console.error(err);
+        }
+        getJobList();
+    }
+
     return (
         <div className="browsing-div">
             <div>
-                <input 
+                <input
                     className="j-input"
                     placeholder="Job title..."
                     onChange={(e) => setNewJobTitle(e.target.value)}
@@ -111,7 +145,7 @@ export const Browsing = () => {
                 {jobList.map((job) => (
                     <div key={job.id} className="div-post">
                         <h1 className="job-header">
-                            {job.title}
+                            {"hello"}
                         </h1>
                         <p> Workterm: {job.season} {job.yearOfStart} </p>
                         <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
@@ -134,7 +168,12 @@ export const Browsing = () => {
                         />
                         <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
 
-                        <button className="j-button" onClick={() => {}}>Apply</button>
+        {/* Show different buttons depending on the application status */}
+        {job.applied ? (
+          <button className="j-button">Applied</button>
+        ) : (
+          <button className="j-button" onClick={() => onApply(job.id)}>Apply</button>
+        )}
 
                     </div>
                 ))}
