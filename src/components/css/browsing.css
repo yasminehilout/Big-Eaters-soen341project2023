@@ -1,67 +1,76 @@
-body{
+body {
     background-color: rgb(224, 224, 224);
 }
 
-/* Styling for the Login at the top of the page*/
-.auth-div{
-    background-color: #4c8bf5;
-    height: 70px;
+button:hover {
+    cursor: pointer;
 }
 
-.b-input{
-    border-color: #4484f3;
+/* Styling for the Login at the top of the page*/
+.auth-div {
+    background-color: #4c8bf5;
+    height: 70px;
+    margin: 0;
+}
+
+.b-input {
+    border-color: #4c8bf5;
     border-radius: 10px;
     border-style: solid;
     border-width: 2.5px;
     font-size: 0.7rem;
-    margin:5px;
+    margin: 5px;
     margin-top: 15px;
     outline: none;
-    padding:10px 20px;
+    padding: 10px 20px;
     text-align: center;
     transition: border-color 0.5s ease;
 }
-.b-input:focus{
+
+.b-input:focus {
     border-color: rgb(212, 174, 239);
 }
 
-.b-signIn{
+.b-signIn {
     background-color: #c1c1c1;
     border: none;
     border-radius: 10px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 13px;
     font-weight: 600;
     margin: 5px;
     padding: 7px 10px;
     transition: box-shadow 0.2s;
+    /* text-align:center; */
 }
-.b-signIn:hover{
-    box-shadow: 0 8px 15px 0 rgba(0,0,0,0.2),
-                0 6px 20px 0 rgba(0,0,0,0.19)
+
+.b-signIn:hover {
+    box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19)
 }
 
 /*Styling for the job postings page*/
 
 /*buttons*/
-.j-input{
+.j-input {
     border-color: #4c8bf5;
     border-radius: 10px;
     border-style: solid;
     border-width: 2.5px;
     font-size: 1 rem;
-    margin:5px;
-    outline:none;
-    padding:7px 20px;
+    margin: 5px;
+    outline: none;
+    padding: 7px 20px;
     text-align: center;
     transition: border-color 0.5s ease;
 }
-.j-input:focus{
+
+.j-input:focus {
     border-color: rgb(212, 174, 239);
 }
 
-.j-button{
-    background-color: #c1c1c1;
+.j-button {
+    background-color: #4c8bf5;
     border: none;
     border-radius: 40px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -69,17 +78,25 @@ body{
     font-weight: 600;
     margin: 10px;
     padding: 7px 14px;
-    transition: box-shadow 0.3s;
+    transition: box-shadow 0.2s;
 }
-.j-button:hover{
+
+.apply:hover {
     box-shadow: 0 8px 16px 0 rgba(66, 89, 202, 0.2),
-                0 6px 20px 0 rgba(66, 89, 202,0.19)
+        0 6px 20px 0 rgba(66, 89, 202, 0.19);
+    background-color: #487dd8;
 }
-.update-button{
+
+.applied {
+    color:#494949;
     background-color: #c1c1c1;
-    border-color:#4484f3;
+}
+
+.update-button {
+    background-color: #c1c1c1;
+    border-color: #4c8bf5;
     border-radius: 10px;
-    border-style:solid;
+    border-style: solid;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 13px;
     font-weight: 600;
@@ -87,17 +104,19 @@ body{
     padding: 7px 14px;
     transition: 0.2s;
 }
-.update-button:hover{
-    box-shadow: 0 0 0 0 rgba(0,0,0,0.2),
-                0 5px 15px 0 rgba(0,0,0,0.19)
+
+.update-button:hover {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2),
+        0 5px 15px 0 rgba(0, 0, 0, 0.19);
+        background-color: #adadad;
 }
 
 /* Div of job postings (individual)*/
-.div-post{
+.div-post {
     background-color: white;
     border: 2px solid rgb(112, 112, 112);
     border-radius: 10px;
-    padding:10px;
+    padding: 10px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 50px;
@@ -105,33 +124,32 @@ body{
     width: fit-content;
 }
 
-.div-posts{
+.div-posts {
     background-color: rgb(239, 239, 239);
     border-radius: 10px;
-    margin-left:auto;
+    margin-left: auto;
     margin-right: auto;
     width: -moz-fit-contents;
     width: fit-content;
 }
 
-.job-header{
+.job-header {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 /*Select tag modified*/
-.select-jobpost{
-    border: 2.5px #6a80a6 solid;
+.select-jobpost {
+    border: 2.5px #4c8bf5 solid;
     border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    background-color:#c1c1c1;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    background-color: #c1c1c1;
     margin: 5px;
     padding: 7px 20px;
 }
+
 /*checkbox*/
-.coop-check{
+.coop-check {
     cursor: pointer;
-    height:20px;
+    height: 20px;
     width: 20px;
 }
-
-
