@@ -40,7 +40,6 @@ export const Browsing = () => {
             });
             const updatedData = await Promise.all(filteredData);
             setJobList(updatedData);
-            jobList.forEach((e) => { console.log(e.applied) })
         } catch (err) {
             console.error(err);
         }
@@ -88,16 +87,15 @@ export const Browsing = () => {
         const user = auth.currentUser;
         const docRef = doc(db, "jobs", jobId, "applicants", user.uid);
         const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
-        } else {
-            console.log("No such document!");
-        }
+        // if (docSnap.exists()) {
+        //     console.log("Document data:", docSnap.data());
+        // } else {
+        //     console.log("No such document!");
+        // }
         return docSnap.exists();
     }
 
     const onApply = async (jobId) => {
-        console.log(jobId);
         const user = auth.currentUser;
         try {
             await setDoc(doc(db, "jobs", jobId, "applicants", user.uid), {
