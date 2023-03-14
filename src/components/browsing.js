@@ -186,9 +186,9 @@ export const Browsing = () => {
                                 <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
                                 {/* Show different buttons depending on the application status */}
                                 {job.applied ? (
-                                    <button className="j-button">Applied</button>
+                                    <button className="j-button applied">Applied</button>
                                 ) : (
-                                    <button className="j-button" onClick={() => onApply(job.id)}>Apply</button>
+                                    <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
                                 )}
 
                             </>
