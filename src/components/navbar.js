@@ -10,7 +10,7 @@ export const Navbar = () => {
     const [user] = useAuthState(auth);
 
     return (
-        <div className="navbar">
+        <div className="auth-div" align="right">
             {user ? <><ProfileMenu /><LogoutMenu /></> : <LoginMenu />}
         </div>
     )

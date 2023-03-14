@@ -2,10 +2,14 @@ body{
     background-color: rgb(224, 224, 224);
 }
 
+button:hover {
+    cursor: pointer;
+}
 /* Styling for the Login at the top of the page*/
 .auth-div{
     background-color: #4c8bf5;
     height: 70px;
+    margin:0;
 }
 
 .b-input{
@@ -35,6 +39,7 @@ body{
     margin: 5px;
     padding: 7px 10px;
     transition: box-shadow 0.2s;
+    /* text-align:center; */
 }
 .b-signIn:hover{
     box-shadow: 0 8px 15px 0 rgba(0,0,0,0.2),
