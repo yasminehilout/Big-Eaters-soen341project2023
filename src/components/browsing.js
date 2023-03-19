@@ -160,7 +160,7 @@ export const Browsing = () => {
                 {jobList.map((job) => (
                     <div key={job.id} className="div-post">
                         <h1 className="job-header">
-                            {"hello"}
+                            {job.title}
                         </h1>
                         <p> Workterm: {job.season} {job.yearOfStart} </p>
                         <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
