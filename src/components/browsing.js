@@ -198,6 +198,14 @@ export const Browsing = () => {
                                 />
                                 <button className="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
 
+                                {/* Update Description */}
+                                <input 
+                                    className="j-input"
+                                    placeholder="new description..."
+                                    onChange={(e) => setUpdatedDescription(e.target.value)}
+                                />
+                                 <button className="update-button" onClick={() => updateJobDescription(job.id)}> Update Description</button>
+                                
                                 {/* Update Season */}
                                 <input
                                     className="j-input"
