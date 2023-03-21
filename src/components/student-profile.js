@@ -46,7 +46,7 @@ export const StudentProfile = () =>  {
             <form>
                 <input 
                     type="text"
-                    maxlength="20"
+                    maxLength="20"
                     placeholder = "First Name"
                     required
                     value={newFirstName}
@@ -54,13 +54,13 @@ export const StudentProfile = () =>  {
                 />;
                 <input
                     type="text"
-                    maxlength="20"
+                    maxLength="20"
                     placeholder = "Last Name"
                     required
                     value={newLastName}
                     onChange={(e) => setLastName(e.target.value)}
                 />;
-                <label for="education">Select Education Level</label>
+                <label htmlFor="education">Select Education Level</label>
                 <select name="education" id="education" required onChange={(e) => setEducation(e.target.value)}> 
                     <option value="Bachelor">Bachelor</option> 
                     <option value="Masters">Masters</option> 
