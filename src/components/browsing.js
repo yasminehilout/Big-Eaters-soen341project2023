@@ -1,7 +1,11 @@
 import { db, auth } from "../config/firebase";
 import { useEffect, useState } from 'react';
-import { getDocs, collection, addDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
+import { getDocs, getDoc, collection, addDoc, setDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 import "./css/browsing.css";
+
+// REDUX
+// import { useSelector, useDispatch } from 'react-redux';
 
 export const Browsing = () => {
 
@@ -19,7 +23,7 @@ export const Browsing = () => {
 
     // Update Season State
     const [updatedSeason, setUpdatedSeason] = useState("");
-
+    
     //Update Description State
     const [updatedDescription, setUpdatedDescription] = useState("");
 
@@ -28,11 +32,19 @@ export const Browsing = () => {
     const getJobList = async () => {
         try {
             const data = await getDocs(jobsCollectionRef);
-            const filteredData = data.docs.map((doc) => ({
-                ...doc.data(),
-                id: doc.id,
-            }));
-            setJobList(filteredData);
+            const filteredData = data.docs.map(async (doc) => {
+                let applied = false;
+                if (auth.currentUser) {
+                    applied = await getApplicationStatus(doc.id);
+                }
+                return {
+                    ...doc.data(),
+                    id: doc.id,
+                    applied: applied
+                }
+            });
+            const updatedData = await Promise.all(filteredData);
+            setJobList(updatedData);
         } catch (err) {
             console.error(err);
         }
@@ -66,6 +78,7 @@ export const Browsing = () => {
     };
 
     const updateJobTitle = async (id) => {
+        console.log(id);
         const jobDoc = doc(db, "jobs", id);
         await updateDoc(jobDoc, { title: updatedTitle });
         getJobList();
@@ -77,12 +90,13 @@ export const Browsing = () => {
         getJobList();
     };
 
+
     const updateJobDescription = async (id) => {
         const jobDoc = doc(db, "jobs", id);
         await updateDoc(jobDoc, { description: updatedDescription });
         getJobList();
     }
-
+   
     return (
         <div className="browsing-div">
             <div>
@@ -122,6 +136,79 @@ export const Browsing = () => {
                 <button className="j-button" onClick={onCreateJob}> Create Job</button>
             </div>
 
+    const getApplicationStatus = async (jobId) => {
+        const user = auth.currentUser;
+        const docRef = doc(db, "jobs", jobId, "applicants", user.uid);
+        const docSnap = await getDoc(docRef);
+        // if (docSnap.exists()) {
+        //     console.log("Document data:", docSnap.data());
+        // } else {
+        //     console.log("No such document!");
+        // }
+        return docSnap.exists();
+    }
+
+    const onApply = async (jobId) => {
+        const user = auth.currentUser;
+        try {
+            await setDoc(doc(db, "jobs", jobId, "applicants", user.uid), {
+                CV: "40 years experience, PHD",
+                name: user.displayName,
+                email: user.email
+            });
+        } catch (err) {
+            console.error(err);
+        }
+        getJobList();
+    }
+    // const uploadFile = async () => {
+    //     if (!fileUpload) return;
+    //     const filesFolderRef = ref(storage, 'projectFiles/fileUpload.name');
+    //     try {
+    //         await uploadBytes(filesFolderRef, fileUpload);
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // };
+
+    const [user] = useAuthState(auth);
+
+    return (
+        <div className="browsing-div">
+            {user ?
+                <div>
+                    <input
+                        className="j-input"
+                        placeholder="Job title..."
+                        onChange={(e) => setNewJobTitle(e.target.value)}
+                    />
+                    <label htmlFor="seasons">Choose a work season:</label>
+                    <select className="select-jobpost" name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
+                        <option value="Fall">Fall</option>
+                        <option value="Winter">Winter</option>
+                        <option value="Spring">Spring</option>
+                        <option value="Summer">Summer</option>
+                    </select>
+
+                    <input
+                        className="j-input"
+                        placeholder="Year Of Start..."
+                        type="number"
+                        onChange={(e) => setNewYearOfStart(Number(e.target.value))}
+                    />
+
+                    <input
+                        className="coop-check"
+                        type="checkbox"
+                        checked={needCoop}
+                        onChange={(e) => setNeedCoop(e.target.checked)}
+                    />
+                    <label> Need Coop </label>
+
+                    <button className="j-button" onClick={onCreateJob}> Create Job</button>
+                </div>
+                : <></>}
+                
             <div className="div-posts">
                 {jobList.map((job) => (
                     <div key={job.id} className="div-post">
@@ -134,37 +221,42 @@ export const Browsing = () => {
                         <p> Workterm: {job.season} {job.yearOfStart} </p>
                         <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
 
-                        <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
+                        {user ?
+                            <>
+                                <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
 
-                        {/* Update Title */}
-                        <input
-                            className="j-input"
-                            placeholder="new title..."
-                            onChange={(e) => setUpdatedTitle(e.target.value)}
-                        />
-                        <button className="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
+                                {/* Update Title */}
+                                <input
+                                    className="j-input"
+                                    placeholder="new title..."
+                                    onChange={(e) => setUpdatedTitle(e.target.value)}
+                                />
+                                <button className="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
 
-                        {/* Update Description */}
-                        <input 
-                            className="j-input"
-                            placeholder="new description..."
-                            onChange={(e) => setUpdatedDescription(e.target.value)}
-                        />
-                        <button className="update-button" onClick={() => updateJobDescription(job.id)}> Update Description</button>
-
-                        {/* Update Season */}
-                        <input
-                            className="j-input"
-                            placeholder="new season..."
-                            onChange={(e) => setUpdatedSeason(e.target.value)}
-                        />
-                        <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
-
-                        <button className="j-button" onClick={() => {}}>Apply</button>
+                                {/* Update Season */}
+                                <input
+                                    className="j-input"
+                                    placeholder="new season..."
+                                    onChange={(e) => setUpdatedSeason(e.target.value)}
+                                />
+                                <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
+                                {/* Show different buttons depending on the application status */}
+                                {job.applied ? (
+                                    <button className="j-button applied">Applied</button>
+                                ) : (
+                                    <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
+                                )}
 
                     </div>
+
+
+
+                            </>
+                            : 
+                            <></>}
+                    </div >
                 ))}
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };

@@ -1,16 +1,19 @@
 import "./App.css";
-import { Auth } from "./components/auth";
+import { Navbar } from "./components/navbar";
 import { Browsing  } from "./components/browsing";
-import { UploadFile } from "./components/uploadFile";
+//import { UploadFile } from "./components/uploadFile";
 
+import { StudentProfile } from "./components/student-profile";
 
 function App() {
   return (
     <div className="App">
-            <Auth />
+      <Navbar />
 
-            <Browsing />
+      <Browsing />
+      <StudentProfile/>
     </div>
+    
   );
 }
 
