@@ -95,7 +95,8 @@ export const Browsing = () => {
         const jobDoc = doc(db, "jobs", id);
         await updateDoc(jobDoc, { description: updatedDescription });
         getJobList();
-    }
+    };
+    
     const getApplicationStatus = async (jobId) => {
         const user = auth.currentUser;
         const docRef = doc(db, "jobs", jobId, "applicants", user.uid);
@@ -135,7 +136,7 @@ export const Browsing = () => {
     
     return (
         <div className="browsing-div">
-            {user ?
+          {user ?
             <div>
                 <input 
                     className="j-input"
