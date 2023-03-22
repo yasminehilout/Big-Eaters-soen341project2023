@@ -65,7 +65,7 @@ export const StudentProfile = () =>  {
                 <input 
                     className='textBox'
                     type="text"
-                    maxlength="20"
+                    maxLength="20"
                     placeholder = "First Name"
                     required
                     value={newFirstName}
@@ -75,11 +75,12 @@ export const StudentProfile = () =>  {
                 <input
                 className='textBox'
                     type="text"
-                    maxlength="20"
+                    maxLength="20"
                     placeholder = "Last Name"
                     required
                     value={newLastName}
                     onChange={(e) => setLastName(e.target.value)}
+
                 />
 
                 <label className='educationLabel' for="education">Education Level:</label>
@@ -89,6 +90,7 @@ export const StudentProfile = () =>  {
                     <option value="Masters">Masters</option>
                     <option value="Doctorate">Doctorate</option>
                     <option value="Associate">Associate</option>
+
                 </select>
 
             <div class='file-upload'>
