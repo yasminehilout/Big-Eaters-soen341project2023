@@ -45,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "chance": "^1.1.11",
     "cypress": "^12.8.1",
     "tsconfig-paths": "^4.1.2"
   }
