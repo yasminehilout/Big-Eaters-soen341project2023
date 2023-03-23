@@ -27,7 +27,7 @@ export const LoginMenu = () => {
         
     };
 
-    const signInWithGoogle = async () => {
+    const signInWithGoogleStudent = async () => {
         try{
 
             const res = await signInWithPopup(auth, googleProvider);
@@ -54,6 +54,32 @@ export const LoginMenu = () => {
         }
     };
 
+    const signInWithGoogleEmployer = async () => {
+        try{
+
+            const res = await signInWithPopup(auth, googleProvider);
+            window.location.reload();
+            const user = res.user;
+            const q = query(studentProfileRef, where("uid", "==", user.uid));
+            const docs = await getDocs(q);
+            if (docs.docs.length === 0) {
+                await setDoc(doc(db, "employerprofile", user.uid), {
+                    uid: user.uid,
+                    authProvider: "google",
+                    role: "employer",
+                    email: user.email,
+                    firstName:"",
+                    lastName:"",
+                    organization:""
+                });
+            }           
+            // dispatch(setUserAuthenticated(true));
+        } catch (err) {
+            console.error(err);
+            alert(err.message);
+        }
+    };
+
     return (
         <>
             <input 
@@ -71,7 +97,9 @@ export const LoginMenu = () => {
 
             <button className="b-signIn" onClick={signIn}> Sign In</button>
 
-            <button className="b-signIn" onClick={signInWithGoogle}> Sign In With Google</button>
+            <button className="b-signIn" onClick={signInWithGoogleStudent}>Sign in as a Student</button>
+
+            <button className="b-signIn" onClick={signInWithGoogleEmployer}>Sign in as an Employer</button>
         </>
 
     );
