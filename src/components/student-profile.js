@@ -4,6 +4,13 @@ import { db, storage } from "../config/firebase";
 import { getAuth } from "firebase/auth";
 import { ref, uploadBytes } from 'firebase/storage';
 import React from 'react'
+import Modal from 'react-modal'
+
+import "./css/student-profile.css";
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Sora"></link>
+  
+
 
 export const StudentProfile = () =>  {
     
@@ -13,7 +20,9 @@ export const StudentProfile = () =>  {
     const [newFirstName, setFirstName] = useState("")
     const [newLastName, setLastName] = useState("")
     const [newEducation, setEducation] = useState("Bachelor")
-    const [newResume, setResume] = useState()   
+    const [newResume, setResume] = useState() 
+    const [isOpen, setIsOpen] = useState(false)
+    
 
     const editProfile = async () => {
         auth.onAuthStateChanged( async (user) => {
@@ -38,35 +47,54 @@ export const StudentProfile = () =>  {
         })
     };
 
-    return (
-        <div>
-            <h1>
-                Your Profile:
-            </h1>
+        return(
+            <div>
+            <button className='profileBtn' onClick={() => setIsOpen(true)}>Edit Profile</button>
+            <Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
+
+            <div className='modalBackground'>
+                <div className='modalContainer'>
+                <div className='titleCloseBtn'>
+                    <button className='xBtn' onClick={() =>  setIsOpen(false)} > X </button> 
+             </div>
+                    <div className='title'>
+                        <h1>Edit Profile</h1>
+            </div>
+        <div className='body'>
             <form>
                 <input 
+                    className='textBox'
                     type="text"
                     maxLength="20"
                     placeholder = "First Name"
                     required
                     value={newFirstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                />;
+                />
+                <div class='underline'></div>
                 <input
+                className='textBox'
                     type="text"
                     maxLength="20"
                     placeholder = "Last Name"
                     required
                     value={newLastName}
                     onChange={(e) => setLastName(e.target.value)}
-                />;
-                <label htmlFor="education">Select Education Level</label>
-                <select name="education" id="education" required onChange={(e) => setEducation(e.target.value)}> 
-                    <option value="Bachelor">Bachelor</option> 
-                    <option value="Masters">Masters</option> 
-                    <option value="Doctorate">Doctorate</option> 
-                    <option value="Associate">Associate</option> 
+
+                />
+
+                <label className='educationLabel' for="education">Education Level:</label>
+                <select id="education" name="education" required onChange={(e) => setEducation(e.target.value)}>
+                    <option value="" disabled selected>Select Education Level</option>
+                    <option value="Bachelor">Bachelor</option>
+                    <option value="Masters">Masters</option>
+                    <option value="Doctorate">Doctorate</option>
+                    <option value="Associate">Associate</option>
+
                 </select>
+
+            <div class='file-upload'>
+                <label className='resumeTitle' for='resume'>Upload Resume: </label>
                 <input  
                     type="file" 
                     id="resume" 
@@ -74,8 +102,16 @@ export const StudentProfile = () =>  {
                     accept=".doc,.docx,.pdf"
                     onChange={(e) => setResume(e.target.files[0])}
                 />
-                <button type="submit" onClick={() => editProfile()}>Save</button>
-            </form>
+                </div>
+                    <div className='footer'>
+                    <button className="endBtn" onClick={() => editProfile()}>Save</button>  
+                    </div>
+                </form>
+            </div> 
         </div>
-    )
-}
+    </div>
+ </Modal>
+</div>   
+
+    );
+}   

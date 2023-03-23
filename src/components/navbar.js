@@ -3,6 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { LogoutMenu } from "./signout";
 import { LoginMenu } from "./signin";
 import { ProfileMenu } from './profile';
+import { StudentProfile } from './student-profile';
 
 // Navbar Component
 export const Navbar = () => {
@@ -11,7 +12,7 @@ export const Navbar = () => {
 
     return (
         <div className="auth-div" align="right">
-            {user ? <><LogoutMenu /><ProfileMenu /></> : <LoginMenu />}
+            {user ? <><StudentProfile /><LogoutMenu /><ProfileMenu /></> : <LoginMenu />}
         </div>
     )
 }
