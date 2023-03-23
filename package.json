@@ -21,12 +21,14 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "http-server",
+    "build": "rollup -c",
+    "test": "cypress run",
     "eject": "react-scripts eject",
     "e2e": "cypress open",
-    "cypress": "cypress run"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:record": "cypress run --record --key"
   },
   "eslintConfig": {
     "extends": [
