@@ -5,6 +5,7 @@ import { getAuth } from "firebase/auth";
 import { ref, uploadBytes } from 'firebase/storage';
 import React from 'react'
 import Modal from 'react-modal'
+import PersonIcon from "@mui/icons-material/Person";
 
 import "./css/student-profile.css";
 <link rel="stylesheet"
@@ -48,9 +49,9 @@ export const StudentProfile = () =>  {
     };
 
         return(
-            <div>
-            <button className='profileBtn' onClick={() => setIsOpen(true)}>Edit Profile</button>
-            <Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
+            <div>  
+                <button className="profileBtn" onClick={() => setIsOpen(true)}><PersonIcon style={{fontSize:'small'}}/></button>
+            <Modal className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
 
             <div className='modalBackground'>
                 <div className='modalContainer'>
