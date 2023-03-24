@@ -6,13 +6,13 @@ import { ProfileMenu } from './profile';
 import { StudentProfile } from './student-profile';
 
 // Navbar Component
-export const Navbar = () => {
+export const Navbar = ({setView}) => {
 
     const [user] = useAuthState(auth);
 
     return (
         <div className="auth-div" align="right">
-            {user ? <><StudentProfile /><LogoutMenu /><ProfileMenu /></> : <LoginMenu />}
+            {user ? <><StudentProfile /><LogoutMenu /><ProfileMenu /></> : <LoginMenu setView = {setView}/>}
         </div>
     )
 }

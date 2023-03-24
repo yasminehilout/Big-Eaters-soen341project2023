@@ -118,21 +118,34 @@ button:hover {
     background-color: white;
     border: 2px solid rgb(112, 112, 112);
     border-radius: 10px;
+    height: 190px; /* if issue arises with the div maybe change this*/
     padding: 10px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 50px;
+    margin-top: 35px;
+    width: 50%;
+    /*
+    makes the div overflow onto one another
     width: -moz-fit-contents;
     width: fit-content;
+    */
 }
 
 .div-posts {
-    background-color: rgb(239, 239, 239);
+    /* backgroud color used for testing in case
+    div-psots displays incorrectly
+    */
+    /*
+    background-color:rgb(145, 86, 86);
+    */
     border-radius: 10px;
     margin-left: auto;
     margin-right: auto;
+    /*
+     makes the div overflow onto one another
     width: -moz-fit-contents;
     width: fit-content;
+    */
 }
 
 .job-header {
@@ -155,3 +168,61 @@ button:hover {
     height: 20px;
     width: 20px;
 }
+
+
+/* Checkbox in navbar - radio buttons*/
+.userSet{
+    display:relative;
+    position: relative;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+/* browser default override */
+.userSet input{
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.userSet:hover input ~ .userCheck{
+    background-color: #a1b9e2;
+}
+
+.userSet input:checked ~ .userCheck{
+    background-color: #b078e3;
+}
+
+.userCheck{
+    background-color: rgb(224, 224, 224);
+    border-radius: 50%;
+    top:0;
+    left: 0;
+    height: 18px;
+    position:absolute;
+    width: 18px;
+}
+
+/*indicator*/
+.userCheck:after{
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.userSet input:checked ~ .userCheck:after{
+    display: block;
+}
+
+.userSet .userCheck:after{
+    background: white;
+    top: 6.5px;
+    left: 6.5px;
+    height: 5px;
+    width: 5px;
+    border-radius: 50%;
+
+}
+

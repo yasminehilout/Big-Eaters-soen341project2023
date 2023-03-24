@@ -186,6 +186,7 @@ export const Browsing = () => {
                         </h4>
                         <p> Workterm: {job.season} {job.yearOfStart} </p>
                         <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
+                       
 
                         {user ?
                             <>

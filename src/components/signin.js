@@ -8,7 +8,7 @@ import { useState } from 'react';
 // import { setUserAuthenticated } from './action';
 
 // Login component
-export const LoginMenu = () => {
+export const LoginMenu = ({setView}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -45,6 +45,8 @@ export const LoginMenu = () => {
                     lastName:"",
                     educationLevel:"",
                 });
+                // call setView() here and pass it the usertype, will setUserView in app.js and reload page
+                // to get rid of buttons in navbar 
             }           
             // dispatch(setUserAuthenticated(true));
 
@@ -72,6 +74,28 @@ export const LoginMenu = () => {
             <button className="b-signIn" onClick={signIn}> Sign In</button>
 
             <button className="b-signIn" onClick={signInWithGoogle}> Sign In With Google</button>
+
+             {/* //added */}
+
+            <label class="userSet">
+                Employer
+                <input 
+                    type="radio"
+                    name="userSet"
+                    onClick={() => {setView("employer")}}
+                />
+                <span class="userCheck"></span>
+            </label>
+           
+            <label class="userSet">
+                Student
+                <input
+                    type="radio"
+                    name="userSet"
+                    onClick={() => {setView("student")}}
+                />
+                <span class="userCheck"></span>
+            </label>
         </>
 
     );
