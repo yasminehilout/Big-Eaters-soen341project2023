@@ -70,12 +70,21 @@ export const Browsing = () => {
             console.error(err);
         }
     };
-
     const deleteJob = async (id) => {
         const jobDoc = doc(db, "jobs", id);
+        const innerCollectionRef = collection(jobDoc, "applicants");
+      
+        // Delete all documents in the inner collection
+        const querySnapshot = await getDocs(innerCollectionRef);
+        querySnapshot.forEach(async (doc) => {
+          await deleteDoc(doc.ref);
+        });
+      
+        // Delete the job document
         await deleteDoc(jobDoc);
+      
         getJobList();
-    };
+      };
 
     const updateJobTitle = async (id) => {
         console.log(id);
