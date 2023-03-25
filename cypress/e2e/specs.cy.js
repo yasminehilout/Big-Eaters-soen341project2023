@@ -2,49 +2,112 @@
 
 import Chance from 'chance';
 const chance = new Chance();
+import "../support/googleAuth.js";
+import "../support/index";
 
-describe('JobBrowsing', () => {
+
+describe("Browsing component", () => {
     const email = chance.email();
     const password = chance.string({ length: 8 });
 
     //redirect user back to homepage after each test
-    beforeEach(()=> {
+    beforeEach(() => {
         cy.visit('http://localhost:3000');
-    })
-
-    it('has a title', () => {
-        cy.contains('include', 'Job Browsing');
+        //sign in with google
+        cy.loginByGoogleApi();
     });
 
-    it('blocks protected routes', () => {
-
-        cy.get('.j-button apply').click();
-        cy.get.contains('Firestore').click();
-
-        cy.get('notification-message').children()
-            .should('contain', 'You must be logged in to apply for a job')
-            .and('be.visible');
+    it("displays the job list", () => {
+        cy.get(".job-list")
+            .should("have.length.greaterThan", 0)
+            .each((job) => {
+                cy.wrap(job)
+                    .find(".job-title")
+                    .should("be.visible")
+                    .and("have.text", job.title);
+                cy.wrap(job)
+                    .find(".job-description")
+                    .should("be.visible")
+                    .and("have.text", job.description);
+                cy.wrap(job)
+                    .find(".job-season")
+                    .should("be.visible")
+                    .and("have.text", job.season);
+            });
     });
 
-    it('signs up a new user', () => {
-
-        //Click Login
-        cy.get('.b-signIn').click();
-        cy.contains('Sign In').click();
-
-        // Assert that the user is redirected to the login page
-        cy.url().should('include', 'login');
-
-        // Fill out the form
-        cy.get('input[name="email"]').type(email);
-        cy.get('input[name="password"]').type(password);
-
-        //Assert welcome message
-        cy.contains('Welcome new user!');
-        cy.contains('Logout').click();
-
+    it("allows a user to create a new job", () => {
+        const jobTitle = "New job title";
+        const jobDescription = "New job description";
+        const jobSeason = "Fall";
+        const jobYearOfStart = "2023";
+        cy.get(".j-input").eq(0).type(jobTitle);
+        cy.get(".j-input").eq(1).type(jobDescription);
+        cy.get("#seasons").select(jobSeason);
+        cy.get(".j-input").eq(2).type(jobYearOfStart);
+        cy.get(".create-job-btn").click();
+        cy.get(".job-list")
+            .find(".job-title")
+            .last()
+            .should("be.visible")
+            .and("have.text", jobTitle);
+        cy.get(".job-list")
+            .find(".job-description")
+            .last()
+            .should("be.visible")
+            .and("have.text", jobDescription);
+        cy.get(".job-list")
+            .find(".job-season")
+            .last()
+            .should("be.visible")
+            .and("have.text", jobSeason);
     });
 
+    it("allows a user to update a job title", () => {
+        const updatedTitle = "Updated job title";
+        cy.get(".job-list").find(".job-title").first().click();
+        cy.get(".update-job-title-input").type(updatedTitle);
+        cy.get(".update-job-title-btn").click();
+        cy.get(".job-list")
+            .find(".job-title")
+            .first()
+            .should("be.visible")
+            .and("have.text", updatedTitle);
+    });
 
+    it("allows a user to update a job season", () => {
+        const updatedSeason = "Winter";
+        cy.get(".job-list").find(".job-season").first().click();
+        cy.get(".update-job-season-select").select(updatedSeason);
+        cy.get(".update-job-season-btn").click();
+        cy.get(".job-list")
+            .find(".job-season")
+            .first()
+            .should("be.visible")
+            .and("have.text", updatedSeason);
+    });
 
+    it("allows a user to update a job description", () => {
+        const updatedDescription = "Updated job description";
+        cy.get(".job-list").find(".job-description").first().click();
+        cy.get(".update-job-description-input").type(updatedDescription);
+        cy.get(".update-job-description-btn").click();
+        cy.get(".job-list")
+            .find(".job-description")
+            .first()
+            .should("be.visible")
+            .and("have.text", updatedDescription);
+    });
+
+    it("allows a user to delete a job", () => {
+        cy.get(".job-list")
+            .find(".delete-job-btn")
+            .first()
+            .click({ force: true });
+        cy.get(".delete-job-modal")
+            .should("be.visible")
+            .find(".confirm-delete-job-btn")
+            .click();
+        cy.get(".job-list").should("have.length", 2);
+    });
 });
