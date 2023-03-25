@@ -12,7 +12,7 @@ export const LoginMenu = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const studentProfileRef = collection(db, "studentprofile");
+    const profileRef = collection(db, "users");
     // const dispatch = useDispatch();
 
 
@@ -33,10 +33,10 @@ export const LoginMenu = () => {
             const res = await signInWithPopup(auth, googleProvider);
             window.location.reload();
             const user = res.user;
-            const q = query(studentProfileRef, where("uid", "==", user.uid));
+            const q = query(profileRef, where("uid", "==", user.uid));
             const docs = await getDocs(q);
             if (docs.docs.length === 0) {
-                await setDoc(doc(db, "studentprofile", user.uid), {
+                await setDoc(doc(db, "users", user.uid), {
                     uid: user.uid,
                     authProvider: "google",
                     role: "student",
@@ -60,10 +60,10 @@ export const LoginMenu = () => {
             const res = await signInWithPopup(auth, googleProvider);
             window.location.reload();
             const user = res.user;
-            const q = query(studentProfileRef, where("uid", "==", user.uid));
+            const q = query(profileRef, where("uid", "==", user.uid));
             const docs = await getDocs(q);
             if (docs.docs.length === 0) {
-                await setDoc(doc(db, "employerprofile", user.uid), {
+                await setDoc(doc(db, "users", user.uid), {
                     uid: user.uid,
                     authProvider: "google",
                     role: "employer",
