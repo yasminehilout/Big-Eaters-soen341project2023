@@ -7,7 +7,7 @@ import "./css/browsing.css";
 // REDUX
 // import { useSelector, useDispatch } from 'react-redux';
 
-export const Browsing = () => {
+export const Browsing = (test) => {
 
     const [jobList, setJobList] = useState([]);
 
@@ -70,12 +70,21 @@ export const Browsing = () => {
             console.error(err);
         }
     };
-
     const deleteJob = async (id) => {
         const jobDoc = doc(db, "jobs", id);
+        const innerCollectionRef = collection(jobDoc, "applicants");
+      
+        // Delete all documents in the inner collection
+        const querySnapshot = await getDocs(innerCollectionRef);
+        querySnapshot.forEach(async (doc) => {
+          await deleteDoc(doc.ref);
+        });
+      
+        // Delete the job document
         await deleteDoc(jobDoc);
+      
         getJobList();
-    };
+      };
 
     const updateJobTitle = async (id) => {
         console.log(id);
@@ -132,11 +141,21 @@ export const Browsing = () => {
     //     }
     // };
 
+    const test2 = () => {
+        
+        if (test.test === "employer") return true;
+        else{
+            return false;
+        }
+        
+    }
+
     const [user] = useAuthState(auth);
     
     return (
         <div className="browsing-div">
-          {user ?
+            {console.log(test)}
+          {user || test2() ? 
             <div>
                 <input 
                     className="j-input"
@@ -186,9 +205,28 @@ export const Browsing = () => {
                         </h4>
                         <p> Workterm: {job.season} {job.yearOfStart} </p>
                         <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
-                       
 
-                        {user ?
+                    
+                        {user || !(test2()) ?
+                            <>
+                            {/* Show different buttons depending on the application status */}
+                                {
+                                <> {job.applied ? (
+                                    <button className="j-button applied">Applied</button>
+                                ) : (
+                                    <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
+                                )} 
+                                </>
+                                }
+                                
+                            </>
+                            :
+                            <></>
+                        }
+                    
+                        
+
+                        {user || test2() ?
                             <>
                                 <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
 
@@ -216,11 +254,11 @@ export const Browsing = () => {
                                 />
                                 <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
                                 {/* Show different buttons depending on the application status */}
-                                {job.applied ? (
+                                {/* {job.applied ? (
                                     <button className="j-button applied">Applied</button>
                                 ) : (
                                     <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
-                                )}
+                                )} */}
                                 
                              </>
                              :

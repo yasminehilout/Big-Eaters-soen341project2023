@@ -5,7 +5,6 @@ import { getDocs, getDoc, collection, addDoc, setDoc, deleteDoc, updateDoc, doc 
 import { useAuthState } from "react-firebase-hooks/auth";
 */
 import "./css/browsing.css";
-// import { Browsing  } from "./browsing";
 
 // USED AS TEST FOR NOW
 
@@ -19,8 +18,7 @@ export const EmployerPage = () => {
         <div className="employer-page-div">
           employer page
           <div class="job-profile">
-                display jobs of the specific employer user
-                see the applicants per job
+
 
 
 

@@ -9,7 +9,7 @@ button:hover {
 /* Styling for the Login at the top of the page*/
 .auth-div {
     background-color: #4c8bf5;
-    height: 70px;
+    height: 80px;
     margin: 0;
     
 }
@@ -42,8 +42,7 @@ button:hover {
     margin: 5px;
     padding: 7px 10px;
     transition: box-shadow 0.2s;
-    transform:translateY(50%)
-    /* text-align:center; */
+    display: flex-end;
 }
 
 .b-signIn:hover {
@@ -118,7 +117,7 @@ button:hover {
     background-color: white;
     border: 2px solid rgb(112, 112, 112);
     border-radius: 10px;
-    height: 190px; /* if issue arises with the div maybe change this*/
+    /*height: 190px; /* if issue arises with the div maybe change this*/
     padding: 10px;
     margin-left: auto;
     margin-right: auto;

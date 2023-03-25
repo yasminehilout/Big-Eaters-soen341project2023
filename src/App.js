@@ -4,7 +4,7 @@ import { useState } from 'react';
 // end
 import { Navbar } from "./components/navbar";
 import { Browsing  } from "./components/browsing";
-import { EmployerPage } from "./components/employerPage";
+//import { EmployerPage } from "./components/employerPage";
 
 
 
@@ -17,18 +17,18 @@ function App() {
   // if conflicts arises with "student"
   const [userView, setUserView] = useState("student");
 
-  const displayView = () => {
-    if (userView === "student") return <Browsing/>;
+ // const displayView = () => {
+   // if (userView === "student") return <Browsing/>;
     // if set to employer page they will see employer page
-    if (userView === "employer") return <EmployerPage/>;
-  }
-  const setView = (role) => {setUserView(role)}
+   // if (userView === "employer") return <EmployerPage/>;
+ // }
 
     return (
       <div className="App">
-        <Navbar setView = {setView} />
-      
-        {displayView()}
+        {console.log(userView)}
+        <Navbar setView = {setUserView} />
+        <Browsing test = {userView}/>
+        {/* {displayView()} */}
       </div>
       
 
