@@ -1,5 +1,5 @@
 import { auth, googleProvider, db } from '../config/firebase';
-import { query, collection, getDoc, addDoc, setDoc, doc } from "firebase/firestore";
+import { getDoc, setDoc, doc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { useState } from 'react';
 
@@ -12,15 +12,12 @@ export const LoginMenu = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const studentProfileRef = collection(db, "studentprofile");
-    // const dispatch = useDispatch();
-
+    // const studentProfileRef = collection(db, "studentprofile");
 
     const signIn = async () => {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             window.location.reload();
-            // dispatch(setUserAuthenticated(true));
         } catch (err) {
             console.error(err);
         }
@@ -38,8 +35,6 @@ export const LoginMenu = () => {
             if (docSnap.exists()) {
                 console.log("Document data:", docSnap.data());
             } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!");
                 await setDoc(doc(db, "studentprofile", user.uid), {
                     userId: user.uid,
                     authProvider: "google",
