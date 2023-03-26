@@ -12,7 +12,7 @@ export const LoginMenu = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const profileRef = collection(db, "users");
+    //const profileRef = collection(db, "users");
     // const dispatch = useDispatch();
 
     const signIn = async () => {
@@ -25,18 +25,18 @@ export const LoginMenu = () => {
 
     };
 
-    const signInWithGoogle = async () => {
+    const signInWithGoogleStudent = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
             const user = auth.currentUser;
             console.log(user.uid);
-            const docRef = doc(db, "studentprofile", user.uid);
+            const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
                 console.log("Document data:", docSnap.data());
             } else {
-                await setDoc(doc(db, "studentprofile", user.uid), {
+                await setDoc(doc(db, "users", user.uid), {
                     userId: user.uid,
                     authProvider: "google",
                     role: "student",
@@ -55,14 +55,16 @@ export const LoginMenu = () => {
     };
 
     const signInWithGoogleEmployer = async () => {
-        try{
+        try {
+            await signInWithPopup(auth, googleProvider);
+            const user = auth.currentUser;
+            console.log(user.uid);
+            const docRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(docRef);
 
-            const res = await signInWithPopup(auth, googleProvider);
-            //window.location.reload();
-            const user = res.user;
-            const q = query(profileRef, where("uid", "==", user.uid));
-            const docs = await getDocs(q);
-            if (docs.docs.length === 0) {
+            if (docSnap.exists()) {
+                console.log("Document data:", docSnap.data());
+            } else {
                 await setDoc(doc(db, "users", user.uid), {
                     uid: user.uid,
                     authProvider: "google",
@@ -74,6 +76,7 @@ export const LoginMenu = () => {
                 });
             }
             // dispatch(setUserAuthenticated(true));
+
         } catch (err) {
             console.error(err);
             alert(err.message);
