@@ -13,4 +13,6 @@ module.exports = defineConfig({
       bundler: "webpack",
     },
   },
+
+  chromeWebSecurity: false,
 });
