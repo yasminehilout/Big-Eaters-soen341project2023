@@ -8,10 +8,8 @@
     margin: 5px;
     padding: 7px 10px;
     transition: box-shadow 0.2s;
-    position: fixed;
-    top:0;
-    left:0;
-    transform: translateY(50%);
+    
+    
 }
 
 
@@ -27,7 +25,7 @@
   position: fixed;
   top:0;
   left: 0;
-  background: linear-gradient(to bottom, #8a2be2, #4169E1);
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 
@@ -52,11 +50,12 @@
 }
 
 
-.titleCloseBtn button {
+.xBtn {
   background-color: transparent;
   border: none;
   font-size: 25px;
   cursor: pointer;
+  margin: -10px;
 }
 
 
@@ -138,7 +137,7 @@
 
 .endBtn {
   width: 600px;
-  background-color: #4c8bf5;
+  background-color: #4c8bf5; 
   border-radius: 24px;
   border: none;
   color: white;
@@ -147,6 +146,7 @@
   padding: 10px 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transition: filter 0.3s ease;font-family: 'Sora', sans-serif;
+  margin-top: 20px;
 }
 
 
