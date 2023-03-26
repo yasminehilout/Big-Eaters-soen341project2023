@@ -122,7 +122,7 @@ export const Browsing = () => {
         const user = auth.currentUser;
         try {
             await setDoc(doc(db, "jobs", jobId, "applicants", user.uid), {
-                CV: "40 years experience, PHD",
+                CV: "4 years experience, PHD",
                 name: user.displayName,
                 email: user.email
             });
