@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { getDocs, getDoc, collection, addDoc, setDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./css/browsing.css";
+import { getRole } from "../features/counter/profileSlice";
+import { useSelector } from 'react-redux'
 
 // REDUX
 // import { useSelector, useDispatch } from 'react-redux';
@@ -10,6 +12,8 @@ import "./css/browsing.css";
 export const Browsing = () => {
 
     const [jobList, setJobList] = useState([]);
+    
+    const role = useSelector(getRole);
 
     // New Job States
     const [newJobTitle, setNewJobTitle] = useState("");
@@ -28,6 +32,8 @@ export const Browsing = () => {
     const [updatedDescription, setUpdatedDescription] = useState("");
 
     const jobsCollectionRef = collection(db, "jobs");
+
+    const [user] = useAuthState(auth);
 
     const getJobList = async () => {
         try {
@@ -140,13 +146,11 @@ export const Browsing = () => {
     //         console.error(err);
     //     }
     // };
-
-    const [user] = useAuthState(auth);
     
     return (
         <div className="browsing-div">
-          {user ?
-            <div>
+          {role==="employer" ?
+            <div className="create-job-div">
                 <input 
                     className="j-input"
                     placeholder="Job title..."
@@ -197,6 +201,8 @@ export const Browsing = () => {
                         <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
 
                         {user ?
+                        <>
+                            {role==="employer" ? 
                             <>
                                 <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
 
@@ -224,15 +230,18 @@ export const Browsing = () => {
                                 />
                                 <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
                                 {/* Show different buttons depending on the application status */}
+                            </>
+                            :
+                            <>
                                 {job.applied ? (
                                     <button className="j-button applied">Applied</button>
                                 ) : (
                                     <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
                                 )}
-                                
-                             </>
-                             :
-                             <></>}
+                            </>}
+                        </>
+                        :
+                        <></>}
                     </div>
                 ))}
             </div >
