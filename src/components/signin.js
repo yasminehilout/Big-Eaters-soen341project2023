@@ -1,5 +1,5 @@
 import { auth, googleProvider, db } from '../config/firebase';
-import {query, collection, getDocs, where, setDoc, doc } from "firebase/firestore";
+import { getDoc, setDoc, doc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { useState } from 'react';
 
@@ -12,40 +12,39 @@ export const LoginMenu = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const studentProfileRef = collection(db, "studentprofile");
-    // const dispatch = useDispatch();
-
+    // const studentProfileRef = collection(db, "studentprofile");
 
     const signIn = async () => {
-        try{
+        try {
             await createUserWithEmailAndPassword(auth, email, password);
             window.location.reload();
-            // dispatch(setUserAuthenticated(true));
         } catch (err) {
             console.error(err);
         }
-        
+
     };
 
     const signInWithGoogle = async () => {
-        try{
+        try {
+            await signInWithPopup(auth, googleProvider);
+            const user = auth.currentUser;
+            console.log(user.uid);
+            const docRef = doc(db, "studentprofile", user.uid);
+            const docSnap = await getDoc(docRef);
 
-            const res = await signInWithPopup(auth, googleProvider);
-            window.location.reload();
-            const user = res.user;
-            const q = query(studentProfileRef, where("uid", "==", user.uid));
-            const docs = await getDocs(q);
-            if (docs.docs.length === 0) {
+            if (docSnap.exists()) {
+                console.log("Document data:", docSnap.data());
+            } else {
                 await setDoc(doc(db, "studentprofile", user.uid), {
-                    uid: user.uid,
+                    userId: user.uid,
                     authProvider: "google",
                     role: "student",
                     email: user.email,
-                    firstName:"",
-                    lastName:"",
-                    educationLevel:"",
+                    firstName: "",
+                    lastName: "",
+                    educationLevel: ""
                 });
-            }           
+            }
             // dispatch(setUserAuthenticated(true));
 
         } catch (err) {
@@ -56,13 +55,13 @@ export const LoginMenu = () => {
 
     return (
         <>
-            <input 
+            <input
                 className="b-input"
-                placeholder="Email..." 
+                placeholder="Email..."
                 onChange={(e) => setEmail(e.target.value)}
             />
-            
-            <input 
+
+            <input
                 className="b-input"
                 placeholder="Password..."
                 type="password"
