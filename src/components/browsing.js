@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getDocs, getDoc, collection, addDoc, setDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./css/browsing.css";
+import "./employer-profile.js"
 
 // REDUX
 // import { useSelector, useDispatch } from 'react-redux';
@@ -212,9 +213,9 @@ export const Browsing = (test) => {
                             {/* Show different buttons depending on the application status */}
                                 {
                                 <> {job.applied ? (
-                                    <button className="j-button applied">Applied</button>
+                                    <button className="j-button-applied">Applied</button>
                                 ) : (
-                                    <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
+                                    <button className="j-button" onClick={() => onApply(job.id)}>Apply</button>
                                 )} 
                                 </>
                                 }
@@ -255,9 +256,9 @@ export const Browsing = (test) => {
                                 <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
                                 {/* Show different buttons depending on the application status */}
                                 {/* {job.applied ? (
-                                    <button className="j-button applied">Applied</button>
+                                    <button className="j-button-applied">Applied</button>
                                 ) : (
-                                    <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
+                                    <button className="j-button" onClick={() => onApply(job.id)}>Apply</button>
                                 )} */}
                                 
                              </>

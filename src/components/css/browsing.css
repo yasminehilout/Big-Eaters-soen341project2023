@@ -74,6 +74,7 @@ button:hover {
     background-color: #4c8bf5;
     border: none;
     border-radius: 40px;
+    color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 13px;
     font-weight: 600;
@@ -81,16 +82,24 @@ button:hover {
     padding: 7px 14px;
     transition: box-shadow 0.2s;
 }
-
-.apply:hover {
+.j-button:hover{
     box-shadow: 0 8px 16px 0 rgba(66, 89, 202, 0.2),
-        0 6px 20px 0 rgba(66, 89, 202, 0.19);
+    0 6px 20px 0 rgba(66, 89, 202, 0.19);
     background-color: #487dd8;
 }
 
-.applied {
-    color:#494949;
+
+.j-button-applied {
     background-color: #c1c1c1;
+    border: none;
+    border-radius: 40px;
+    color:#494949;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 10px;
+    padding: 7px 14px;
+    transition: box-shadow 0.2s;
 }
 
 .update-button {
