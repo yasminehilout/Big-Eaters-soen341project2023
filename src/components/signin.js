@@ -31,7 +31,7 @@ export const LoginMenu = () => {
         try{
 
             const res = await signInWithPopup(auth, googleProvider);
-            window.location.reload();
+            //window.location.reload();
             const user = res.user;
             const q = query(profileRef, where("uid", "==", user.uid));
             const docs = await getDocs(q);
@@ -45,7 +45,7 @@ export const LoginMenu = () => {
                     lastName:"",
                     educationLevel:"",
                 });
-            }           
+            }
             // dispatch(setUserAuthenticated(true));
 
         } catch (err) {
@@ -58,7 +58,7 @@ export const LoginMenu = () => {
         try{
 
             const res = await signInWithPopup(auth, googleProvider);
-            window.location.reload();
+            //window.location.reload();
             const user = res.user;
             const q = query(profileRef, where("uid", "==", user.uid));
             const docs = await getDocs(q);
@@ -72,7 +72,7 @@ export const LoginMenu = () => {
                     lastName:"",
                     organization:""
                 });
-            }           
+            }
             // dispatch(setUserAuthenticated(true));
         } catch (err) {
             console.error(err);
