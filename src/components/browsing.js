@@ -159,12 +159,18 @@ export const Browsing = (test) => {
         const user = auth.currentUser;
         const docRef = doc(db, "jobs", jobId, "applicants", user.uid);
         const docSnap = await getDoc(docRef);
-        // if (docSnap.exists()) {
-        //     console.log("Document data:", docSnap.data());
-        // } else {
-        //     console.log("No such document!");
-        // }
         return docSnap.exists();
+    }
+
+    const getApplicants = async (jobId) => {
+        const jobDoc = doc(db, "jobs", jobId);
+        const innerCollectionRef = collection(jobDoc, "applicants");
+      
+        const querySnapshot = await getDocs(innerCollectionRef);
+        // For each user print their data.
+        querySnapshot.forEach(async (doc) => {
+          console.log(doc.data());
+        });
     }
 
     const onApply = async (jobId) => {
@@ -191,9 +197,11 @@ export const Browsing = (test) => {
     // };
 
     const test2 = () => {
-
-        if (test.test === "employer") return true;
-        else {
+        
+        if (test.test === "employer") {
+            return true;
+        }
+        else{
             return false;
         }
 
@@ -203,25 +211,26 @@ export const Browsing = (test) => {
     const [toggleApplicantView, setToggleApplicantView] = useState(false);
     return (
         <div className="browsing-div">
-            {user || test2() ?
-                <div>
-                    <input
-                        className="j-input"
-                        placeholder="Job title..."
-                        onChange={(e) => setNewJobTitle(e.target.value)}
-                    />
-                    <input
-                        className="j-input"
-                        placeholder="Job Description..."
-                        onChange={(e) => setNewDescription(e.target.value)}
-                    />
-                    <label htmlFor="seasons">Choose a work season:</label>
-                    <select className="select-jobpost" name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
-                        <option value="Fall">Fall</option>
-                        <option value="Winter">Winter</option>
-                        <option value="Spring">Spring</option>
-                        <option value="Summer">Summer</option>
-                    </select>
+            {/* {console.log(test)} */}
+          {user || test2() ? 
+            <div>
+                <input 
+                    className="j-input"
+                    placeholder="Job title..."
+                    onChange={(e) => setNewJobTitle(e.target.value)}
+                />
+                <input 
+                    className="j-input"
+                    placeholder="Job Description..."
+                    onChange={(e) => setNewDescription(e.target.value)}
+                />
+                <label htmlFor="seasons">Choose a work season:</label>
+                <select className="select-jobpost" name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
+                    <option value="Fall">Fall</option>
+                    <option value="Winter">Winter</option>
+                    <option value="Spring">Spring</option>
+                    <option value="Summer">Summer</option>
+                </select>
 
                     <input
                         className="j-input"
@@ -273,12 +282,14 @@ export const Browsing = (test) => {
                             <>
                                 {/* Show different buttons depending on the application status */}
                                 {
-                                    <> {job.applied ? (
-                                        <button className="j-button-applied">Applied</button>
-                                    ) : (
-                                        <button className="j-button" onClick={() => onApply(job.id)}>Apply</button>
-                                    )}
-                                    </>
+                                <> {job.applied ? <>
+                                    <button className="j-button applied">Applied</button>
+                                </> : <>
+                                    <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
+                                    
+                                </>} 
+                                <button className="j-button apply" onClick={() => getApplicants(job.id)}>GET APPLICANTS</button>
+                                </>
                                 }
 
                             </>

@@ -24,7 +24,7 @@ function App() {
  // }
 
     return (
-      <div className="App">
+      <div className = "App">
         {console.log(userView)}
         <Navbar setView = {setUserView} />
         <Browsing test = {userView}/>
