@@ -31,7 +31,7 @@ export const Auth = () => {
     };
 
     return (
-        <div className="auth-div" align="right">
+        <div className="auth-div" align="right" data-testid="auth-component">
             <input 
                 className="b-input"
                 placeholder="Email..." 

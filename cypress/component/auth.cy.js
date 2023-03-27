@@ -1,17 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Auth } from '../../src/components/auth';
+import { mount } from 'cypress/react18';
 
 describe('Auth component', () => {
   it('renders the component', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<Auth />, div);
+    mount(<Auth />);
     cy.get('[data-testid="auth-component"]').should('exist');
   });
 
   it('signs in with Google', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<Auth />, div);
+    mount(<Auth />);
     cy.get('[data-testid="auth-component"] .b-signIn')
       .contains('Sign In With Google')
       .click();
