@@ -110,12 +110,18 @@ export const Browsing = (test) => {
         const user = auth.currentUser;
         const docRef = doc(db, "jobs", jobId, "applicants", user.uid);
         const docSnap = await getDoc(docRef);
-        // if (docSnap.exists()) {
-        //     console.log("Document data:", docSnap.data());
-        // } else {
-        //     console.log("No such document!");
-        // }
         return docSnap.exists();
+    }
+
+    const getApplicants = async (jobId) => {
+        const jobDoc = doc(db, "jobs", jobId);
+        const innerCollectionRef = collection(jobDoc, "applicants");
+      
+        const querySnapshot = await getDocs(innerCollectionRef);
+        // For each user print their data.
+        querySnapshot.forEach(async (doc) => {
+          console.log(doc.data());
+        });
     }
 
     const onApply = async (jobId) => {
@@ -143,7 +149,9 @@ export const Browsing = (test) => {
 
     const test2 = () => {
         
-        if (test.test === "employer") return true;
+        if (test.test === "employer") {
+            return true;
+        }
         else{
             return false;
         }
@@ -154,7 +162,7 @@ export const Browsing = (test) => {
     
     return (
         <div className="browsing-div">
-            {console.log(test)}
+            {/* {console.log(test)} */}
           {user || test2() ? 
             <div>
                 <input 
@@ -211,11 +219,13 @@ export const Browsing = (test) => {
                             <>
                             {/* Show different buttons depending on the application status */}
                                 {
-                                <> {job.applied ? (
+                                <> {job.applied ? <>
                                     <button className="j-button applied">Applied</button>
-                                ) : (
+                                </> : <>
                                     <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
-                                )} 
+                                    
+                                </>} 
+                                <button className="j-button apply" onClick={() => getApplicants(job.id)}>GET APPLICANTS</button>
                                 </>
                                 }
                                 

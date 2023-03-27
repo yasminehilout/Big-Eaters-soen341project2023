@@ -77,24 +77,24 @@ export const LoginMenu = ({setView}) => {
 
              {/* //added */}
 
-            <label class="userSet">
+            <label className="userSet">
                 Employer
                 <input 
                     type="radio"
                     name="userSet"
                     onClick={() => {setView("employer")}}
                 />
-                <span class="userCheck"></span>
+                <span className="userCheck"></span>
             </label>
            
-            <label class="userSet">
+            <label className="userSet">
                 Student
                 <input
                     type="radio"
                     name="userSet"
                     onClick={() => {setView("student")}}
                 />
-                <span class="userCheck"></span>
+                <span className="userCheck"></span>
             </label>
         </>
 
