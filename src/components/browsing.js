@@ -13,7 +13,7 @@ import "./employer-profile.js";
 export const Browsing = (test) => {
 
     const [jobList, setJobList] = useState([]);
-    const [applicantList, setApplicantList] = useState([]);
+    //const [applicantList, setApplicantList] = useState([]);
 
     // New Job States
     const [newJobTitle, setNewJobTitle] = useState("");
@@ -32,9 +32,6 @@ export const Browsing = (test) => {
     const [updatedDescription, setUpdatedDescription] = useState("");
 
     const jobsCollectionRef = collection(db, "jobs");
-    // not working
-    // const applicantCollectionRef = collection(jobsCollectionRef, "aplicants");
-    // console.log(applicantCollectionRef);
 
     const getJobList = async () => {
         try {
@@ -56,47 +53,44 @@ export const Browsing = (test) => {
             console.error(err);
         }
     };
+
     const getApplicantList = async (jobId) => {
-        // const applicants = collection(db,"jobs");
-        // const data = await getDocs(applicants);
-        // console.log(data.docs[0].data);
-        const docRef = doc(db, "jobs", jobId, "applicants");
-        const docSnap = await getDoc(docRef);
-
-        //const jobDoc = doc(db, "jobs", jobId);
-        // const appID = doc(jobDoc, "applicants");
-
         try {
+                const jobDoc = doc(db, "jobs", jobId);
+                const innerCollectionRef = collection(jobDoc, "applicants");
 
-            // const docRef = doc(db, "jobs", jobId, "applicants");
-            // // console.log(docRef);
-            // const querySnapshot = await getDoc(docRef);
-            // console.log(querySnapshot.ref);
+                const applicant = [];
+                const querySnapshot = await getDocs(innerCollectionRef);
+                // for each user get their data 
+                querySnapshot.forEach(async (doc) => {
+                    applicant.push(doc.data());
+                });
+                //console.log(applicant);
+                if(applicant.length === 0){
+                    console.log("no applicants for this job");
+                    return(
+                        setToggleApplicantView(!toggleApplicantView),
+                        <p>No applicants</p>
+                    )
+                }
+                else{
+                    
+                    console.log(applicant);
+                    // return (
+                    //     // setToggleApplicantView(!toggleApplicantView),
+                    //     // <ul>
+                    //     //    {/* {const list = applicant.map()} */}
+                            
+                    //     // </ul>
+                    // )
 
-            // access the inner docs example
-            // const applicantRef = firebase.firestore().collection("jobs").doc(jobId).collection("applicants").doc(groupID).collection("name");
-            // const replies = await applicantRef.where("CV", "==", "1234").get()
-            // console.log(replies.docs.map(reply => ({ id: reply.id, ...reply.data() })))
-
-            //setApplicantList(updatedData);
-            //console.log("applicantList");
+                }
 
         } catch (err) {
             console.error(err);
         }
 
     };
-    const displayApplicants = () => {
-        console.log(applicantList);
-        applicantList.map((applicant) => {
-            return (<>
-                <div>{applicant.CV}</div>
-                <div>{applicant.email}</div>
-                <div>{applicant.name}</div>
-
-            </>)
-        })
-    }
 
     useEffect(() => {
         getJobList();
@@ -165,11 +159,11 @@ export const Browsing = (test) => {
     const getApplicants = async (jobId) => {
         const jobDoc = doc(db, "jobs", jobId);
         const innerCollectionRef = collection(jobDoc, "applicants");
-      
+
         const querySnapshot = await getDocs(innerCollectionRef);
         // For each user print their data.
         querySnapshot.forEach(async (doc) => {
-          console.log(doc.data());
+            console.log(doc.data());
         });
     }
 
@@ -197,11 +191,11 @@ export const Browsing = (test) => {
     // };
 
     const test2 = () => {
-        
+
         if (test.test === "employer") {
             return true;
         }
-        else{
+        else {
             return false;
         }
 
@@ -209,28 +203,29 @@ export const Browsing = (test) => {
 
     const [user] = useAuthState(auth);
     const [toggleApplicantView, setToggleApplicantView] = useState(false);
+
     return (
         <div className="browsing-div">
             {/* {console.log(test)} */}
-          {user || test2() ? 
-            <div>
-                <input 
-                    className="j-input"
-                    placeholder="Job title..."
-                    onChange={(e) => setNewJobTitle(e.target.value)}
-                />
-                <input 
-                    className="j-input"
-                    placeholder="Job Description..."
-                    onChange={(e) => setNewDescription(e.target.value)}
-                />
-                <label htmlFor="seasons">Choose a work season:</label>
-                <select className="select-jobpost" name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
-                    <option value="Fall">Fall</option>
-                    <option value="Winter">Winter</option>
-                    <option value="Spring">Spring</option>
-                    <option value="Summer">Summer</option>
-                </select>
+            {user || test2() ?
+                <div>
+                    <input
+                        className="j-input"
+                        placeholder="Job title..."
+                        onChange={(e) => setNewJobTitle(e.target.value)}
+                    />
+                    <input
+                        className="j-input"
+                        placeholder="Job Description..."
+                        onChange={(e) => setNewDescription(e.target.value)}
+                    />
+                    <label htmlFor="seasons">Choose a work season:</label>
+                    <select className="select-jobpost" name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
+                        <option value="Fall">Fall</option>
+                        <option value="Winter">Winter</option>
+                        <option value="Spring">Spring</option>
+                        <option value="Summer">Summer</option>
+                    </select>
 
                     <input
                         className="j-input"
@@ -282,14 +277,13 @@ export const Browsing = (test) => {
                             <>
                                 {/* Show different buttons depending on the application status */}
                                 {
-                                <> {job.applied ? <>
-                                    <button className="j-button applied">Applied</button>
-                                </> : <>
-                                    <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
-                                    
-                                </>} 
-                                <button className="j-button apply" onClick={() => getApplicants(job.id)}>GET APPLICANTS</button>
-                                </>
+                                    <> {job.applied ? <>
+                                        <button className="j-button applied">Applied</button>
+                                    </> : <>
+                                        <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
+
+                                    </>}
+                                    </>
                                 }
 
                             </>
@@ -327,11 +321,18 @@ export const Browsing = (test) => {
                                 />
                                 <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
                                 {/* Show different buttons depending on the application status */}
-                                <button className="j-button" onClick={() => getApplicantList(job.id)} >get Applicants</button>
-                                <button className="j-button" onClick={() => setToggleApplicantView(!toggleApplicantView)} >See Applicants</button>
-                                {toggleApplicantView ? <div>
-                                    {/* {displayApplicants()} */}
-                                </div> : <></>}
+                                <button className="j-button" onClick={() => getApplicantList(job.id)} > Applicants</button>
+                                {/* <button className="j-button apply" onClick={() => getApplicants(job.id)}>GET APPLICANTS</button> */}
+                                {/* {toggleApplicantView ? <div> */}
+                                    {/* { getApplicantList(job.id)}
+                                     */}
+                                    {/* <ul>                                  */}
+                                        {/* <p id="aCV"></p>
+                                        <p id="aName"></p>
+                                        <p id="aEmail"></p> */}
+                                    {/* </ul> */}
+
+                                {/* </div> : <></>} */}
                                 {/* change setapplicant view button to doc api call to display unique view */}
 
                                 {/* {job.applied ? (
