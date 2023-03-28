@@ -12,7 +12,7 @@ import "./css/student-profile.css";
   
 
 
-export const StudentProfile = () =>  {
+export const EmployerProfile = () =>  {
     
     const auth = getAuth();
     //const user = auth.currentUser;
@@ -24,74 +24,69 @@ export const StudentProfile = () =>  {
     
 
     const editProfile = async () => {
-        auth.onAuthStateChanged( async (user) => {
-            if(user) {
-                console.log("user signed in", user.uid, newFirstName, newLastName, newOrganization)
-                const employerprofileDocRef = doc(db, "users", user.uid);
-                await updateDoc(employerprofileDocRef, {
-                    "firstName": newFirstName,
-                    "lastName": newLastName,
-                    "organization": newOrganization,
-                });
-            } else {
-                console.log("user not signed in")
-            }
-        })
+        console.log("user signed in", user.uid, newFirstName, newLastName, newOrganization)
+        const employerprofileDocRef = doc(db, "users", user.uid);
+        await updateDoc(employerprofileDocRef, {
+            "firstName": newFirstName,
+            "lastName": newLastName,
+            "organization": newOrganization,
+        });
     };
-    return(
+    
+    return (
         <div>
             <button className='profileBtn' onClick={() => setIsOpen(true)}>Edit Profile</button>
             <Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
 
-            <div className='modalBackground'>
-                <div className='modalContainer'>
-                <div className='titleCloseBtn'>
-                    <button className='xBtn' onClick={() =>  setIsOpen(false)} > X </button> 
-                </div>
-                    <div className='title'>
-                        <h1>Edit Profile</h1>
-            </div>
-        <div className='body'>
-            <form>
-                <input 
-                    className='textBox'
-                    type="text"
-                    maxLength="20"
-                    placeholder = "First Name"
-                    required
-                    value={newFirstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                />
-                <div class='underline'></div>
-                <input
-                className='textBox'
-                    type="text"
-                    maxLength="20"
-                    placeholder = "Last Name"
-                    required
-                    value={newLastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                <div className='modalBackground'>
+                    <div className='modalContainer'>
+                        <div className='titleCloseBtn'>
+                            <button className='xBtn' onClick={() => setIsOpen(false)} > X </button>
+                        </div>
+                        <div className='title'>
+                            <h1>Edit Profile</h1>
+                        </div>
+                        <div className='body'>
+                            <form>
+                                <input
+                                    className='textBox'
+                                    type="text"
+                                    maxLength="20"
+                                    placeholder="First Name"
+                                    required
+                                    value={newFirstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
+                                <div class='underline'></div>
+                                <input
+                                    className='textBox'
+                                    type="text"
+                                    maxLength="20"
+                                    placeholder="Last Name"
+                                    required
+                                    value={newLastName}
+                                    onChange={(e) => setLastName(e.target.value)}
 
-                />
-                <div class='underline'></div>
-                <input
-                className='textBox'
-                    type="text"
-                    maxLength="20"
-                    placeholder = "Organization"
-                    required
-                    value={newOrganization}
-                    onChange={(e) => setOrganization(e.target.value)}
-                />
-                <div className='footer'>
-                    <button className="endBtn" onClick={() => editProfile()}>Save</button>  
+                                />
+                                <div class='underline'></div>
+                                <input
+                                    className='textBox'
+                                    type="text"
+                                    maxLength="20"
+                                    placeholder="Organization"
+                                    required
+                                    value={newOrganization}
+                                    onChange={(e) => setOrganization(e.target.value)}
+                                />
+                            </form>
+                            <div className='footer'>
+                                <button className="endBtn" onClick={() => editProfile(user)}>Save</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </form>
-            </div> 
+            </Modal>
         </div>
-    </div>
- </Modal>
-</div>   
 
     );
 }   
