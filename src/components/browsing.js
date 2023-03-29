@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { getDocs, getDoc, collection, addDoc, setDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import Modal from 'react-modal';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -13,14 +12,14 @@ import "./css/browsing.css";
 import "./employer-profile.js";
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#4c8bf5',
+    palette: {
+        primary: {
+            main: '#4c8bf5',
+        },
+        secondary: {
+            main: '#f50057',
+        },
     },
-    secondary: {
-      main: '#f50057',
-    },
-  },
 });
 
 
@@ -59,10 +58,7 @@ export const Browsing = (test) => {
         try {
             const data = await getDocs(jobsCollectionRef);
             const filteredData = data.docs.map(async (doc) => {
-                let applied = false;
-                if (auth.currentUser) {
-                    applied = await getApplicationStatus(doc.id);
-                }
+                let applied = await getApplicationStatus(doc.id);
                 return {
                     ...doc.data(),
                     id: doc.id,
@@ -220,7 +216,7 @@ export const Browsing = (test) => {
         //     return true;
         // }
         // else {
-            return false;
+        return false;
         // }
 
     }
@@ -289,16 +285,16 @@ export const Browsing = (test) => {
                                             <div key={applicant.id} className="applicant">
                                                 <span>{applicant.name}</span>
                                                 <ThemeProvider theme={theme}>
-                                                {applicant.accepted
-                                                    ?
-                                                    <Button variant="contained" disabled>
-                                                        Accepted
-                                                    </Button>
-                                                    :
-                                                    <Button variant="contained" onClick={() => onAccept(applicant.id)}>
-                                                        Accept
-                                                    </Button>
-                                                }
+                                                    {applicant.accepted
+                                                        ?
+                                                        <Button variant="contained" disabled>
+                                                            Accepted
+                                                        </Button>
+                                                        :
+                                                        <Button variant="contained" onClick={() => onAccept(applicant.id)}>
+                                                            Accept
+                                                        </Button>
+                                                    }
                                                 </ThemeProvider>
                                             </div>
                                         )
@@ -317,7 +313,6 @@ export const Browsing = (test) => {
                             <div key={job.id} className="div-post">
 
                                 {user && isEmployer() && user.id === job.userId ? <>
-
                                     <h1 className="job-header">
                                         {job.title}
                                     </h1>
@@ -327,9 +322,10 @@ export const Browsing = (test) => {
                                     <p> Workterm: {job.season} {job.yearOfStart} </p>
                                     <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
 
-                                </> : <><h1 className="job-header">
-                                    {job.title}
-                                </h1>
+                                </> : <>
+                                    <h1 className="job-header">
+                                        {job.title}
+                                    </h1>
                                     <h4 className="job-header">
                                         {job.description}
                                     </h4>

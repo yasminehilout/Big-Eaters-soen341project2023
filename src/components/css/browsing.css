@@ -8,6 +8,10 @@ button:hover {
 
 /* Styling for the Login at the top of the page*/
 .auth-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
     background-color: #4c8bf5;
     height: 80px;
     margin: 0;
