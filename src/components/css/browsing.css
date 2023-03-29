@@ -14,6 +14,23 @@ button:hover {
     
 }
 
+.applicant {
+    padding: 1%;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.applicant:hover {
+    background-color: #dedede;
+    transition: all 0.1s;
+}
+
+.applicantList-body {
+    font-size: 1.5rem;
+}
+
 .b-input {
     border-color: #4c8bf5;
     border-radius: 10px;
@@ -230,6 +247,5 @@ button:hover {
     height: 5px;
     width: 5px;
     border-radius: 50%;
-
 }
 
