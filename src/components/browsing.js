@@ -2,9 +2,26 @@ import { db, auth } from "../config/firebase";
 import { useEffect, useState } from 'react';
 import { getDocs, getDoc, collection, addDoc, setDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import Modal from 'react-modal';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+
+import "./css/student-profile.css";
 import "./css/browsing.css";
 import "./employer-profile.js";
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#4c8bf5',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+  },
+});
 
 
 // REDUX
@@ -13,7 +30,6 @@ import "./employer-profile.js";
 export const Browsing = (test) => {
 
     const [jobList, setJobList] = useState([]);
-    //const [applicantList, setApplicantList] = useState([]);
 
     // New Job States
     const [newJobTitle, setNewJobTitle] = useState("");
@@ -30,6 +46,12 @@ export const Browsing = (test) => {
 
     //Update Description State
     const [updatedDescription, setUpdatedDescription] = useState("");
+
+    // Applicant menu
+    const [applicantList, setApplicantList] = useState([]);
+    const [isApplicantListOpen, setIsApplicantListOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [selectedJob, setSelectedJob] = useState("");
 
     const jobsCollectionRef = collection(db, "jobs");
 
@@ -54,47 +76,8 @@ export const Browsing = (test) => {
         }
     };
 
-    const getApplicantList = async (jobId) => {
-        try {
-                const jobDoc = doc(db, "jobs", jobId);
-                const innerCollectionRef = collection(jobDoc, "applicants");
-
-                const applicant = [];
-                const querySnapshot = await getDocs(innerCollectionRef);
-                // for each user get their data 
-                querySnapshot.forEach(async (doc) => {
-                    applicant.push(doc.data());
-                });
-                //console.log(applicant);
-                if(applicant.length === 0){
-                    console.log("no applicants for this job");
-                    return(
-                        setToggleApplicantView(!toggleApplicantView),
-                        <p>No applicants</p>
-                    )
-                }
-                else{
-                    
-                    console.log(applicant);
-                    // return (
-                    //     // setToggleApplicantView(!toggleApplicantView),
-                    //     // <ul>
-                    //     //    {/* {const list = applicant.map()} */}
-                            
-                    //     // </ul>
-                    // )
-
-                }
-
-        } catch (err) {
-            console.error(err);
-        }
-
-    };
-
     useEffect(() => {
         getJobList();
-        getApplicantList();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -113,6 +96,7 @@ export const Browsing = (test) => {
             console.error(err);
         }
     };
+
     const deleteJob = async (id) => {
         const jobDoc = doc(db, "jobs", id);
         const innerCollectionRef = collection(jobDoc, "applicants");
@@ -156,22 +140,11 @@ export const Browsing = (test) => {
         return docSnap.exists();
     }
 
-    const getApplicants = async (jobId) => {
-        const jobDoc = doc(db, "jobs", jobId);
-        const innerCollectionRef = collection(jobDoc, "applicants");
-
-        const querySnapshot = await getDocs(innerCollectionRef);
-        // For each user print their data.
-        querySnapshot.forEach(async (doc) => {
-            console.log(doc.data());
-        });
-    }
-
     const onApply = async (jobId) => {
         const user = auth.currentUser;
         try {
             await setDoc(doc(db, "jobs", jobId, "applicants", user.uid), {
-                CV: "4 years experience, PHD",
+                accepted: false,
                 name: user.displayName,
                 email: user.email
             });
@@ -180,34 +153,84 @@ export const Browsing = (test) => {
         }
         getJobList();
     }
-    // const uploadFile = async () => {
-    //     if (!fileUpload) return;
-    //     const filesFolderRef = ref(storage, 'projectFiles/fileUpload.name');
-    //     try {
-    //         await uploadBytes(filesFolderRef, fileUpload);
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    // };
+    // const getApplicants = async (jobId) => {
+    //     const jobDoc = doc(db, "jobs", jobId);
+    //     const innerCollectionRef = collection(jobDoc, "applicants");
 
-    const test2 = () => {
+    //     const querySnapshot = await getDocs(innerCollectionRef);
+    //     // For each user print their data.
+    //     querySnapshot.forEach(async (doc) => {
+    //         console.log(doc.data());
+    //     });
+    // }
 
-        if (test.test === "employer") {
-            return true;
+
+    const getAcceptedStatus = async (jobId, applicantId) => {
+        const docRef = doc(db, "jobs", jobId, "applicants", applicantId);
+        const docSnap = await getDoc(docRef);
+        // console.log(applicantId + " was accepted: " + docSnap.get("accepted"));
+        return docSnap.exists() ? docSnap.get("accepted") : false;
+    }
+
+    const getApplicantList = async (jobId) => {
+        try {
+            setIsLoading(true);
+            const jobDoc = doc(db, "jobs", jobId);
+            const innerCollectionRef = collection(jobDoc, "applicants");
+
+            const querySnapshot = await getDocs(innerCollectionRef);
+            const filteredData = querySnapshot.docs.map(async (doc) => {
+                let accepted = await getAcceptedStatus(jobId, doc.id);
+                return {
+                    ...doc.data(),
+                    id: doc.id,
+                    accepted: accepted
+                }
+            });
+            const updatedData = await Promise.all(filteredData);
+            setApplicantList(updatedData);
+            setIsLoading(false);
+        } catch (err) {
+            console.error(err);
         }
-        else {
+
+    };
+
+    const openApplicantList = async (jobId) => {
+        setSelectedJob(jobId);
+        getApplicantList(jobId);
+        setIsApplicantListOpen(true);
+        // console.log(applicantList);
+    }
+
+    const onAccept = async (userId) => {
+        const docRef = doc(db, "jobs", selectedJob, "applicants", userId);
+
+        await updateDoc(docRef, {
+            accepted: true,
+        })
+
+        getApplicantList(selectedJob)
+
+    }
+
+    const isEmployer = () => {
+
+        // if (test.test === "employer") {
+        //     return true;
+        // }
+        // else {
             return false;
-        }
+        // }
 
     }
 
     const [user] = useAuthState(auth);
-    const [toggleApplicantView, setToggleApplicantView] = useState(false);
 
     return (
         <div className="browsing-div">
             {/* {console.log(test)} */}
-            {user || test2() ?
+            {user && isEmployer() ?
                 <div>
                     <input
                         className="j-input"
@@ -247,105 +270,132 @@ export const Browsing = (test) => {
                 : <></>}
 
             <div className="div-posts">
-                {jobList.map((job) => (
+                <Modal ariaHideApp={false} className='profile' isOpen={isApplicantListOpen} onRequestClose={() => setIsApplicantListOpen(false)}>
+                    <div className='modalBackground'>
+                        <div className='modalContainer'>
+                            <div className='titleCloseBtn'>
+                                <div className='title'>
+                                    <h1>Applicant List</h1>
+                                </div>
+                                <button className='xBtn' onClick={() => setIsApplicantListOpen(false)} > Close </button>
+                            </div>
+                            <div className='applicantList-body'>
+                                {isLoading
+                                    ? <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                                        <CircularProgress />
+                                    </div> // Show loading icon
+                                    : applicantList.map((applicant) => {
+                                        return (
+                                            <div key={applicant.id} className="applicant">
+                                                <span>{applicant.name}</span>
+                                                <ThemeProvider theme={theme}>
+                                                {applicant.accepted
+                                                    ?
+                                                    <Button variant="contained" disabled>
+                                                        Accepted
+                                                    </Button>
+                                                    :
+                                                    <Button variant="contained" onClick={() => onAccept(applicant.id)}>
+                                                        Accept
+                                                    </Button>
+                                                }
+                                                </ThemeProvider>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
 
-                    <div key={job.id} className="div-post">
+                        </div>
+                    </div>
 
-                        {user && test2() && user.id == job.userId ? <>
+                </Modal>
+                {
+                    jobList.map((job) => {
+                        return (
 
-                            <h1 className="job-header">
-                                {job.title}
-                            </h1>
-                            <h4 className="job-header">
-                                {job.description}
-                            </h4>
-                            <p> Workterm: {job.season} {job.yearOfStart} </p>
-                            <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
+                            <div key={job.id} className="div-post">
 
-                        </> : <><h1 className="job-header">
-                            {job.title}
-                        </h1>
-                            <h4 className="job-header">
-                                {job.description}
-                            </h4>
-                            <p> Workterm: {job.season} {job.yearOfStart} </p>
-                            <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p></>
+                                {user && isEmployer() && user.id === job.userId ? <>
 
-                        }
+                                    <h1 className="job-header">
+                                        {job.title}
+                                    </h1>
+                                    <h4 className="job-header">
+                                        {job.description}
+                                    </h4>
+                                    <p> Workterm: {job.season} {job.yearOfStart} </p>
+                                    <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
 
-                        {!user && !(test2()) ?
-                            <>
-                                {/* Show different buttons depending on the application status */}
-                                {
-                                    <> {job.applied ? <>
-                                        <button className="j-button applied">Applied</button>
-                                    </> : <>
-                                        <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
+                                </> : <><h1 className="job-header">
+                                    {job.title}
+                                </h1>
+                                    <h4 className="job-header">
+                                        {job.description}
+                                    </h4>
+                                    <p> Workterm: {job.season} {job.yearOfStart} </p>
+                                    <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p></>
 
-                                    </>}
-                                    </>
                                 }
 
-                            </>
-                            :
-                            <></>
-                        }
+                                {user && !(isEmployer()) ?
+                                    <>
+                                        {/* Show different buttons depending on the application status */}
+                                        {
+                                            <> {job.applied ? <>
+                                                <button className="j-button applied">Applied</button>
+                                            </> : <>
+                                                <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
+
+                                            </>}
+                                            </>
+                                        }
+
+                                    </>
+                                    :
+                                    <></>
+                                }
 
 
 
-                        {user || test2() ?
-                            <>
-                                <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
+                                {user && isEmployer() ?
+                                    <>
+                                        <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
 
-                                {/* Update Title */}
-                                <input
-                                    className="j-input"
-                                    placeholder="new title..."
-                                    onChange={(e) => setUpdatedTitle(e.target.value)}
-                                />
-                                <button className="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
+                                        {/* Update Title */}
+                                        <input
+                                            className="j-input"
+                                            placeholder="new title..."
+                                            onChange={(e) => setUpdatedTitle(e.target.value)}
+                                        />
+                                        <button className="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
 
-                                {/* Update Description */}
-                                <input
-                                    className="j-input"
-                                    placeholder="new description..."
-                                    onChange={(e) => setUpdatedDescription(e.target.value)}
-                                />
-                                <button className="update-button" onClick={() => updateJobDescription(job.id)}> Update Description</button>
+                                        {/* Update Description */}
+                                        <input
+                                            className="j-input"
+                                            placeholder="new description..."
+                                            onChange={(e) => setUpdatedDescription(e.target.value)}
+                                        />
+                                        <button className="update-button" onClick={() => updateJobDescription(job.id)}> Update Description</button>
 
-                                {/* Update Season */}
-                                <input
-                                    className="j-input"
-                                    placeholder="new season..."
-                                    onChange={(e) => setUpdatedSeason(e.target.value)}
-                                />
-                                <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
-                                {/* Show different buttons depending on the application status */}
-                                <button className="j-button" onClick={() => getApplicantList(job.id)} > Applicants</button>
-                                {/* <button className="j-button apply" onClick={() => getApplicants(job.id)}>GET APPLICANTS</button> */}
-                                {/* {toggleApplicantView ? <div> */}
-                                    {/* { getApplicantList(job.id)}
-                                     */}
-                                    {/* <ul>                                  */}
-                                        {/* <p id="aCV"></p>
-                                        <p id="aName"></p>
-                                        <p id="aEmail"></p> */}
-                                    {/* </ul> */}
+                                        {/* Update Season */}
+                                        <input
+                                            className="j-input"
+                                            placeholder="new season..."
+                                            onChange={(e) => setUpdatedSeason(e.target.value)}
+                                        />
+                                        <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
+                                        {/* Show different buttons depending on the application status */}
+                                        <button className="j-button" onClick={() => openApplicantList(job.id)}>Applicants</button>
 
-                                {/* </div> : <></>} */}
-                                {/* change setapplicant view button to doc api call to display unique view */}
+                                    </>
+                                    :
+                                    <></>}
+                            </div>
+                        )
+                    })
+                }
 
-                                {/* {job.applied ? (
-                                    <button className="j-button-applied">Applied</button>
-                                ) : (
-                                    <button className="j-button" onClick={() => onApply(job.id)}>Apply</button>
-                                )} */}
-
-                            </>
-                            :
-                            <></>}
-                    </div>
-                ))}
             </div >
         </div >
     );
