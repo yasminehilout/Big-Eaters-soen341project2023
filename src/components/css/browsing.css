@@ -11,25 +11,14 @@ button:hover {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
     background-color: #4c8bf5;
     height: 80px;
     margin: 0;
     
 }
 
-.applicant {
-    padding: 1%;
-    border-radius: 4px;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
 
-.applicant:hover {
-    background-color: #dedede;
-    transition: all 0.1s;
-}
 
 .applicantList-body {
     font-size: 1.5rem;
