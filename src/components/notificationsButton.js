@@ -58,22 +58,22 @@ export const NotificationsButton = () => {
 
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
-          right: 10,
-          top: 30,
-          padding: '0 4px',
+            right: 10,
+            top: 10,
+            padding: '0 4px',
         },
-      }));
+    }));
 
     return (
         <div>
-            <StyledBadge badgeContent={notificationList.length} color="error">
-                <button className="profileBtn" onClick={() => {
-                    getNotificationList();
-                    setIsOpen(true);
-                }}>
-                    <EmailIcon style={{ fontSize: 'small' }} />
-                </button>
-            </StyledBadge>
+            <><button className="profileBtn" onClick={() => {
+                getNotificationList();
+                setIsOpen(true);
+            }}>
+                <EmailIcon style={{ fontSize: 'small' }} />
+            </button>
+            {!isOpen && <StyledBadge badgeContent={notificationList.length} color="error" />}</>
+            
             <Modal ariaHideApp={false} className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
 
                 <div className='modalBackground'>
