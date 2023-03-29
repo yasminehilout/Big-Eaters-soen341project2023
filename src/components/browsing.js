@@ -58,7 +58,9 @@ export const Browsing = (test) => {
         try {
             const data = await getDocs(jobsCollectionRef);
             const filteredData = data.docs.map(async (doc) => {
-                let applied = await getApplicationStatus(doc.id);
+                let applied = false;
+                if (auth.currentUser){applied = await getApplicationStatus(doc.id);}
+                
                 return {
                     ...doc.data(),
                     id: doc.id,

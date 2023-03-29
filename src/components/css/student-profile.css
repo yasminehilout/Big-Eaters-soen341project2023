@@ -1,3 +1,15 @@
+.applicant {
+  padding: 1%;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.applicant:hover {
+  background-color: #dedede;
+  transition: all 0.1s;
+}
 .profileBtn {
   background-color: #c1c1c1;
   border: none;
