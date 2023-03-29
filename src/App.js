@@ -1,6 +1,6 @@
 import "./App.css";
 // added
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // end
 import { Navbar } from "./components/navbar";
 import { Browsing  } from "./components/browsing";
@@ -11,10 +11,12 @@ import { Browsing  } from "./components/browsing";
 //import { UploadFile } from "./components/uploadFile";
 
 function App() {
-  // default page
-  // set to students as non-users can also apply
-  // change it to another user "browsing" (needs more development) 
-  // if conflicts arises with "student"
+
+  useEffect(() => {
+    document.title = "BigEaters Intern Service"; // set the new title
+  }, []);
+
+
   const [userView, setUserView] = useState("student");
 
  // const displayView = () => {
