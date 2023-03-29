@@ -1,5 +1,5 @@
 import { db, auth } from "../config/firebase";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import React from 'react'
 import Modal from 'react-modal'
@@ -15,7 +15,6 @@ export const NotificationsButton = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [notificationList, setNotificationList] = useState([]);
-
 
     // console.log(auth.currentUser.uid)
     const getNotificationList = async () => {
@@ -42,6 +41,10 @@ export const NotificationsButton = () => {
             console.error(err);
         }
     };
+    
+    useEffect(() => {
+        getNotificationList();
+      });
 
     const getAcceptanceStatus = async (jobId) => {
         const user = auth.currentUser;
