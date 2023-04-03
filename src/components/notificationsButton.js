@@ -44,7 +44,8 @@ export const NotificationsButton = () => {
     
     useEffect(() => {
         getNotificationList();
-      });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const getAcceptanceStatus = async (jobId) => {
         const user = auth.currentUser;
@@ -70,7 +71,7 @@ export const NotificationsButton = () => {
     return (
         <div>
             <><button className="profileBtn" onClick={() => {
-                getNotificationList();
+                // getNotificationList();
                 setIsOpen(true);
             }}>
                 <EmailIcon style={{ fontSize: 'small' }} />

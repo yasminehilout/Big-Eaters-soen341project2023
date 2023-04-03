@@ -14,7 +14,9 @@ export const Navbar = ({ setView }) => {
     return (
         <div className="auth-div" align='right'>
             {user ? <>
-                <NotificationsButton /><LogoutMenu /><StudentProfile />
+                <NotificationsButton />
+                <LogoutMenu />
+                <StudentProfile />
             </> :
                 <>
                     
