@@ -6,6 +6,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Modal from 'react-modal';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import TextField from '@mui/material/TextField';
+
 
 import "./css/student-profile.css";
 import "./css/browsing.css";
@@ -51,6 +53,8 @@ export const Browsing = (test) => {
     const [isLoading, setIsLoading] = useState(false);
     const [selectedJob, setSelectedJob] = useState("");
 
+    const [searchKeyword, setSearchKeyword] = useState("");
+    // Modal
     const jobsCollectionRef = collection(db, "jobs");
 
     const getJobList = async () => {
@@ -58,8 +62,8 @@ export const Browsing = (test) => {
             const data = await getDocs(jobsCollectionRef);
             const filteredData = data.docs.map(async (doc) => {
                 let applied = false;
-                if (auth.currentUser){applied = await getApplicationStatus(doc.id);}
-                
+                if (auth.currentUser) { applied = await getApplicationStatus(doc.id); }
+
                 return {
                     ...doc.data(),
                     id: doc.id,
@@ -211,6 +215,10 @@ export const Browsing = (test) => {
 
     }
 
+    const handleSearchBarChange = (event) => {
+        setSearchKeyword(event.target.value);
+      };
+
     const isEmployer = () => {
 
         // if (test.test === "employer") {
@@ -265,6 +273,11 @@ export const Browsing = (test) => {
                     <button className="j-button" onClick={onCreateJob}> Create Job</button>
                 </div>
                 : <></>}
+            <TextField
+                placeholder="Search…"
+                value={searchKeyword}
+                onChange={handleSearchBarChange}
+            />
 
             <div className="div-posts">
                 <Modal ariaHideApp={false} className='profile' isOpen={isApplicantListOpen} onRequestClose={() => setIsApplicantListOpen(false)}>
@@ -307,10 +320,10 @@ export const Browsing = (test) => {
                     </div>
 
                 </Modal>
+
                 {
                     jobList.map((job) => {
-                        return (
-
+                        return (job.title.toLowerCase().includes(searchKeyword)) ? (
                             <div key={job.id} className="div-post">
 
                                 {user && isEmployer() && user.id === job.userId ? <>
@@ -390,6 +403,8 @@ export const Browsing = (test) => {
                                     <></>}
                             </div>
                         )
+                        :
+                        <></>
                     })
                 }
 
