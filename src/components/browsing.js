@@ -9,7 +9,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import "./css/student-profile.css";
 import "./css/browsing.css";
-import "./employer-profile.js";
 
 const theme = createTheme({
     palette: {
