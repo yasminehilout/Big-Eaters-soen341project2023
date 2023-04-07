@@ -44,10 +44,11 @@ export const StudentProfile = () => {
         }
     };
 
-    return (
-        <div>
-            <button className="profileBtn" onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
-            <Modal className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
+        return(
+            <div>  
+                <button className="profileBtn" onClick={() => setIsOpen(true)}><PersonIcon style={{fontSize:'small'}}/></button>
+            <Modal ariaHideApp={false} className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
+
 
                 <div className='modalBackground'>
                     <div className='modalContainer'>

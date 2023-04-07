@@ -8,7 +8,7 @@ import { useState } from 'react';
 // import { setUserAuthenticated } from './action';
 
 // Login component
-export const LoginMenu = () => {
+export const LoginMenu = ({setView}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -100,9 +100,32 @@ export const LoginMenu = () => {
 
             <button className="b-signIn" onClick={signIn}> Sign In</button>
 
-            <button className="b-signIn" onClick={signInWithGoogleStudent}>Sign in as a Student</button>
+<button className="b-signIn" onClick={signInWithGoogleEmployer}>Sign in as an Employer</button>
 
-            <button className="b-signIn" onClick={signInWithGoogleEmployer}>Sign in as an Employer</button>
+            <button className="b-signIn" onClick={signInWithGoogle}> Sign In With Google</button>
+
+             {/* //added */}
+
+            <label className="userSet">
+                Employer
+                <input 
+                    type="radio"
+                    name="userSet"
+                    onClick={() => {setView("employer")}}
+                />
+                <span className="userCheck"></span>
+            </label>
+           
+            <label className="userSet">
+                Student
+                <input
+                    type="radio"
+                    name="userSet"
+                    onClick={() => {setView("student")}}
+                />
+                <span className="userCheck"></span>
+            </label>
+
         </>
 
     );
