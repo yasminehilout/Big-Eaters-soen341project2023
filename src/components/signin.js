@@ -24,8 +24,9 @@ export const LoginMenu = ({setView}) => {
         }
 
     };
-
-    const signInWithGoogleStudent = async () => {
+    
+    //signInWithGoogleStudent 
+    const signInWithGoogle = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
             const user = auth.currentUser;
