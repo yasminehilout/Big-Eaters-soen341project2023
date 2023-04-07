@@ -11,7 +11,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
-    "firebase": "^9.17.1",
+    "firebase": "^9.18.0",
     "p-limit": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -25,7 +25,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:record": "cypress run --record --key"
   },
   "eslintConfig": {
     "extends": [
@@ -44,5 +47,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "chance": "^1.1.11",
+    "cypress": "^12.8.1",
+    "tsconfig-paths": "^4.1.2"
   }
 }
