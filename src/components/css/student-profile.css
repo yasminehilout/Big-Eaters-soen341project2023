@@ -1,21 +1,31 @@
-.profileBtn{
+.applicant {
+  padding: 1%;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.applicant:hover {
+  background-color: #dedede;
+  transition: all 0.1s;
+}
+.profileBtn {
   background-color: #c1c1c1;
-    border: none;
-    border-radius: 10px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    margin: 25.25px 5px 5px 5px;
-    padding: 7px 10px;
-    transition: box-shadow 0.2s;
-    
-    
+  border: none;
+  border-radius: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 5px;
+  padding: 7px 10px;
+  transition: box-shadow 0.2s;
 }
 
 
-.profileBtn:hover{
+.profileBtn:hover {
   box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.2),
-        0 6px 20px 0 rgba(0, 0, 0, 0.19)
+    0 6px 20px 0 rgba(0, 0, 0, 0.19)
 }
 
 
@@ -23,7 +33,7 @@
   width: 100%;
   height: 100%;
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.75);
 }
@@ -31,7 +41,7 @@
 
 .modalContainer {
   position: fixed;
-  top:50%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
@@ -46,7 +56,7 @@
 .modalContainer .title {
   display: inline-block;
   font-family: 'Sora', sans-serif;
-  margin-bottom: -10px;  
+  margin-bottom: -10px;
 }
 
 
@@ -59,7 +69,7 @@
 }
 
 
-.textBox{
+.textBox {
   border-radius: 6px;
   border: 2px solid #ccc;
   padding: 10px 20px;
@@ -72,11 +82,11 @@
 }
 
 
-.educationLabel{
+.educationLabel {
   display: flex;
   justify-content: left;
   font-family: 'Sora', sans-serif;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
 
@@ -97,17 +107,15 @@
 
 .titleCloseBtn {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: -10px;
 }
-
 
 .modalContainer .body {
   font-size: 1.5rem;
 }
 
-
-.resumeTitle{
+.resumeTitle {
   margin-top: 25px;
   margin-bottom: 10px;
   width: 550px;
@@ -117,7 +125,7 @@
 }
 
 
-#resume{
+#resume {
   font-size: 16px;
   font-family: 'Sora', sans-serif;
   color: rgb(0, 0, 0);
@@ -130,14 +138,14 @@
 }
 
 
-#resume:hover{
+#resume:hover {
   background-color: #4c8bf5;
 }
 
 
 .endBtn {
   width: 600px;
-  background-color: #4c8bf5; 
+  background-color: #4c8bf5;
   border-radius: 24px;
   border: none;
   color: white;
@@ -145,12 +153,12 @@
   font-size: 16px;
   padding: 10px 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  transition: filter 0.3s ease;font-family: 'Sora', sans-serif;
+  transition: filter 0.3s ease;
+  font-family: 'Sora', sans-serif;
   margin-top: 20px;
 }
 
 
-.endBtn:hover{
+.endBtn:hover {
   filter: brightness(90%);
 }
-

@@ -1,16 +1,23 @@
 import "./App.css";
+import { useEffect } from 'react';
 import { Navbar } from "./components/navbar";
 import { Browsing } from "./components/browsing";
 import { auth, db } from "./config/firebase";
 import { getDoc, doc } from "firebase/firestore";
 import { useDispatch } from 'react-redux'
-import { useEffect } from 'react';
 import { setRole } from "./features/counter/profileSlice";
+//import { EmployerPage } from "./components/employerPage";
+//import { UploadFile } from "./components/uploadFile";
 
 function App() {
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    document.title = "BigEaters Intern Service"; // set the new title
+  }, []);
 
+ const dispatch = useDispatch();
+
+ // Initiate redux onload of page if user is signed in
   useEffect(() => {
     auth.onAuthStateChanged(async (authUser) => {
       if (authUser) {
@@ -38,9 +45,7 @@ function App() {
       <Navbar />
       <Browsing />
     </div>
-
-
-  );
+    );
 }
 
 export default App;

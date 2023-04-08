@@ -6,6 +6,8 @@ import { StudentProfile } from './student-profile';
 import { EmployerProfile } from './employer-profile';
 import { useSelector } from 'react-redux'
 import { getRole } from '../features/counter/profileSlice';
+import { NotificationsButton } from './notificationsButton';
+import "./css/browsing.css";
 
 // Navbar Component
 export const Navbar = () => {
@@ -16,7 +18,14 @@ export const Navbar = () => {
 
     return (
         <div className="auth-div" align='right'>
-            {user ? <><LogoutMenu />{role==="student" ? <StudentProfile /> : <EmployerProfile />}</> : <LoginMenu />}
+            {user ? <>
+                <LogoutMenu />
+                {role==="student" ? <> <NotificationsButton /> <StudentProfile /> </> : <EmployerProfile />}
+            </> :
+                <>
+                    
+                    <LoginMenu /></>
+            }
         </div>
     )
 }

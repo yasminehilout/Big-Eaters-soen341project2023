@@ -1,7 +1,6 @@
 import { auth, googleProvider, db } from '../config/firebase';
-import { getDoc, setDoc, doc } from "firebase/firestore";
-import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { useState } from 'react';
+import {updateDoc, getDoc, setDoc, doc } from "firebase/firestore";
+import { signInWithPopup } from 'firebase/auth';
 import { useDispatch } from 'react-redux'
 import { setRole } from '../features/counter/profileSlice';
 
@@ -11,21 +10,9 @@ import { setRole } from '../features/counter/profileSlice';
 
 // Login component
 export const LoginMenu = () => {
-    //console.log("login menu");
     const dispatch = useDispatch();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
 
-
-    const signIn = async () => {
-        try {
-            await createUserWithEmailAndPassword(auth, email, password);
-        } catch (err) {
-            console.error(err);
-        }
-
-    };
-
+    // Student sign-in
     const signInWithGoogleStudent = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
@@ -34,6 +21,10 @@ export const LoginMenu = () => {
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
+                await updateDoc(docRef, { role: "student" });
+                dispatch(setRole({
+                    role: "student"
+                }))  
                 //console.log("Document data:", docSnap.data());
             } else {
                 await setDoc(doc(db, "users", user.uid), {
@@ -43,7 +34,8 @@ export const LoginMenu = () => {
                     email: user.email,
                     firstName: "",
                     lastName: "",
-                    educationLevel: ""
+                    educationLevel: "",
+                    organization: ""
                 });
                 dispatch(setRole({
                     role: "student"
@@ -57,6 +49,7 @@ export const LoginMenu = () => {
         }
     };
 
+    //Employer sign-in
     const signInWithGoogleEmployer = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
@@ -66,16 +59,21 @@ export const LoginMenu = () => {
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
+                await updateDoc(docRef, { role: "employer" });
+                dispatch(setRole({
+                    role: "employer"
+                }))  
                 //console.log("Document data:", docSnap.data());
             } else {
                 await setDoc(doc(db, "users", user.uid), {
-                    uid: user.uid,
+                    userId: user.uid,
                     authProvider: "google",
                     role: "employer",
                     email: user.email,
-                    firstName:"",
-                    lastName:"",
-                    organization:""
+                    firstName: "",
+                    lastName: "",
+                    educationLevel: "",
+                    organization: ""
                 });
                 dispatch(setRole({
                     role: "employer"
@@ -91,21 +89,6 @@ export const LoginMenu = () => {
 
     return (
         <>
-            <input
-                className="b-input"
-                placeholder="Email..."
-                onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <input
-                className="b-input"
-                placeholder="Password..."
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <button className="b-signIn" onClick={signIn}> Sign In</button>
-
             <button className="b-signIn" onClick={signInWithGoogleStudent}>Sign in as a Student</button>
 
             <button className="b-signIn" onClick={signInWithGoogleEmployer}>Sign in as an Employer</button>
