@@ -279,13 +279,16 @@ export const Browsing = (test) => {
                     <button className="j-button" onClick={onCreateJob}> Create Job</button>
                 </div>
                 : <></>}
-            <TextField
-                placeholder="Search…"
-                value={searchKeyword}
-                onChange={handleSearchBarChange}
-            />
 
             <div className="div-posts">
+                
+                <TextField
+                    placeholder="Search…"
+                    value={searchKeyword}
+                    onChange={handleSearchBarChange}
+                    className="search-bar"
+                />
+            
                 <Modal ariaHideApp={false} className='profile' isOpen={isApplicantListOpen} onRequestClose={() => setIsApplicantListOpen(false)}>
                     <div className='modalBackground'>
                         <div className='modalContainer'>
@@ -377,7 +380,7 @@ export const Browsing = (test) => {
                     :
                     // Student + Unauthorized User Job Postings
                     jobList.map((job) => {
-                        return (job.title.toLowerCase().includes(searchKeyword)) ? (
+                        return (job.title.toLowerCase().includes(searchKeyword.toLowerCase())) ? (
                             <div key={job.id} className="div-post">
                                 <h1 className="job-header">
                                     {job.title}
