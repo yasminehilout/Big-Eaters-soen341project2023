@@ -1,7 +1,8 @@
-import { updateDoc, doc, } from 'firebase/firestore';
+import { updateDoc, doc } from 'firebase/firestore';
 import { useState } from 'react';
 import { db, storage } from "../config/firebase";
 import { getAuth } from "firebase/auth";
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { ref, uploadBytes } from 'firebase/storage';
 import React from 'react'
 import Modal from 'react-modal'
@@ -16,7 +17,6 @@ import "./css/student-profile.css";
 export const StudentProfile = () => {
 
     const auth = getAuth();
-    const user = auth.currentUser;
     //const user = auth.currentUser;
 
     const [newFirstName, setFirstName] = useState("")
@@ -25,30 +25,30 @@ export const StudentProfile = () => {
     const [newResume, setResume] = useState()
     const [isOpen, setIsOpen] = useState(false)
 
+    const [user] = useAuthState(auth);
 
-    const editProfile = async () => {
-        //auth.onAuthStateChanged( async (user) => {
-        console.log("user signed in", user.uid, newFirstName, newLastName, newEducation)
+
+    const editProfile = async (user) => {
+        //console.log("user signed in", user.uid, newFirstName, newLastName, newEducation)
         const studentprofileDocRef = doc(db, "users", user.uid);
         await updateDoc(studentprofileDocRef, {
             "firstName": newFirstName,
             "lastName": newLastName,
             "educationLevel": newEducation,
         });
-        const resumeRef = ref(storage, `Resume/${user.uid}.pdf`)
-        //if (newResume == null) return;
-        try {
+        const resumeRef = ref(storage, `Resume/${user.uid}`) //Can add .pdf as a file type 
+        if (newResume == null) return;
+        try{
             await uploadBytes(resumeRef, newResume);
-        } catch (err) {
+        } catch(err) {
             console.log(err);
         }
     };
 
-        return(
-            <div>  
-                <button className="profileBtn" onClick={() => setIsOpen(true)}><PersonIcon style={{fontSize:'small'}}/></button>
-            <Modal ariaHideApp={false} className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
-
+    return (
+        <>
+            <button className="profileBtn" onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
+            <Modal className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)} ariaHideApp={false}>
 
                 <div className='modalBackground'>
                     <div className='modalContainer'>
@@ -69,7 +69,7 @@ export const StudentProfile = () => {
                                     value={newFirstName}
                                     onChange={(e) => setFirstName(e.target.value)}
                                 />
-                                <div class='underline'></div>
+                                <div className='underline'></div>
                                 <input
                                     className='textBox'
                                     type="text"
@@ -81,9 +81,9 @@ export const StudentProfile = () => {
 
                                 />
 
-                                <label className='educationLabel' for="education">Education Level:</label>
+                                <label className='educationLabel' htmlFor="education">Education Level:</label>
                                 <select id="education" name="education" required onChange={(e) => setEducation(e.target.value)}>
-                                    <option value="" disabled selected>Select Education Level</option>
+                                    <option value="" disabled>Select Education Level</option>
                                     <option value="Bachelor">Bachelor</option>
                                     <option value="Masters">Masters</option>
                                     <option value="Doctorate">Doctorate</option>
@@ -91,26 +91,25 @@ export const StudentProfile = () => {
 
                                 </select>
 
-                                <div class='file-upload'>
-                                    <label className='resumeTitle' for='resume'>Upload Resume: </label>
+                                <div className='file-upload'>
+                                    <label className='resumeTitle' htmlFor='resume'>Upload Resume: </label>
                                     <input
-                                        //required
                                         type="file"
                                         id="resume"
                                         name="resume"
-                                        accept=".pdf"
+                                        accept=".doc,.docx,.pdf"
                                         onChange={(e) => setResume(e.target.files[0])}
                                     />
                                 </div>
                             </form>
                             <div className='footer'>
-                                    <button className="endBtn" onClick={() => editProfile()}>Save</button>
+                                <button className="endBtn" onClick={() => {editProfile(user); setIsOpen(false);}}>Save</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </Modal>
-        </div>
+        </>
 
     );
 }   

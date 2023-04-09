@@ -1,13 +1,12 @@
 import "./App.css";
-// added
-import { useEffect, useState } from 'react';
-// end
+import { useEffect } from 'react';
 import { Navbar } from "./components/navbar";
-import { Browsing  } from "./components/browsing";
+import { Browsing } from "./components/browsing";
+import { auth, db } from "./config/firebase";
+import { getDoc, doc } from "firebase/firestore";
+import { useDispatch } from 'react-redux'
+import { setRole } from "./features/counter/profileSlice";
 //import { EmployerPage } from "./components/employerPage";
-
-
-
 //import { UploadFile } from "./components/uploadFile";
 
 function App() {
@@ -16,24 +15,36 @@ function App() {
     document.title = "BigEaters Intern Service"; // set the new title
   }, []);
 
+ const dispatch = useDispatch();
 
-  const [userView, setUserView] = useState("student");
+ // Initiate redux onload of page if user is signed in
+  useEffect(() => {
+    auth.onAuthStateChanged(async (authUser) => {
+      if (authUser) {
+        const docRef = doc(db, "users", authUser.uid);
+        const docSnap = await getDoc(docRef);
+        if(docSnap.exists()){
+        dispatch(setRole({
+          role: docSnap.data().role
+        }))}
+        else{
+          dispatch(setRole({
+            role: null
+          }))
+        }
+      } else {
+        dispatch(setRole({
+          role: null
+        }))
+      }
+    })
+  }, [dispatch])
 
- // const displayView = () => {
-   // if (userView === "student") return <Browsing/>;
-    // if set to employer page they will see employer page
-   // if (userView === "employer") return <EmployerPage/>;
- // }
-
-    return (
-      <div className = "App">
-        {console.log(userView)}
-        <Navbar setView = {setUserView} />
-        <Browsing test = {userView}/>
-        {/* {displayView()} */}
-      </div>
-      
-
+  return (
+    <div className="App">
+      <Navbar />
+      <Browsing />
+    </div>
     );
 }
 

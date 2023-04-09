@@ -1,30 +1,30 @@
 import { updateDoc, doc, } from 'firebase/firestore';
 import { useState } from 'react';
-import { db, storage } from "../config/firebase";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { db } from "../config/firebase";
 import { getAuth } from "firebase/auth";
-import { ref, uploadBytes } from 'firebase/storage';
 import React from 'react'
 import Modal from 'react-modal'
+import PersonIcon from "@mui/icons-material/Person";
 
 import "./css/student-profile.css";
 <link rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Sora"></link>
-  
+    href="https://fonts.googleapis.com/css?family=Sora"></link>
 
 
-export const EmployerProfile = () =>  {
-    
+export const EmployerProfile = () => {
+
     const auth = getAuth();
-    //const user = auth.currentUser;
 
     const [newFirstName, setFirstName] = useState("")
     const [newLastName, setLastName] = useState("")
-    const [newOrganization, setOrganization] = useState("") 
+    const [newOrganization, setOrganization] = useState("")
     const [isOpen, setIsOpen] = useState(false)
-    
 
-    const editProfile = async () => {
-        console.log("user signed in", user.uid, newFirstName, newLastName, newOrganization)
+    const [user] = useAuthState(auth);
+
+    const editProfile = async (user) => {
+        //console.log("user signed in", user.uid, newFirstName, newLastName, newOrganization)
         const employerprofileDocRef = doc(db, "users", user.uid);
         await updateDoc(employerprofileDocRef, {
             "firstName": newFirstName,
@@ -32,11 +32,10 @@ export const EmployerProfile = () =>  {
             "organization": newOrganization,
         });
     };
-    
     return (
-        <div>
-            <button className='profileBtn' onClick={() => setIsOpen(true)}>Edit Profile</button>
-            <Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)}>
+        <>
+            <button className='profileBtn' onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
+            <Modal className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)} ariaHideApp={false}>
 
                 <div className='modalBackground'>
                     <div className='modalContainer'>
@@ -57,7 +56,7 @@ export const EmployerProfile = () =>  {
                                     value={newFirstName}
                                     onChange={(e) => setFirstName(e.target.value)}
                                 />
-                                <div class='underline'></div>
+                                <div className='underline'></div>
                                 <input
                                     className='textBox'
                                     type="text"
@@ -68,7 +67,7 @@ export const EmployerProfile = () =>  {
                                     onChange={(e) => setLastName(e.target.value)}
 
                                 />
-                                <div class='underline'></div>
+                                <div className='underline'></div>
                                 <input
                                     className='textBox'
                                     type="text"
@@ -80,13 +79,13 @@ export const EmployerProfile = () =>  {
                                 />
                             </form>
                             <div className='footer'>
-                                <button className="endBtn" onClick={() => editProfile(user)}>Save</button>
+                                <button className="endBtn" onClick={() => { editProfile(user); setIsOpen(false); }}>Save</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </Modal>
-        </div>
+        </>
 
     );
 }   
