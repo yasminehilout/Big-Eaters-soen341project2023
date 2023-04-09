@@ -240,7 +240,7 @@ export const Browsing = (test) => {
     var counter = 0;
 
     return (
-        <div className="browsing-div">
+        <div className="browsing-div" role="main">
             {role === "employer" ?
                 <div className="create-job-div">
                     <input

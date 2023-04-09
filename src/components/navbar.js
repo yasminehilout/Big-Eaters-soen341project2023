@@ -17,7 +17,7 @@ export const Navbar = () => {
     const [user] = useAuthState(auth);
 
     return (
-        <div className="auth-div" align='right'>
+        <div className="auth-div" align='right' role="navigation">
             {user ? <>
                 <LogoutMenu />
                 {role==="student" ? <> <NotificationsButton /> <StudentProfile /> </> : <EmployerProfile />}
