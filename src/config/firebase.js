@@ -2,9 +2,10 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-
+//import firebase from './firebase';
 
 const firebaseConfig = {
+  //databaseURL:   'https://big-eaters.firebaseio.com',
   apiKey: "AIzaSyDzK_rT73XCYPNOw0soKnw5jyEPkCjW2YQ",
   authDomain: "big-eaters.firebaseapp.com",
   projectId: "big-eaters",
@@ -15,6 +16,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+//firebase.firestore().settings({ experimentalForceLongPolling: true });
 
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();

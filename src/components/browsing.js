@@ -11,6 +11,8 @@ import TextField from '@mui/material/TextField';
 
 import "./css/student-profile.css";
 import "./css/browsing.css";
+import { getRole } from "../features/counter/profileSlice";
+import { useSelector } from 'react-redux'
 
 const theme = createTheme({
     palette: {
@@ -30,6 +32,9 @@ const theme = createTheme({
 export const Browsing = (test) => {
 
     const [jobList, setJobList] = useState([]);
+
+    // Redux role
+    const role = useSelector(getRole);
 
     // New Job States
     const [newJobTitle, setNewJobTitle] = useState("");
@@ -56,6 +61,8 @@ export const Browsing = (test) => {
     const [searchKeyword, setSearchKeyword] = useState("");
     // Modal
     const jobsCollectionRef = collection(db, "jobs");
+
+    const [user] = useAuthState(auth);
 
     const getJobList = async () => {
         try {
@@ -154,6 +161,16 @@ export const Browsing = (test) => {
         }
         getJobList();
     }
+    // const uploadFile = async () => {
+    //     if (!fileUpload) return;
+    //     const filesFolderRef = ref(storage, 'projectFiles/fileUpload.name');
+    //     try {
+    //         await uploadBytes(filesFolderRef, fileUpload);
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // };
+
     // const getApplicants = async (jobId) => {
     //     const jobDoc = doc(db, "jobs", jobId);
     //     const innerCollectionRef = collection(jobDoc, "applicants");
@@ -219,24 +236,13 @@ export const Browsing = (test) => {
         setSearchKeyword(event.target.value);
     };
 
-    const isEmployer = () => {
-
-        // if (test.test === "employer") {
-        //     return true;
-        // }
-        // else {
-        return false;
-        // }
-
-    }
-
-    const [user] = useAuthState(auth);
+    // To fix key issue related to false condition when checking search bar
+    var counter = 0;
 
     return (
         <div className="browsing-div">
-            {/* {console.log(test)} */}
-            {user && isEmployer() ?
-                <div>
+            {role === "employer" ?
+                <div className="create-job-div">
                     <input
                         className="j-input"
                         placeholder="Job title..."
@@ -320,38 +326,72 @@ export const Browsing = (test) => {
                             </div>
 
                         </div>
-                    </div>
+                    </div >
 
-                </Modal>
+                </Modal >
 
-                {
+                {role === "employer" ?
+                    // Employer Job Postings
+                    jobList.filter((job) => job.userId === user.uid).map((job) => {
+                        return (job.title.toLowerCase().includes(searchKeyword)) ? (
+                            <div key={job.id} className="div-post">
+                                <h1 className="job-header">
+                                    {job.title}
+                                </h1>
+                                <h4 className="job-header">
+                                    {job.description}
+                                </h4>
+                                <p> Workterm: {job.season} {job.yearOfStart} </p>
+                                <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
+
+                                <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
+
+                                {/* Update Title */}
+                                <input
+                                    className="j-input"
+                                    placeholder="new title..."
+                                    onChange={(e) => setUpdatedTitle(e.target.value)}
+                                />
+                                <button className="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
+
+                                {/* Update Description */}
+                                <input
+                                    className="j-input"
+                                    placeholder="new description..."
+                                    onChange={(e) => setUpdatedDescription(e.target.value)}
+                                />
+                                <button className="update-button" onClick={() => updateJobDescription(job.id)}> Update Description</button>
+
+                                {/* Update Season */}
+                                <input
+                                    className="j-input"
+                                    placeholder="new season..."
+                                    onChange={(e) => setUpdatedSeason(e.target.value)}
+                                />
+                                <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
+                                {/* Show different buttons depending on the application status */}
+                                <button className="j-button" onClick={() => openApplicantList(job.id)}>Applicants</button>
+                            </div >
+                        )
+                            //Implemented to avoid getting unique key error
+                            : <div key={counter++}></div>
+                    }
+                    )
+                    :
+                    // Student + Unauthorized User Job Postings
                     jobList.map((job) => {
                         return (job.title.toLowerCase().includes(searchKeyword.toLowerCase())) ? (
                             <div key={job.id} className="div-post">
+                                <h1 className="job-header">
+                                    {job.title}
+                                </h1>
+                                <h4 className="job-header">
+                                    {job.description}
+                                </h4>
+                                <p> Workterm: {job.season} {job.yearOfStart} </p>
+                                <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
 
-                                {user && isEmployer() && user.id === job.userId ? <>
-                                    <h1 className="job-header">
-                                        {job.title}
-                                    </h1>
-                                    <h4 className="job-header">
-                                        {job.description}
-                                    </h4>
-                                    <p> Workterm: {job.season} {job.yearOfStart} </p>
-                                    <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
-
-                                </> : <>
-                                    <h1 className="job-header">
-                                        {job.title}
-                                    </h1>
-                                    <h4 className="job-header">
-                                        {job.description}
-                                    </h4>
-                                    <p> Workterm: {job.season} {job.yearOfStart} </p>
-                                    <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p></>
-
-                                }
-
-                                {user && !(isEmployer()) ?
+                                {role === "student" ?
                                     <>
                                         {/* Show different buttons depending on the application status */}
                                         {
@@ -363,55 +403,18 @@ export const Browsing = (test) => {
                                             </>}
                                             </>
                                         }
-
                                     </>
                                     :
                                     <></>
                                 }
-
-
-
-                                {user && isEmployer() ?
-                                    <>
-                                        <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
-
-                                        {/* Update Title */}
-                                        <input
-                                            className="j-input"
-                                            placeholder="new title..."
-                                            onChange={(e) => setUpdatedTitle(e.target.value)}
-                                        />
-                                        <button className="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
-
-                                        {/* Update Description */}
-                                        <input
-                                            className="j-input"
-                                            placeholder="new description..."
-                                            onChange={(e) => setUpdatedDescription(e.target.value)}
-                                        />
-                                        <button className="update-button" onClick={() => updateJobDescription(job.id)}> Update Description</button>
-
-                                        {/* Update Season */}
-                                        <input
-                                            className="j-input"
-                                            placeholder="new season..."
-                                            onChange={(e) => setUpdatedSeason(e.target.value)}
-                                        />
-                                        <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
-                                        {/* Show different buttons depending on the application status */}
-                                        <button className="j-button" onClick={() => openApplicantList(job.id)}>Applicants</button>
-
-                                    </>
-                                    :
-                                    <></>}
-                            </div>
+                            </div >
                         )
-                            :
-                            <></>
-                    })
+                            //Implemented to avoid getting unique key error
+                            : <div key={counter++}></div>
+                    }
+                    )
                 }
-
-            </div >
+            </div>
         </div >
     );
 };
