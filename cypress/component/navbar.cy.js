@@ -1,30 +1,35 @@
-import Chance from 'chance';
-import { Navbar } from '../../src/components/navbar';
+import firebase from '../../firebase/app';
+import 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
-const chance = new Chance();
+import React from 'react';
+import { Navbar } from '../../src/components/navbar';
+import { mount } from 'cypress/react18';
 
 describe('Navbar component', () => {
-  const testUser = { uid: chance.guid() };
-  
-  beforeEach(() => {
-    cy.intercept('GET', '**/useAuthState*', { fixture: 'useAuthState' });
+  it('renders a login menu when the user is not authenticated', () => {
+    mount(<Navbar />);
+    cy.contains('Sign In').should('exist');
+    cy.contains('Sign In With Google').should('exist');
+    cy.contains('Student Profile').should('not.exist');
+    cy.contains(' Logout ').should('not.exist');
+    cy.contains('Profile').should('not.exist');
   });
 
-  it('renders the LoginMenu component if user is not logged in', () => {
-    cy.intercept('GET', '**/useAuthState*', { fixture: 'useAuthState-unauth' });
-    cy.mount(<Navbar />);
-    cy.get('[data-testid="login-menu"]').should('be.visible');
-    cy.get('[data-testid="logout-menu"]').should('not.exist');
-    cy.get('[data-testid="profile-menu"]').should('not.exist');
-    cy.get('[data-testid="student-profile"]').should('not.exist');
-  });
 
-  it('renders the StudentProfile, LogoutMenu, and ProfileMenu components if user is logged in', () => {
-    cy.intercept('GET', '**/useAuthState*', { fixture: 'useAuthState-auth', user: testUser });
-    cy.mount(<Navbar />);
-    cy.get('[data-testid="student-profile"]').should('be.visible');
-    cy.get('[data-testid="logout-menu"]').should('be.visible');
-    cy.get('[data-testid="profile-menu"]').should('be.visible');
-    cy.get('[data-testid="login-menu"]').should('not.exist');
+  it('displays student profile, logout and profile menu when user is authenticated', () => {
+    // Stub useAuthState to return a user object
+    cy.stub(window, 'useAuthState').returns([user]);
+    
+    // Mount the Navbar component
+    mount(<Navbar />);
+
+    // Check that student profile, logout, and profile menu are displayed
+    cy.contains('Student Profile').should('exist');
+    cy.contains('Logout').should('exist');
+    cy.contains('Profile').should('exist');
+
+    // Check that login menu is not displayed
+    cy.contains('LoginMenu').should('not.exist');
   });
 });
