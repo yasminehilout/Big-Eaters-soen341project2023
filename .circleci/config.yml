@@ -20,7 +20,8 @@ jobs:
           name: Test
           command: npm test
       - codecov/upload:
-          token: CODECOV_TOKEN 
+          token: CODECOV_TOKEN
+          conf: .codecov.yml
           file: coverage/lcov.info 
       - store_artifacts:
           path: ~/src/build
