@@ -7,8 +7,7 @@ import Modal from 'react-modal';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
-
-
+import { AdminPage } from "./admin-page";
 import "./css/student-profile.css";
 import "./css/browsing.css";
 import { getRole } from "../features/counter/profileSlice";
@@ -240,181 +239,187 @@ export const Browsing = (test) => {
     var counter = 0;
 
     return (
-        <div className="browsing-div">
-            {role === "employer" ?
-                <div className="create-job-div">
-                    <input
-                        className="j-input"
-                        placeholder="Job title..."
-                        onChange={(e) => setNewJobTitle(e.target.value)}
-                    />
-                    <input
-                        className="j-input"
-                        placeholder="Job Description..."
-                        onChange={(e) => setNewDescription(e.target.value)}
-                    />
-                    <label htmlFor="seasons">Choose a work season:</label>
-                    <select className="select-jobpost" name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
-                        <option value="Fall">Fall</option>
-                        <option value="Winter">Winter</option>
-                        <option value="Spring">Spring</option>
-                        <option value="Summer">Summer</option>
-                    </select>
+        <>
+            {role === "admin" ?
+                <><AdminPage /></>
+                :
+                <div className="browsing-div">
+                    {role === "employer" ?
+                        <div className="create-job-div">
+                            <input
+                                className="j-input"
+                                placeholder="Job title..."
+                                onChange={(e) => setNewJobTitle(e.target.value)}
+                            />
+                            <input
+                                className="j-input"
+                                placeholder="Job Description..."
+                                onChange={(e) => setNewDescription(e.target.value)}
+                            />
+                            <label htmlFor="seasons">Choose a work season:</label>
+                            <select className="select-jobpost" name="seasons" id="seasons" onChange={(e) => setNewSeason(e.target.value)}>
+                                <option value="Fall">Fall</option>
+                                <option value="Winter">Winter</option>
+                                <option value="Spring">Spring</option>
+                                <option value="Summer">Summer</option>
+                            </select>
 
-                    <input
-                        className="j-input"
-                        placeholder="Year Of Start..."
-                        type="number"
-                        onChange={(e) => setNewYearOfStart(Number(e.target.value))}
-                    />
+                            <input
+                                className="j-input"
+                                placeholder="Year Of Start..."
+                                type="number"
+                                onChange={(e) => setNewYearOfStart(Number(e.target.value))}
+                            />
 
-                    <input
-                        className="coop-check"
-                        type="checkbox"
-                        checked={needCoop}
-                        onChange={(e) => setNeedCoop(e.target.checked)}
-                    />
-                    <label> Need Coop </label>
+                            <input
+                                className="coop-check"
+                                type="checkbox"
+                                checked={needCoop}
+                                onChange={(e) => setNeedCoop(e.target.checked)}
+                            />
+                            <label> Need Coop </label>
 
-                    <button className="j-button" onClick={onCreateJob}> Create Job</button>
-                </div>
-                : <></>}
-
-            <div className="div-posts">
-                
-                <TextField
-                    placeholder="Search…"
-                    value={searchKeyword}
-                    onChange={handleSearchBarChange}
-                    className="search-bar"
-                />
-            
-                <Modal ariaHideApp={false} className='profile' isOpen={isApplicantListOpen} onRequestClose={() => setIsApplicantListOpen(false)}>
-                    <div className='modalBackground'>
-                        <div className='modalContainer'>
-                            <div className='titleCloseBtn'>
-                                <div className='title'>
-                                    <h1>Applicant List</h1>
-                                </div>
-                                <button className='xBtn' onClick={() => setIsApplicantListOpen(false)} > Close </button>
-                            </div>
-                            <div className='applicantList-body'>
-                                {isLoading
-                                    ? <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-                                        <CircularProgress />
-                                    </div> // Show loading icon
-                                    : applicantList.map((applicant) => {
-                                        return (
-                                            <div key={applicant.id} className="applicant">
-                                                <span>{applicant.name}</span>
-                                                <ThemeProvider theme={theme}>
-                                                    {applicant.accepted
-                                                        ?
-                                                        <Button variant="contained" disabled>
-                                                            Accepted
-                                                        </Button>
-                                                        :
-                                                        <Button variant="contained" onClick={() => onAccept(applicant.id)}>
-                                                            Accept
-                                                        </Button>
-                                                    }
-                                                </ThemeProvider>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
-
+                            <button className="j-button" onClick={onCreateJob}> Create Job</button>
                         </div>
-                    </div >
+                        : <></>}
 
-                </Modal >
+                    <div className="div-posts">
 
-                {role === "employer" ?
-                    // Employer Job Postings
-                    jobList.filter((job) => job.userId === user.uid).map((job) => {
-                        return (job.title.toLowerCase().includes(searchKeyword)) ? (
-                            <div key={job.id} className="div-post">
-                                <h1 className="job-header">
-                                    {job.title}
-                                </h1>
-                                <h4 className="job-header">
-                                    {job.description}
-                                </h4>
-                                <p> Workterm: {job.season} {job.yearOfStart} </p>
-                                <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
+                        <TextField
+                            placeholder="Search…"
+                            value={searchKeyword}
+                            onChange={handleSearchBarChange}
+                            className="search-bar"
+                        />
 
-                                <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
-
-                                {/* Update Title */}
-                                <input
-                                    className="j-input"
-                                    placeholder="new title..."
-                                    onChange={(e) => setUpdatedTitle(e.target.value)}
-                                />
-                                <button className="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
-
-                                {/* Update Description */}
-                                <input
-                                    className="j-input"
-                                    placeholder="new description..."
-                                    onChange={(e) => setUpdatedDescription(e.target.value)}
-                                />
-                                <button className="update-button" onClick={() => updateJobDescription(job.id)}> Update Description</button>
-
-                                {/* Update Season */}
-                                <input
-                                    className="j-input"
-                                    placeholder="new season..."
-                                    onChange={(e) => setUpdatedSeason(e.target.value)}
-                                />
-                                <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
-                                {/* Show different buttons depending on the application status */}
-                                <button className="j-button" onClick={() => openApplicantList(job.id)}>Applicants</button>
-                            </div >
-                        )
-                            //Implemented to avoid getting unique key error
-                            : <div key={counter++}></div>
-                    }
-                    )
-                    :
-                    // Student + Unauthorized User Job Postings
-                    jobList.map((job) => {
-                        return (job.title.toLowerCase().includes(searchKeyword.toLowerCase())) ? (
-                            <div key={job.id} className="div-post">
-                                <h1 className="job-header">
-                                    {job.title}
-                                </h1>
-                                <h4 className="job-header">
-                                    {job.description}
-                                </h4>
-                                <p> Workterm: {job.season} {job.yearOfStart} </p>
-                                <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
-
-                                {role === "student" ?
-                                    <>
-                                        {/* Show different buttons depending on the application status */}
-                                        {
-                                            <> {job.applied ? <>
-                                                <button className="j-button applied">Applied</button>
-                                            </> : <>
-                                                <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
-
-                                            </>}
-                                            </>
+                        <Modal ariaHideApp={false} className='profile' isOpen={isApplicantListOpen} onRequestClose={() => setIsApplicantListOpen(false)}>
+                            <div className='modalBackground'>
+                                <div className='modalContainer'>
+                                    <div className='titleCloseBtn'>
+                                        <div className='title'>
+                                            <h1>Applicant List</h1>
+                                        </div>
+                                        <button className='xBtn' onClick={() => setIsApplicantListOpen(false)} > Close </button>
+                                    </div>
+                                    <div className='applicantList-body'>
+                                        {isLoading
+                                            ? <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                                                <CircularProgress />
+                                            </div> // Show loading icon
+                                            : applicantList.map((applicant) => {
+                                                return (
+                                                    <div key={applicant.id} className="applicant">
+                                                        <span>{applicant.name}</span>
+                                                        <ThemeProvider theme={theme}>
+                                                            {applicant.accepted
+                                                                ?
+                                                                <Button variant="contained" disabled>
+                                                                    Accepted
+                                                                </Button>
+                                                                :
+                                                                <Button variant="contained" onClick={() => onAccept(applicant.id)}>
+                                                                    Accept
+                                                                </Button>
+                                                            }
+                                                        </ThemeProvider>
+                                                    </div>
+                                                )
+                                            })
                                         }
-                                    </>
-                                    :
-                                    <></>
-                                }
+                                    </div>
+
+                                </div>
                             </div >
-                        )
-                            //Implemented to avoid getting unique key error
-                            : <div key={counter++}></div>
-                    }
-                    )
-                }
-            </div>
-        </div >
+
+                        </Modal >
+
+                        {role === "employer" ?
+                            // Employer Job Postings
+                            jobList.filter((job) => job.userId === user.uid).map((job) => {
+                                return (job.title.toLowerCase().includes(searchKeyword)) ? (
+                                    <div key={job.id} className="div-post">
+                                        <h1 className="job-header">
+                                            {job.title}
+                                        </h1>
+                                        <h4 className="job-header">
+                                            {job.description}
+                                        </h4>
+                                        <p> Workterm: {job.season} {job.yearOfStart} </p>
+                                        <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
+
+                                        <button className="update-button" onClick={() => deleteJob(job.id)}> Delete This Job</button>
+
+                                        {/* Update Title */}
+                                        <input
+                                            className="j-input"
+                                            placeholder="new title..."
+                                            onChange={(e) => setUpdatedTitle(e.target.value)}
+                                        />
+                                        <button className="update-button" onClick={() => updateJobTitle(job.id)}> Update Title</button>
+
+                                        {/* Update Description */}
+                                        <input
+                                            className="j-input"
+                                            placeholder="new description..."
+                                            onChange={(e) => setUpdatedDescription(e.target.value)}
+                                        />
+                                        <button className="update-button" onClick={() => updateJobDescription(job.id)}> Update Description</button>
+
+                                        {/* Update Season */}
+                                        <input
+                                            className="j-input"
+                                            placeholder="new season..."
+                                            onChange={(e) => setUpdatedSeason(e.target.value)}
+                                        />
+                                        <button className="update-button" onClick={() => updateJobSeason(job.id)}> Update Season</button>
+                                        {/* Show different buttons depending on the application status */}
+                                        <button className="j-button" onClick={() => openApplicantList(job.id)}>Applicants</button>
+                                    </div >
+                                )
+                                    //Implemented to avoid getting unique key error
+                                    : <div key={counter++}></div>
+                            }
+                            )
+                            :
+                            // Student + Unauthorized User Job Postings
+                            jobList.map((job) => {
+                                return (job.title.toLowerCase().includes(searchKeyword.toLowerCase())) ? (
+                                    <div key={job.id} className="div-post">
+                                        <h1 className="job-header">
+                                            {job.title}
+                                        </h1>
+                                        <h4 className="job-header">
+                                            {job.description}
+                                        </h4>
+                                        <p> Workterm: {job.season} {job.yearOfStart} </p>
+                                        <p> Need Coop: {job.needCoop ? "Yes" : "No"} </p>
+
+                                        {role === "student" ?
+                                            <>
+                                                {/* Show different buttons depending on the application status */}
+                                                {
+                                                    <> {job.applied ? <>
+                                                        <button className="j-button applied">Applied</button>
+                                                    </> : <>
+                                                        <button className="j-button apply" onClick={() => onApply(job.id)}>Apply</button>
+
+                                                    </>}
+                                                    </>
+                                                }
+                                            </>
+                                            :
+                                            <></>
+                                        }
+                                    </div >
+                                )
+                                    //Implemented to avoid getting unique key error
+                                    : <div key={counter++}></div>
+                            }
+                            )
+                        }
+                    </div>
+                </div >
+            }
+        </>
     );
 };
