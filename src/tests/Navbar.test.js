@@ -3,19 +3,19 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { store } from '../app/store';
 import { Navbar } from '../components/navbar';
-import { auth } from '../config/firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { getRole } from '../features/counter/profileSlice';
-import { useSelector } from 'react-redux';
+// import { auth } from '../config/firebase';
+// import { useAuthState } from 'react-firebase-hooks/auth';
+// import { getRole } from '../features/counter/profileSlice';
+// import { useSelector } from 'react-redux';
 
-jest.mock('../config/firebase');
-jest.mock('react-firebase-hooks/auth');
-jest.mock('../features/counter/profileSlice');
-jest.mock('react-redux');
+// jest.mock('../config/firebase');
+// jest.mock('react-firebase-hooks/auth');
+// jest.mock('../features/counter/profileSlice');
+// jest.mock('react-redux');
 
 describe('Navbar component', () => {
     test('renders LoginMenu when user is not authenticated', () => {
-        useAuthState.mockReturnValueOnce([null]);
+        // useAuthState.mockReturnValueOnce([null]);
         render(
             <Provider store={store}>
                 <Navbar />
