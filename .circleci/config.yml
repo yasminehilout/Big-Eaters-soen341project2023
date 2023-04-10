@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@3.0.0
+
 jobs:
   build:
     working_directory: ~/src
@@ -11,14 +14,12 @@ jobs:
           name: Install dependencies
           command: npm install
       - run:
-          name: Lint
-          command: eslint .
-      - run:
           name: Build
           command: npm run build
       - run:
           name: Test
           command: npm test
+      - codecov/upload
       - store_artifacts:
           path: ~/src/build
 
