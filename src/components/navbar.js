@@ -16,16 +16,31 @@ export const Navbar = () => {
 
     const [user] = useAuthState(auth);
 
-    return (
-        <div className="auth-div" align='right'>
-            {user ? <>
-                <LogoutMenu />
-                {role==="student" ? <> <NotificationsButton /> <StudentProfile /> </> : <EmployerProfile />}
-            </> :
-                <>
-                    
-                    <LoginMenu /></>
-            }
-        </div>
-    )
+    if (user) {
+        if (role === "admin") {
+            return (
+                <div className="auth-div" align='right'>
+                    <LogoutMenu />
+                </div>
+            )
+        } else if (role === "employer") {
+            return (
+                <div className="auth-div" align='right'>
+                    <LogoutMenu /> <EmployerProfile />
+                </div>
+            )
+        } else if(role === "student") {
+            return (
+                <div className="auth-div" align='right'>
+                    <LogoutMenu /> <NotificationsButton /> <StudentProfile />
+                </div>
+            )
+        }
+    } else {
+        return (
+            <div className="auth-div" align='right'>
+                <LoginMenu />
+            </div>
+        )
+    }
 }
