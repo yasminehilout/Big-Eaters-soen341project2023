@@ -1,14 +1,12 @@
 import { db, auth } from "../config/firebase";
 import { useEffect, useState } from 'react';
-import { getDocs, getDoc, collection, addDoc, setDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { getDocs, getDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import "./css/student-profile.css";
 import "./css/browsing.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 
 export const JobDataGrid = () => {
-    const [user] = useAuthState(auth);
 
     const [jobList, setJobList] = useState([]);
     const jobsCollectionRef = collection(db, "jobs");
@@ -33,6 +31,7 @@ export const JobDataGrid = () => {
             });
             const updatedData = await Promise.all(filteredData);
             setJobList(updatedData);
+            console.log("we here");
         } catch (err) {
             console.error(err);
         }
@@ -103,7 +102,7 @@ export const JobDataGrid = () => {
             <Box
                 sx={{
                     height: 500,
-                    width: '80%',
+                    width: '85%',
                     '& .actions': {
                         color: 'text.secondary',
                     },

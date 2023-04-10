@@ -1,5 +1,5 @@
 import { auth, googleProvider, db } from '../config/firebase';
-import {updateDoc, getDoc, setDoc, doc } from "firebase/firestore";
+import { updateDoc, getDoc, setDoc, doc } from "firebase/firestore";
 import { signInWithPopup } from 'firebase/auth';
 import { useDispatch } from 'react-redux'
 import { setRole } from '../features/counter/profileSlice';
@@ -21,10 +21,17 @@ export const LoginMenu = () => {
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                await updateDoc(docRef, { role: "student" });
-                dispatch(setRole({
-                    role: "student"
-                }))  
+                if (docSnap.data().isAdmin === true) {
+                    await updateDoc(docRef, { role: "admin" })
+                    dispatch(setRole({
+                        role: "admin"
+                    }))
+                } else {
+                    await updateDoc(docRef, { role: "student" });
+                    dispatch(setRole({
+                        role: "student"
+                    })) 
+                }
                 //console.log("Document data:", docSnap.data());
             } else {
                 await setDoc(doc(db, "users", user.uid), {
@@ -39,8 +46,8 @@ export const LoginMenu = () => {
                 });
                 dispatch(setRole({
                     role: "student"
-                }))    
-            }       
+                }))
+            }
             // dispatch(setUserAuthenticated(true));
 
         } catch (err) {
@@ -59,10 +66,17 @@ export const LoginMenu = () => {
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                await updateDoc(docRef, { role: "employer" });
-                dispatch(setRole({
-                    role: "employer"
-                }))  
+                if (docSnap.data().isAdmin === true) {
+                    await updateDoc(docRef, { role: "admin" })
+                    dispatch(setRole({
+                        role: "admin"
+                    }))
+                } else {
+                    await updateDoc(docRef, { role: "employer" });
+                    dispatch(setRole({
+                        role: "employer"
+                    })) 
+                }
                 //console.log("Document data:", docSnap.data());
             } else {
                 await setDoc(doc(db, "users", user.uid), {
@@ -77,8 +91,8 @@ export const LoginMenu = () => {
                 });
                 dispatch(setRole({
                     role: "employer"
-                }))   
-            }         
+                }))
+            }
             // dispatch(setUserAuthenticated(true));
 
         } catch (err) {
