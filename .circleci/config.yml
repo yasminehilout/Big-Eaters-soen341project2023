@@ -20,9 +20,7 @@ jobs:
           name: Test
           command: npm test
       - codecov/upload:
-          requires:
-            - test
-          flags: '-f coverage/lcov.info'
+          file: coverage/lcov.info 
       - store_artifacts:
           path: ~/src/build
 
