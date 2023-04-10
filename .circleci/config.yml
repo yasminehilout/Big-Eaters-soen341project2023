@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@3.0.0
+
 jobs:
   build:
     working_directory: ~/src
@@ -16,11 +19,11 @@ jobs:
       - run:
           name: Test
           command: npm test
+      - codecov/upload
       - store_artifacts:
           path: ~/src/build
 
 workflows:
-  version: 2.1
   build-deploy:
     jobs:
       - build
