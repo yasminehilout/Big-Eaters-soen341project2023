@@ -1,5 +1,5 @@
 orbs:
-  codecov: codecov/codecov@3.0.0
+  codecov: codecov/codecov@3.2.4
 
 version: 2.1
 
