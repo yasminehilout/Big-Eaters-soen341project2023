@@ -1,5 +1,5 @@
 import { auth, googleProvider, db } from '../config/firebase';
-import {updateDoc, getDoc, setDoc, doc } from "firebase/firestore";
+import { updateDoc, getDoc, setDoc, doc } from "firebase/firestore";
 import { signInWithPopup } from 'firebase/auth';
 import { useDispatch } from 'react-redux'
 import { setRole } from '../features/counter/profileSlice';
