@@ -18,8 +18,8 @@ describe('Navbar component', () => {
         <Navbar />
       </Provider>
     );
-    expect(screen.getByText('Log In')).toBeInTheDocument();
-    expect(screen.queryByText('Log Out')).not.toBeInTheDocument();
+    expect(screen.getByText('Sign in as a Student')).toBeInTheDocument();
+    expect(screen.queryByText('Logout')).not.toBeInTheDocument();
   });
 
   test('renders LogoutMenu and StudentProfile when user is authenticated and role is student', () => {
@@ -33,8 +33,8 @@ describe('Navbar component', () => {
       </Provider>
     );
 
-    expect(screen.getByText('Log Out')).toBeInTheDocument();
-    expect(screen.queryByText('Log In')).not.toBeInTheDocument();
+    expect(screen.getByText('Logout')).toBeInTheDocument();
+    expect(screen.queryByText('Sign in as a Student')).not.toBeInTheDocument();
     expect(container.querySelector('.student-profile')).toBeInTheDocument();
   });
 
@@ -49,8 +49,8 @@ describe('Navbar component', () => {
       </Provider>
     );
 
-    expect(screen.getByText('Log Out')).toBeInTheDocument();
-    expect(screen.queryByText('Log In')).not.toBeInTheDocument();
+    expect(screen.getByText('Logout')).toBeInTheDocument();
+    expect(screen.queryByText('Sign in as an Employer')).not.toBeInTheDocument();
     expect(container.querySelector('.employer-profile')).toBeInTheDocument();
   });
 });
