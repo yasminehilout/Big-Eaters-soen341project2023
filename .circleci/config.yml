@@ -11,6 +11,9 @@ jobs:
           name: Install dependencies
           command: npm install
       - run:
+          name: Lint
+          command: eslint .
+      - run:
           name: Build
           command: npm run build
       - run:
@@ -20,7 +23,6 @@ jobs:
           path: ~/src/build
 
 workflows:
-  version: 2.1
   build-deploy:
     jobs:
       - build
