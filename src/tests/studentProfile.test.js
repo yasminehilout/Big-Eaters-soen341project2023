@@ -15,5 +15,9 @@ describe('StudentProfile', () => {
         const element = document.querySelector('.profileBtn student-profile');
         
         expect(element).toBeDefined();
+
+        const element2 = document.querySelector('profile');
+
+        expect(element2).toBeDefined();
     });
 });
