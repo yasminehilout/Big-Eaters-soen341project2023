@@ -4,6 +4,7 @@ import { LogoutMenu } from "./signout";
 import { LoginMenu } from "./signin";
 import { StudentProfile } from './student-profile';
 import { EmployerProfile } from './employer-profile';
+import { AdminProfile } from './admin-profile';
 import { useSelector } from 'react-redux'
 import { getRole } from '../features/counter/profileSlice';
 import { NotificationsButton } from './notificationsButton';
@@ -20,7 +21,8 @@ export const Navbar = () => {
         if (role === "admin") {
             return (
                 <div className="auth-div" align='right'>
-                    <LogoutMenu />
+                    <h1 className="admin-title">Admin</h1>
+                    <LogoutMenu /> <AdminProfile />
                 </div>
             )
         } else if (role === "employer") {
@@ -33,6 +35,12 @@ export const Navbar = () => {
             return (
                 <div className="auth-div" align='right'>
                     <LogoutMenu /> <NotificationsButton /> <StudentProfile />
+                </div>
+            )
+        } else {
+            return (
+                <div className="auth-div" align='right'>
+                    <LoginMenu />
                 </div>
             )
         }

@@ -1,10 +1,11 @@
 import { db } from "../config/firebase";
 import { useEffect, useState } from 'react';
-import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
+import { getDocs, collection, deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import "./css/student-profile.css";
 import "./css/browsing.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
+import { Stack } from "@mui/system";
 
 export const UserDataGrid = () => {
 
@@ -40,6 +41,18 @@ export const UserDataGrid = () => {
         deleteUser(id);
     };
 
+    const handleChangeStatusClick = async (id) => {
+        const docRef = doc(db, "users", id);
+        const docSnap = await getDoc(docRef);
+        console.log(docSnap);
+        if (docSnap.data().isAdmin === true) {
+            await updateDoc(docRef, { isAdmin: false, role: "" })
+        } else {
+            await updateDoc(docRef, { isAdmin: true, role: "admin" });
+        }
+        getUserList();
+    };
+
     const rows = userList.map((user) => ({
         id: user.id,
         fname: user.firstName,
@@ -49,20 +62,25 @@ export const UserDataGrid = () => {
         education: user.educationLevel,
         organization: user.organization,
         role: user.role,
+        isadmin: user.isAdmin,
     }))
 
     const columns = [
         { field: 'fname', headerName: 'First Name', width: 100 },
         { field: 'lname', headerName: 'Last Name', width: 100 },
-        { field: 'email', headerName: 'Email', width: 150 },
+        { field: 'email', headerName: 'Email', width: 130 },
         { field: 'uid', headerName: 'User ID', width: 150 },
         { field: 'education', headerName: 'Education', width: 120 },
         { field: 'organization', headerName: 'Organization', width: 150 },
         { field: 'role', headerName: 'Role', width: 110 },
+        { field: 'isadmin', headerName: 'Has Admin Access', width: 120 },
         {
-            field: 'deleteuser', headerName: 'Actions', width: 150, renderCell: (params) => {
+            field: 'deleteuser', headerName: 'Actions', width: 200, renderCell: (params) => {
                 return (
-                    <button onClick={() => handleDeleteClick(params.id)}>Delete User</button>
+                    <Stack direction="column" justifyContent="center" spacing={.25} width="fit-content">
+                        <button className="action-button" onClick={() => handleDeleteClick(params.id)}>Delete User</button>
+                        <button className="action-button" onClick={() => handleChangeStatusClick(params.id)}>Change Admin Status</button>
+                    </Stack>
                 )
             }
         }
@@ -73,7 +91,7 @@ export const UserDataGrid = () => {
             <Box
                 sx={{
                     height: 500,
-                    width: '85%',
+                    width: '90%',
                     '& .actions': {
                         color: 'text.secondary',
                     },
@@ -81,10 +99,11 @@ export const UserDataGrid = () => {
                         color: 'text.primary',
                     },
                     border: 2,
+                    borderColor: "#4c8bf5",
                     justifyContent: "center",
                     alignItems: "center",
                 }}>
-                <DataGrid rows={rows} columns={columns} />
+                <DataGrid rows={rows} columns={columns} rowHeight={70} />
             </Box>
         </div>
     )

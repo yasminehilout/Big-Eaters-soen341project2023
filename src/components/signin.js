@@ -42,7 +42,8 @@ export const LoginMenu = () => {
                     firstName: "",
                     lastName: "",
                     educationLevel: "",
-                    organization: ""
+                    organization: "",
+                    isAdmin: false,
                 });
                 dispatch(setRole({
                     role: "student"
@@ -87,7 +88,8 @@ export const LoginMenu = () => {
                     firstName: "",
                     lastName: "",
                     educationLevel: "",
-                    organization: ""
+                    organization: "",
+                    isAdmin: false,
                 });
                 dispatch(setRole({
                     role: "employer"
