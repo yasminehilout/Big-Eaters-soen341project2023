@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import { StudentProfile } from '../components/student-profile';
 import { Provider } from 'react-redux';
 import { store } from '../app/store';
