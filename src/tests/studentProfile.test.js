@@ -1,5 +1,5 @@
 import { render, act } from '@testing-library/react';
-import { StudentProfile } from '../components/student-profile';
+import { StudentProfile } from '../components/studentProfile';
 import { Provider } from 'react-redux';
 import { store } from '../app/store';
 

@@ -1,5 +1,5 @@
 import { render, act } from '@testing-library/react';
-import { EmployerProfile } from '../components/employer-profile';
+import { EmployerProfile } from '../components/employerProfile';
 import { Provider } from 'react-redux';
 import { store } from '../app/store';
 
