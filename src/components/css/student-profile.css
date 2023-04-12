@@ -52,6 +52,19 @@
   padding: 25px;
 }
 
+.modalContainer1 { /*For employer profile*/
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  height: 750px;
+  width: 600px;
+  border-radius: 8px;
+  padding: 25px;
+}
+
 
 .modalContainer .title {
   display: inline-block;
