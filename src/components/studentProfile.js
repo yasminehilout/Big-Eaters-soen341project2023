@@ -36,7 +36,7 @@ export const StudentProfile = () => {
             "lastName": newLastName,
             "educationLevel": newEducation,
         });
-        const resumeRef = ref(storage, `Resume/${user.uid}`)
+        const resumeRef = ref(storage, `Resume/${user.uid}`) //Can add .pdf as a file type 
         if (newResume == null) return;
         try{
             await uploadBytes(resumeRef, newResume);
