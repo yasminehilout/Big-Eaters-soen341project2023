@@ -87,7 +87,7 @@ export const UserDataGrid = () => {
     ]
 
     return (
-        <div className="data-grid-users">
+        <div className="data-grid-users" style={{display: "flex",justifyContent: "center"}}>
             <Box
                 sx={{
                     height: 500,
@@ -98,10 +98,8 @@ export const UserDataGrid = () => {
                     '& .textPrimary': {
                         color: 'text.primary',
                     },
-                    border: 2,
+                    border: 4,
                     borderColor: "#4c8bf5",
-                    justifyContent: "center",
-                    alignItems: "center",
                 }}>
                 <DataGrid rows={rows} columns={columns} rowHeight={70} />
             </Box>

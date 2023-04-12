@@ -96,20 +96,20 @@ export const JobDataGrid = () => {
         { field: 'coop', headerName: 'Requires Co-op', width: 130 },
         { field: 'uid', headerName: 'User ID', width: 150 },
         { field: 'description', headerName: 'Description', width: 150 },
-        { field: 'applicantcount', headerName: 'Applicant Count', width: 150, renderCell: (params) => {
-            getApplicantCount(params.id);
-            console.log("applicant count = " + applicationCount);
-            return (
-                <span>{applicationCount}</span>
-            )
-        }
-            // field: 'applicantcount', headerName: 'Applicant Count', width: 150, renderCell: (params) => {
-            //     getApplicantCount(params.id);
-            //     return (
-            //         <span>{applicationCount}</span>
-            //     )
-            // }
-        },
+        // { field: 'applicantcount', headerName: 'Applicant Count', width: 150, renderCell: (params) => {
+        //     getApplicantCount(params.id);
+        //     console.log("applicant count = " + applicationCount);
+        //     return (
+        //         <span>{applicationCount}</span>
+        //     )
+        // }
+        //     // field: 'applicantcount', headerName: 'Applicant Count', width: 150, renderCell: (params) => {
+        //     //     getApplicantCount(params.id);
+        //     //     return (
+        //     //         <span>{applicationCount}</span>
+        //     //     )
+        //     // }
+        // },
         {
             field: 'deletejob', headerName: 'Actions', width: 150, renderCell: (params) => {
                 return (
@@ -128,12 +128,12 @@ export const JobDataGrid = () => {
         coop: job.needCoop,
         uid: job.userId,
         description: job.description,
-        applicantcount: applicationCount,
+        // applicantcount: applicationCount,
     }))
 
 
     return (
-        <div className="data-grid-jobs">
+        <div className="data-grid-jobs" style={{display: "flex",justifyContent: "center"}}>
             <Box
                 sx={{
                     height: 500,
@@ -144,11 +144,10 @@ export const JobDataGrid = () => {
                     '& .textPrimary': {
                         color: 'text.primary',
                     },
-                    border: 2,
-                    justifyContent: "center",
-                    alignItems: "center",
+                    border: 4,
+                    borderColor: "#4c8bf5",
                 }}>
-                <DataGrid rows={rows} columns={columns} />
+                <DataGrid rows={rows} columns={columns} rowHeight={70} />
             </Box>
         </div>
     )

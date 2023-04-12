@@ -7,7 +7,10 @@ export const AdminPage = () => {
 
     return (
         <div className="admin-page">
-            <JobDataGrid /><UserDataGrid />
+            <h1 className="admin-title">Job Postings:</h1>
+            <JobDataGrid />
+            <h1 className="admin-title">Users:</h1>
+            <UserDataGrid />
         </div>
     )
 }
