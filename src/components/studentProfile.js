@@ -1,4 +1,4 @@
-import { updateDoc, doc } from 'firebase/firestore';
+import { updateDoc, doc, getDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { db, storage } from "../config/firebase";
 import { getAuth } from "firebase/auth";
@@ -94,16 +94,18 @@ export const StudentProfile = () => {
                                     onChange={(e) => setLastName(e.target.value)}
 
                                 />
+                                
+                                <div className='underline'></div>
+                                <input
+                                    className='textBox'
+                                    type="text"
+                                    maxLength="20"
+                                    placeholder="Education"
+                                    required
+                                    value={newEducation}
+                                    onChange={(e) => setEducation(e.target.value)}
 
-                                <label className='educationLabel' htmlFor="education">Education Level:</label>
-                                <select id="education" name="education" required onChange={(e) => setEducation(e.target.value)}>
-                                    <option value="" disabled>Select Education Level</option>
-                                    <option value="Bachelor">Bachelor</option>
-                                    <option value="Masters">Masters</option>
-                                    <option value="Doctorate">Doctorate</option>
-                                    <option value="Associate">Associate</option>
-
-                                </select>
+                                />
 
                                 <div className='file-upload'>
                                     <label className='resumeTitle' htmlFor='resume'>Upload Resume: </label>

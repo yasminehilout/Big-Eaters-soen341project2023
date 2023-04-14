@@ -42,7 +42,11 @@ export const LoginMenu = () => {
                     firstName: "",
                     lastName: "",
                     educationLevel: "",
-                    organization: ""
+                    organization: "",
+                    website: "",
+                    industry: "",
+                    vision: "",
+                    location: ""
                 });
                 dispatch(setRole({
                     role: "student"
@@ -83,7 +87,11 @@ export const LoginMenu = () => {
                     firstName: "",
                     lastName: "",
                     educationLevel: "",
-                    organization: ""
+                    organization: "",
+                    website: "",
+                    industry: "",
+                    vision: "",
+                    location: ""
                 });
                 dispatch(setRole({
                     role: "employer"
