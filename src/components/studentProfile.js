@@ -12,8 +12,6 @@ import "./css/student-profile.css";
 <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Sora"></link>
 
-
-
 export const StudentProfile = () => {
 
     const auth = getAuth();
@@ -28,6 +26,14 @@ export const StudentProfile = () => {
     const [user] = useAuthState(auth);
 
 
+    /**
+     * The function edits a user's profile information and uploads a new resume to Firebase storage.
+     * @param user - The user object contains information about the currently signed-in user, such as
+     * their unique ID (uid).
+     * @returns If `newResume` is `null`, the function will return without uploading any file to the
+     * storage. Otherwise, the function does not have a return statement, so it will implicitly return
+     * `undefined`.
+     */
     const editProfile = async (user) => {
         const studentprofileDocRef = doc(db, "users", user.uid);
         await updateDoc(studentprofileDocRef, {
@@ -44,6 +50,13 @@ export const StudentProfile = () => {
         }
     };
 
+    /**
+     * This function retrieves a user's profile information from a Firestore database and sets their
+     * first name, last name, and education level.
+     * @returns The function `getProfile` returns nothing explicitly. However, it sets the values of
+     * `firstName`, `lastName`, and `education` using the data retrieved from the Firestore database if
+     * the document exists. If the document does not exist, it logs a message to the console.
+     */
     const getProfile = async () => {
         const studentDocRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(studentDocRef);
@@ -59,6 +72,12 @@ export const StudentProfile = () => {
         }
     }
 
+    /* This is a React component that renders a modal window for editing a student's profile
+    information. The modal contains input fields for the student's first name, last name, education
+    level, and an option to upload a resume. The component uses state hooks to manage the input
+    values and the modal's open/closed state. When the "Save" button is clicked, the component calls
+    the `editProfile` function to update the user's profile information and upload the resume file
+    to Firebase storage. */
     return (
         <>
             <button className="profileBtn" onClick={() => {setIsOpen(true); getProfile()}}><PersonIcon style={{ fontSize: 'small' }} /></button>

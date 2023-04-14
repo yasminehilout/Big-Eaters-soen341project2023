@@ -4,6 +4,10 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 //import firebase from './firebase';
 
+/* `const firebaseConfig` is an object that contains the configuration settings for connecting to a
+Firebase project. It includes the API key, authentication domain, project ID, storage bucket,
+messaging sender ID, app ID, and measurement ID. These settings are used to initialize the Firebase
+app and connect to the associated services such as authentication, Firestore database, and storage. */
 const firebaseConfig = {
   //databaseURL:   'https://big-eaters.firebaseio.com',
   apiKey: "AIzaSyDzK_rT73XCYPNOw0soKnw5jyEPkCjW2YQ",

@@ -16,6 +16,10 @@ export const JobDataGrid = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    /**
+     * This function retrieves job data from a collection, filters and maps the data, checks if the
+     * user has applied to each job, and updates the job list with the updated data.
+     */
     const getJobList = async () => {
         try {
             const data = await getDocs(jobsCollectionRef);
@@ -36,6 +40,10 @@ export const JobDataGrid = () => {
         }
     };
 
+    /**
+     * This function will remove job postings from the job postings collection
+     * @param {*} id 
+     */
     const deleteJob = async (id) => {
         const jobDoc = doc(db, "jobs", id);
         const innerCollectionRef = collection(jobDoc, "applicants");
@@ -52,6 +60,11 @@ export const JobDataGrid = () => {
         getJobList();
     };
 
+    /**
+     * Similar function as the one in browzing, this will fetch the application status
+     * @param {*} jobId 
+     * @returns 
+     */
     const getApplicationStatus = async (jobId) => {
         const user = auth.currentUser;
         const docRef = doc(db, "jobs", jobId, "applicants", user.uid);
@@ -59,6 +72,11 @@ export const JobDataGrid = () => {
         return docSnap.exists();
     }
 
+    /**
+     * The function `handleDeleteClick` calls the `deleteJob` function with a given `id` parameter.
+     * @param id - The `id` parameter is a unique identifier for a job that needs to be deleted. It is
+     * passed as an argument to the `handleDeleteClick` function.
+     */
     const handleDeleteClick = (id) => {
         deleteJob(id)
     }
@@ -90,6 +108,9 @@ export const JobDataGrid = () => {
     }))
 
 
+    /**
+     * This will return the filled mui data-grid for the job postings.
+     */
     return (
         <div className="data-grid-jobs" style={{display: "flex",justifyContent: "center"}}>
             <Box

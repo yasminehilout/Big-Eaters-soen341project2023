@@ -13,6 +13,10 @@ import "./css/browsing.css";
 import { getRole } from "../features/counter/profileSlice";
 import { useSelector } from 'react-redux'
 
+/* The above code is creating a theme object in JavaScript using the `createTheme` function. The theme
+object has a `palette` property which contains two color properties: `primary` and `secondary`. The
+`primary` color is set to `#4c8bf5` and the `secondary` color is set to `#f50057`. This theme object
+can be used to style a user interface in a consistent way. */
 const theme = createTheme({
     palette: {
         primary: {
@@ -24,9 +28,6 @@ const theme = createTheme({
     },
 });
 
-
-// REDUX
-// import { useSelector, useDispatch } from 'react-redux';
 
 export const Browsing = (test) => {
 
@@ -63,6 +64,10 @@ export const Browsing = (test) => {
 
     const [user] = useAuthState(auth);
 
+    /**
+     * This function retrieves job data from a collection, filters and maps the data, and updates the
+     * job list with additional information.
+     */
     const getJobList = async () => {
         try {
             const data = await getDocs(jobsCollectionRef);
@@ -88,6 +93,10 @@ export const Browsing = (test) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    /**
+     * This function creates a new job document in a Firestore collection and retrieves the updated job
+     * list.
+     */
     const onCreateJob = async () => {
         try {
             await addDoc(jobsCollectionRef, {
@@ -104,6 +113,11 @@ export const Browsing = (test) => {
         }
     };
 
+    /**
+     * This function deletes a job document and all documents in its inner collection of applicants.
+     * @param id - The id parameter is the unique identifier of the job document that needs to be
+     * deleted.
+     */
     const deleteJob = async (id) => {
         const jobDoc = doc(db, "jobs", id);
         const innerCollectionRef = collection(jobDoc, "applicants");
@@ -120,12 +134,27 @@ export const Browsing = (test) => {
         getJobList();
     };
 
+    /**
+     * This function updates the title of a job document in a database and then retrieves the updated
+     * list of jobs.
+     * @param id - The `id` parameter is a string representing the unique identifier of a job document
+     * in a Firestore database. It is used to retrieve the specific job document and update its `title`
+     * field with a new value.
+     */
     const updateJobTitle = async (id) => {
         const jobDoc = doc(db, "jobs", id);
         await updateDoc(jobDoc, { title: updatedTitle });
         getJobList();
     };
 
+    /**
+     * This function updates the season property of a job document in a Firestore database and then
+     * retrieves the updated job list.
+     * @param id - The `id` parameter is a string representing the unique identifier of a job document
+     * in the "jobs" collection in Firestore. It is used to retrieve the specific document and update
+     * its "season" field with the value of `updatedSeason`. The `getJobList()` function is then called
+     * to update
+     */
     const updateJobSeason = async (id) => {
         const jobDoc = doc(db, "jobs", id);
         await updateDoc(jobDoc, { season: updatedSeason });
@@ -133,12 +162,26 @@ export const Browsing = (test) => {
     };
 
 
+    /**
+     * This function updates the description of a job document in a database and then retrieves the
+     * updated list of jobs.
+     * @param id - The `id` parameter is a string representing the unique identifier of a job document
+     * in the "jobs" collection of a Firestore database.
+     */
     const updateJobDescription = async (id) => {
         const jobDoc = doc(db, "jobs", id);
         await updateDoc(jobDoc, { description: updatedDescription });
         getJobList();
     };
 
+    /**
+     * This function checks if a user has applied for a specific job.
+     * @param jobId - The jobId parameter is a string representing the unique identifier of a job in a
+     * database.
+     * @returns The function `getApplicationStatus` returns a boolean value indicating whether the
+     * current user (authenticated user) has applied for the job with the given `jobId`. If the user
+     * has applied, it returns `true`, otherwise it returns `false`.
+     */
     const getApplicationStatus = async (jobId) => {
         const user = auth.currentUser;
         const docRef = doc(db, "jobs", jobId, "applicants", user.uid);
@@ -146,6 +189,13 @@ export const Browsing = (test) => {
         return docSnap.exists();
     }
 
+    /**
+     * The function adds a user as an applicant to a job in a Firestore database and then retrieves the
+     * updated job list.
+     * @param jobId - jobId is a string parameter representing the unique identifier of a job in the
+     * "jobs" collection in Firestore. It is used to specify the document to which the applicant's
+     * information will be added in the "applicants" subcollection.
+     */
     const onApply = async (jobId) => {
         const user = auth.currentUser;
         try {
@@ -159,34 +209,29 @@ export const Browsing = (test) => {
         }
         getJobList();
     }
-    // const uploadFile = async () => {
-    //     if (!fileUpload) return;
-    //     const filesFolderRef = ref(storage, 'projectFiles/fileUpload.name');
-    //     try {
-    //         await uploadBytes(filesFolderRef, fileUpload);
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    // };
 
-    // const getApplicants = async (jobId) => {
-    //     const jobDoc = doc(db, "jobs", jobId);
-    //     const innerCollectionRef = collection(jobDoc, "applicants");
-
-    //     const querySnapshot = await getDocs(innerCollectionRef);
-    //     // For each user print their data.
-    //     querySnapshot.forEach(async (doc) => {
-    //         console.log(doc.data());
-    //     });
-    // }
-
-
+    /**
+     * This function retrieves the accepted status of an applicant for a specific job.
+     * @param jobId - The ID of the job for which you want to check the accepted status of an
+     * applicant.
+     * @param applicantId - The ID of the applicant whose accepted status is being retrieved.
+     * @returns The function `getAcceptedStatus` returns a boolean value indicating whether the
+     * applicant with the given `applicantId` has been accepted for the job with the given `jobId`. If
+     * the document for the applicant exists in the database and has a field `accepted` with a truthy
+     * value, the function returns `true`. Otherwise, it returns `false`.
+     */
     const getAcceptedStatus = async (jobId, applicantId) => {
         const docRef = doc(db, "jobs", jobId, "applicants", applicantId);
         const docSnap = await getDoc(docRef);
         return docSnap.exists() ? docSnap.get("accepted") : false;
     }
 
+    /**
+     * This function retrieves a list of applicants for a specific job and includes their acceptance
+     * status.
+     * @param jobId - The jobId parameter is a string representing the ID of a job document in a
+     * Firestore database.
+     */
     const getApplicantList = async (jobId) => {
         try {
             setIsLoading(true);
@@ -208,15 +253,26 @@ export const Browsing = (test) => {
         } catch (err) {
             console.error(err);
         }
-
     };
 
+    /**
+     * This function opens a list of applicants for a specific job.
+     * @param jobId - The jobId parameter is a unique identifier for a job. It is used to retrieve the
+     * list of applicants who have applied for that particular job.
+     */
     const openApplicantList = async (jobId) => {
         setSelectedJob(jobId);
         getApplicantList(jobId);
         setIsApplicantListOpen(true);
     }
 
+    /**
+     * The function updates the "accepted" field of an applicant in a job's "applicants" collection and
+     * retrieves the updated list of applicants for the selected job.
+     * @param userId - The `userId` parameter is a string that represents the unique identifier of a
+     * user who has applied for a job. This parameter is used to update the `accepted` field of the
+     * applicant's document in the Firestore database.
+     */
     const onAccept = async (userId) => {
         const docRef = doc(db, "jobs", selectedJob, "applicants", userId);
 
@@ -228,6 +284,13 @@ export const Browsing = (test) => {
 
     }
 
+    /**
+     * This function sets the search keyword based on the value of the search bar input.
+     * @param event - The `event` parameter is an object that contains information about the event that
+     * triggered the function. In this case, it is likely an event object that is generated when the
+     * user types something into a search bar. The object contains information such as the target
+     * element (the search bar), the type of event
+     */
     const handleSearchBarChange = (event) => {
         setSearchKeyword(event.target.value);
     };
@@ -235,6 +298,12 @@ export const Browsing = (test) => {
     // To fix key issue related to false condition when checking search bar
     var counter = 0;
 
+    /* The above code is rendering a job posting website with different functionalities for employers
+    and students. Employers can create job postings, update job details, and view a list of
+    applicants for their job postings. Students can view job postings, apply for jobs, and see their
+    application status. The code is also implementing a search bar to filter job postings based on
+    keywords. The code is written in React and uses various components such as Modal, TextField, and
+    Button from Material-UI library. */
     return (
         <>
             {role === "admin" ?
@@ -333,7 +402,7 @@ export const Browsing = (test) => {
                         {role === "employer" ?
                             // Employer Job Postings
                             jobList.filter((job) => job.userId === user.uid).map((job) => {
-                                return (job.title.toLowerCase().includes(searchKeyword)) ? (
+                                return (job.title.toLowerCase().includes(searchKeyword.toLowerCase())) ? (
                                     <div key={job.id} className="div-post">
                                         <h1 className="job-header">
                                             {job.title}

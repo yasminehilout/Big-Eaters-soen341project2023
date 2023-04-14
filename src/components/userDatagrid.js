@@ -17,6 +17,10 @@ export const UserDataGrid = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    /**
+     * This function retrieves a list of users from a Firestore collection and sets the filtered data
+     * to the user list.
+     */
     const getUserList = async () => {
         try {
             const data = await getDocs(usersCollectionRef);
@@ -30,16 +34,35 @@ export const UserDataGrid = () => {
         }
     };
 
+    /**
+     * This function deletes a user document from a Firestore database and then retrieves an updated
+     * list of users.
+     * @param id - The `id` parameter is a string representing the unique identifier of the user
+     * document that needs to be deleted from the Firestore database.
+     */
     const deleteUser = async (id) => {
         const userDoc = doc(db, "users", id);
         await deleteDoc(userDoc);
         getUserList();
     };
 
+    /**
+     * The function `handleDeleteClick` calls the `deleteUser` function with a given `id` parameter.
+     * @param id - The `id` parameter is a unique identifier for a user that is passed as an argument
+     * to the `handleDeleteClick` function. It is used to call the `deleteUser` function and delete the
+     * user with the corresponding `id`.
+     */
     const handleDeleteClick = (id) => {
         deleteUser(id);
     };
 
+    /**
+     * This function toggles the isAdmin status and role of a user in a Firestore database and then
+     * updates the user list.
+     * @param id - The id parameter is a string representing the unique identifier of a user in a
+     * database. It is used to retrieve the user's document from the "users" collection in the database
+     * and update its "isAdmin" and "role" fields based on their current values.
+     */
     const handleChangeStatusClick = async (id) => {
         const docRef = doc(db, "users", id);
         const docSnap = await getDoc(docRef);
@@ -92,6 +115,9 @@ export const UserDataGrid = () => {
         }
     ]
 
+    /**
+     * This will return the filled mui data-grid for the job postings.
+     */
     return (
         <div className="data-grid-users" style={{display: "flex",justifyContent: "center"}}>
             <Box

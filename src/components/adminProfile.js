@@ -1,4 +1,4 @@
-import { updateDoc, doc, } from 'firebase/firestore';
+import { updateDoc, doc, getDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { db } from "../config/firebase";
@@ -22,6 +22,12 @@ export const AdminProfile = () => {
 
     const [user] = useAuthState(auth);
 
+    /**
+     * This function updates the first and last name of a user's profile in a Firestore database.
+     * @param user - The user parameter is an object that represents a user in the application. It
+     * likely contains properties such as a unique identifier (uid), email address, and other user
+     * information.
+     */
     const editProfile = async (user) => {
         const adminprofileDocRef = doc(db, "users", user.uid);
         await updateDoc(adminprofileDocRef, {
@@ -29,9 +35,33 @@ export const AdminProfile = () => {
             "lastName": newLastName,
         });
     };
+
+    /**
+     * This function retrieves a user's first and last name from a Firestore document.
+     * @returns The function `getProfile` is returning either the result of calling `setFirstName` and
+     * `setLastName` with the corresponding data from the `docSnap` object, or a console log message if
+     * `docSnap` does not exist. However, it is important to note that `setFirstName` and `setLastName`
+     * are not being returned themselves, as they are likely functions that update state within
+     */
+    const getProfile = async () => {
+        const studentDocRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(studentDocRef);
+        if (docSnap.exists()) {
+            return (
+                setFirstName(docSnap.data().firstName),
+                setLastName(docSnap.data().lastName)
+            )
+        }
+        else {
+            console.log("docSnap not found!");
+        }
+    }
+
+    /* This is the JSX code for rendering a modal that allows an admin user to edit their profile
+    information. The modal is triggered by clicking on a button with the class name "profileBtn". */
     return (
         <>
-            <button className='profileBtn' onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
+            <button className='profileBtn' onClick={() => {setIsOpen(true); getProfile()}}><PersonIcon style={{ fontSize: 'small' }} /></button>
             <Modal className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)} ariaHideApp={false}>
 
                 <div className='modalBackground'>
