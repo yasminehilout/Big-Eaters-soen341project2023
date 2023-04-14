@@ -16,7 +16,6 @@ export const NotificationsButton = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [notificationList, setNotificationList] = useState([]);
 
-    // console.log(auth.currentUser.uid)
     const getNotificationList = async () => {
         try {
             const jobsCollectionRef = collection(db, "jobs");

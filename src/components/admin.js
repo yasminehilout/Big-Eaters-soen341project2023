@@ -1,7 +1,7 @@
 import "./css/student-profile.css";
 import "./css/browsing.css";
-import { JobDataGrid } from "./data-grid-jobs";
-import { UserDataGrid } from "./data-grid-users";
+import { JobDataGrid } from "./jobsDatagrid";
+import { UserDataGrid } from "./userDatagrid";
 
 export const AdminPage = () => {
 

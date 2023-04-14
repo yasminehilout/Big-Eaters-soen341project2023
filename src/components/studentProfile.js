@@ -1,8 +1,9 @@
-import { updateDoc, doc, } from 'firebase/firestore';
+import { updateDoc, doc, getDoc } from 'firebase/firestore';
 import { useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { db } from "../config/firebase";
+import { db, storage } from "../config/firebase";
 import { getAuth } from "firebase/auth";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { ref, uploadBytes } from 'firebase/storage';
 import React from 'react'
 import Modal from 'react-modal'
 import PersonIcon from "@mui/icons-material/Person";
@@ -12,29 +13,55 @@ import "./css/student-profile.css";
     href="https://fonts.googleapis.com/css?family=Sora"></link>
 
 
-export const EmployerProfile = () => {
+
+export const StudentProfile = () => {
 
     const auth = getAuth();
+    //const user = auth.currentUser;
 
     const [newFirstName, setFirstName] = useState("")
     const [newLastName, setLastName] = useState("")
-    const [newOrganization, setOrganization] = useState("")
+    const [newEducation, setEducation] = useState("Bachelor")
+    const [newResume, setResume] = useState()
     const [isOpen, setIsOpen] = useState(false)
 
     const [user] = useAuthState(auth);
 
+
     const editProfile = async (user) => {
-        //console.log("user signed in", user.uid, newFirstName, newLastName, newOrganization)
-        const employerprofileDocRef = doc(db, "users", user.uid);
-        await updateDoc(employerprofileDocRef, {
+        const studentprofileDocRef = doc(db, "users", user.uid);
+        await updateDoc(studentprofileDocRef, {
             "firstName": newFirstName,
             "lastName": newLastName,
-            "organization": newOrganization,
+            "educationLevel": newEducation,
         });
+        const resumeRef = ref(storage, `Resume/${user.uid}`) //Can add .pdf as a file type 
+        if (newResume == null) return;
+        try{
+            await uploadBytes(resumeRef, newResume);
+        } catch(err) {
+            console.log(err);
+        }
     };
+
+    const getProfile = async () => {
+        const studentDocRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(studentDocRef);
+        if (docSnap.exists()) {
+            return (
+                setFirstName(docSnap.data().firstName),
+                setLastName(docSnap.data().lastName),
+                setEducation(docSnap.data().educationLevel)
+            )
+        }
+        else {
+            console.log("docSnap not found!");
+        }
+    }
+
     return (
         <>
-            <button className='profileBtn' onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
+            <button className="profileBtn" onClick={() => {setIsOpen(true); getProfile()}}><PersonIcon style={{ fontSize: 'small' }} /></button>
             <Modal className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)} ariaHideApp={false}>
 
                 <div className='modalBackground'>
@@ -67,19 +94,32 @@ export const EmployerProfile = () => {
                                     onChange={(e) => setLastName(e.target.value)}
 
                                 />
+                                
                                 <div className='underline'></div>
                                 <input
                                     className='textBox'
                                     type="text"
                                     maxLength="20"
-                                    placeholder="Organization"
+                                    placeholder="Education"
                                     required
-                                    value={newOrganization}
-                                    onChange={(e) => setOrganization(e.target.value)}
+                                    value={newEducation}
+                                    onChange={(e) => setEducation(e.target.value)}
+
                                 />
+
+                                <div className='file-upload'>
+                                    <label className='resumeTitle' htmlFor='resume'>Upload Resume: </label>
+                                    <input
+                                        type="file"
+                                        id="resume"
+                                        name="resume"
+                                        accept=".doc,.docx,.pdf"
+                                        onChange={(e) => setResume(e.target.files[0])}
+                                    />
+                                </div>
                             </form>
                             <div className='footer'>
-                                <button className="endBtn" onClick={() => { editProfile(user); setIsOpen(false); }}>Save</button>
+                                <button className="endBtn" onClick={() => {editProfile(user); setIsOpen(false);}}>Save</button>
                             </div>
                         </div>
                     </div>

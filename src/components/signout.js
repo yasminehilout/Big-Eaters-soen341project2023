@@ -7,7 +7,6 @@ import { setRole } from '../features/counter/profileSlice';
 
 // Logout button component
 export const LogoutMenu = () => {
-    //console.log("logout menu");
     const dispatch = useDispatch();
     const logout = async () => {
         try{

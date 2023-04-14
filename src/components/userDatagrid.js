@@ -25,7 +25,6 @@ export const UserDataGrid = () => {
                 id: doc.id,
             }));
             setUserList(filteredData);
-            console.log("we good");
         } catch (err) {
             console.error(err);
         }
@@ -44,7 +43,6 @@ export const UserDataGrid = () => {
     const handleChangeStatusClick = async (id) => {
         const docRef = doc(db, "users", id);
         const docSnap = await getDoc(docRef);
-        console.log(docSnap);
         if (docSnap.data().isAdmin === true) {
             await updateDoc(docRef, { isAdmin: false, role: "" })
         } else {
@@ -61,6 +59,10 @@ export const UserDataGrid = () => {
         uid: user.userId,
         education: user.educationLevel,
         organization: user.organization,
+        industry: user.industry,
+        location: user.location,
+        website: user.website,
+        vision: user.vision,
         role: user.role,
         isadmin: user.isAdmin,
     }))
@@ -72,6 +74,10 @@ export const UserDataGrid = () => {
         { field: 'uid', headerName: 'User ID', width: 150 },
         { field: 'education', headerName: 'Education', width: 120 },
         { field: 'organization', headerName: 'Organization', width: 150 },
+        { field: 'industry', headerName: 'Industry', width: 150 },
+        { field: 'location', headerName: 'Location', width: 150 },
+        { field: 'website', headerName: 'Website', width: 150 },
+        { field: 'vision', headerName: 'Vision', width: 150 },
         { field: 'role', headerName: 'Role', width: 110 },
         { field: 'isadmin', headerName: 'Has Admin Access', width: 120 },
         {

@@ -2,9 +2,9 @@ import { auth } from '../config/firebase';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { LogoutMenu } from "./signout";
 import { LoginMenu } from "./signin";
-import { StudentProfile } from './student-profile';
-import { EmployerProfile } from './employer-profile';
-import { AdminProfile } from './admin-profile';
+import { StudentProfile } from './studentProfile';
+import { EmployerProfile } from './employerProfile';
+import { AdminProfile } from './adminProfile';
 import { useSelector } from 'react-redux'
 import { getRole } from '../features/counter/profileSlice';
 import { NotificationsButton } from './notificationsButton';

@@ -32,7 +32,6 @@ export const LoginMenu = () => {
                         role: "student"
                     })) 
                 }
-                //console.log("Document data:", docSnap.data());
             } else {
                 await setDoc(doc(db, "users", user.uid), {
                     userId: user.uid,
@@ -44,6 +43,10 @@ export const LoginMenu = () => {
                     educationLevel: "",
                     organization: "",
                     isAdmin: false,
+                    website: "",
+                    industry: "",
+                    vision: "",
+                    location: ""
                 });
                 dispatch(setRole({
                     role: "student"
@@ -62,7 +65,6 @@ export const LoginMenu = () => {
         try {
             await signInWithPopup(auth, googleProvider);
             const user = auth.currentUser;
-            // console.log(user.uid);
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
 
@@ -78,7 +80,6 @@ export const LoginMenu = () => {
                         role: "employer"
                     })) 
                 }
-                //console.log("Document data:", docSnap.data());
             } else {
                 await setDoc(doc(db, "users", user.uid), {
                     userId: user.uid,
@@ -90,6 +91,10 @@ export const LoginMenu = () => {
                     educationLevel: "",
                     organization: "",
                     isAdmin: false,
+                    website: "",
+                    industry: "",
+                    vision: "",
+                    location: ""
                 });
                 dispatch(setRole({
                     role: "employer"

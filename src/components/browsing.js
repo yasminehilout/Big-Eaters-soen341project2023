@@ -7,7 +7,7 @@ import Modal from 'react-modal';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
-import { AdminPage } from "./admin-page";
+import { AdminPage } from "./admin";
 import "./css/student-profile.css";
 import "./css/browsing.css";
 import { getRole } from "../features/counter/profileSlice";
@@ -121,7 +121,6 @@ export const Browsing = (test) => {
     };
 
     const updateJobTitle = async (id) => {
-        console.log(id);
         const jobDoc = doc(db, "jobs", id);
         await updateDoc(jobDoc, { title: updatedTitle });
         getJobList();
@@ -185,7 +184,6 @@ export const Browsing = (test) => {
     const getAcceptedStatus = async (jobId, applicantId) => {
         const docRef = doc(db, "jobs", jobId, "applicants", applicantId);
         const docSnap = await getDoc(docRef);
-        // console.log(applicantId + " was accepted: " + docSnap.get("accepted"));
         return docSnap.exists() ? docSnap.get("accepted") : false;
     }
 
@@ -217,7 +215,6 @@ export const Browsing = (test) => {
         setSelectedJob(jobId);
         getApplicantList(jobId);
         setIsApplicantListOpen(true);
-        // console.log(applicantList);
     }
 
     const onAccept = async (userId) => {
