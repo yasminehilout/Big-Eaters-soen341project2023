@@ -1,4 +1,4 @@
-import { updateDoc, doc, } from 'firebase/firestore';
+import { updateDoc, doc, getDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { db, storage } from "../config/firebase";
@@ -50,9 +50,31 @@ export const EmployerProfile = () => {
         }
     };
 
+    const getProfile = async () => {
+        const studentDocRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(studentDocRef);
+        console.log(docSnap.data());
+        console.log(docSnap.data().firstName, "and ", docSnap.data().lastName, "and ", docSnap.data().educationLevel);
+        if (docSnap.exists()) {
+            return (
+                setFirstName(docSnap.data().firstName),
+                setLastName(docSnap.data().lastName),
+                setOrganization(docSnap.data().organization),
+                setVision(docSnap.data().vision),
+                setIndustry(docSnap.data().industry),
+                setWebsite(docSnap.data().website),
+                setLocation(docSnap.data().location)
+            )
+        }
+        else {
+            console.log("docSnap not found!");
+        }
+    }
+
+
     return (
         <>
-            <button className='profileBtn' onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
+            <button className='profileBtn' onClick={() => {setIsOpen(true); getProfile()}}><PersonIcon style={{ fontSize: 'small' }} /></button>
             <Modal className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)} ariaHideApp={false}>
 
                 <div className='modalBackground'>
@@ -135,7 +157,7 @@ export const EmployerProfile = () => {
                                     onChange={(e) => setLocation(e.target.value)}
                                 />
                                 <div className='file-upload'>
-                                    <label className='logoTitle' htmlFor='logo'>Upload Resume: </label>
+                                    <label className='logoTitle' htmlFor='logo'>Upload Logo: </label>
                                     <input
                                         type="file"
                                         id="logo"
