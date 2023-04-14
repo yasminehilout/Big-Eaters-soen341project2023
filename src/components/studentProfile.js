@@ -1,4 +1,4 @@
-import { updateDoc, doc } from 'firebase/firestore';
+import { updateDoc, doc, getDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { db, storage } from "../config/firebase";
 import { getAuth } from "firebase/auth";
@@ -11,8 +11,6 @@ import PersonIcon from "@mui/icons-material/Person";
 import "./css/student-profile.css";
 <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Sora"></link>
-
-
 
 export const StudentProfile = () => {
 
@@ -37,7 +35,6 @@ export const StudentProfile = () => {
      * `undefined`.
      */
     const editProfile = async (user) => {
-        //console.log("user signed in", user.uid, newFirstName, newLastName, newEducation)
         const studentprofileDocRef = doc(db, "users", user.uid);
         await updateDoc(studentprofileDocRef, {
             "firstName": newFirstName,
@@ -53,6 +50,28 @@ export const StudentProfile = () => {
         }
     };
 
+    /**
+     * This function retrieves a user's profile information from a Firestore database and sets their
+     * first name, last name, and education level.
+     * @returns The function `getProfile` returns nothing explicitly. However, it sets the values of
+     * `firstName`, `lastName`, and `education` using the data retrieved from the Firestore database if
+     * the document exists. If the document does not exist, it logs a message to the console.
+     */
+    const getProfile = async () => {
+        const studentDocRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(studentDocRef);
+        if (docSnap.exists()) {
+            return (
+                setFirstName(docSnap.data().firstName),
+                setLastName(docSnap.data().lastName),
+                setEducation(docSnap.data().educationLevel)
+            )
+        }
+        else {
+            console.log("docSnap not found!");
+        }
+    }
+
     /* This is a React component that renders a modal window for editing a student's profile
     information. The modal contains input fields for the student's first name, last name, education
     level, and an option to upload a resume. The component uses state hooks to manage the input
@@ -61,7 +80,7 @@ export const StudentProfile = () => {
     to Firebase storage. */
     return (
         <>
-            <button className="profileBtn student-profile" onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
+            <button className="profileBtn" onClick={() => {setIsOpen(true); getProfile()}}><PersonIcon style={{ fontSize: 'small' }} /></button>
             <Modal className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)} ariaHideApp={false}>
 
                 <div className='modalBackground'>

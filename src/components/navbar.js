@@ -4,6 +4,7 @@ import { LogoutMenu } from "./signout";
 import { LoginMenu } from "./signin";
 import { StudentProfile } from './studentProfile';
 import { EmployerProfile } from './employerProfile';
+import { AdminProfile } from './adminProfile';
 import { useSelector } from 'react-redux'
 import { getRole } from '../features/counter/profileSlice';
 import { NotificationsButton } from './notificationsButton';
@@ -29,19 +30,39 @@ export const Navbar = () => {
 
     /* This code is defining a functional component called `Navbar`. The component returns a `div`
     element with a class name of `auth-div`, aligned to the right, and with a role of "navigation". */
-    return (
-
-        <div className="auth-div" align='right' role="navigation">
-
-            {user ? <>
-                <LogoutMenu /> <img className='logo' src={logo} alt="Logo" />
-                {role==="student" ? <> <NotificationsButton /> <StudentProfile /> </> : <EmployerProfile />}
-            </> :
-                <>
-                    
-                    <LoginMenu /><img className='logo' src={logo} alt="Logo" /></>
-                    
-            }
-        </div>
-    )
+    
+    if (user) {
+        if (role === "admin") {
+            return (
+                <div className="auth-div" align='right' role="navigation">
+                    <h1 className="admin-title">Admin</h1>
+                    <LogoutMenu /> <AdminProfile /><img className='logo' src={logo} alt="Logo" />
+                </div>
+            )
+        } else if (role === "employer") {
+            return (
+                <div className="auth-div" align='right' role="navigation">
+                    <LogoutMenu /> <EmployerProfile /><img className='logo' src={logo} alt="Logo" />
+                </div>
+            )
+        } else if (role === "student") {
+            return (
+                <div className="auth-div" align='right' role="navigation">
+                    <LogoutMenu /> <NotificationsButton /> <StudentProfile /><img className='logo' src={logo} alt="Logo" />
+                </div>
+            )
+        } else {
+            return (
+                <div className="auth-div" align='right' role="navigation">
+                    <LoginMenu /><img className='logo' src={logo} alt="Logo" />
+                </div>
+            )
+        }
+    } else {
+        return (
+            <div className="auth-div" align='right' role="navigation">
+                <LoginMenu /><img className='logo' src={logo} alt="Logo" />
+            </div>
+        )
+    }
 }

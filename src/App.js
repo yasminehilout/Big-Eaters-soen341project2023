@@ -29,9 +29,16 @@ function App() {
         const docRef = doc(db, "users", authUser.uid);
         const docSnap = await getDoc(docRef);
         if(docSnap.exists()){
-        dispatch(setRole({
-          role: docSnap.data().role
-        }))}
+          if(docSnap.data().role !== "null") {
+            dispatch(setRole({
+              role: docSnap.data().role
+            }))
+          } else {
+            dispatch(setRole({
+              role: null
+            }))
+          }
+        }
         else{
           dispatch(setRole({
             role: null

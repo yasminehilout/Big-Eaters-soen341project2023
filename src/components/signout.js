@@ -11,7 +11,6 @@ import { setRole } from '../features/counter/profileSlice';
  * the logout function when the button is clicked. The text displayed on the button is "Logout".
  */
 export const LogoutMenu = () => {
-    //console.log("logout menu");
     const dispatch = useDispatch();
     const logout = async () => {
         try{

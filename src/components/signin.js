@@ -28,11 +28,17 @@ export const LoginMenu = () => {
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                await updateDoc(docRef, { role: "student" });
-                dispatch(setRole({
-                    role: "student"
-                }))  
-                //console.log("Document data:", docSnap.data());
+                if (docSnap.data().isAdmin === true) {
+                    await updateDoc(docRef, { role: "admin" })
+                    dispatch(setRole({
+                        role: "admin"
+                    }))
+                } else {
+                    await updateDoc(docRef, { role: "student" });
+                    dispatch(setRole({
+                        role: "student"
+                    })) 
+                }
             } else {
                 await setDoc(doc(db, "users", user.uid), {
                     userId: user.uid,
@@ -43,6 +49,7 @@ export const LoginMenu = () => {
                     lastName: "",
                     educationLevel: "",
                     organization: "",
+                    isAdmin: false,
                     website: "",
                     industry: "",
                     vision: "",
@@ -50,8 +57,8 @@ export const LoginMenu = () => {
                 });
                 dispatch(setRole({
                     role: "student"
-                }))    
-            }       
+                }))
+            }
             // dispatch(setUserAuthenticated(true));
 
         } catch (err) {
@@ -68,16 +75,21 @@ export const LoginMenu = () => {
         try {
             await signInWithPopup(auth, googleProvider);
             const user = auth.currentUser;
-            // console.log(user.uid);
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                await updateDoc(docRef, { role: "employer" });
-                dispatch(setRole({
-                    role: "employer"
-                }))  
-                //console.log("Document data:", docSnap.data());
+                if (docSnap.data().isAdmin === true) {
+                    await updateDoc(docRef, { role: "admin" })
+                    dispatch(setRole({
+                        role: "admin"
+                    }))
+                } else {
+                    await updateDoc(docRef, { role: "employer" });
+                    dispatch(setRole({
+                        role: "employer"
+                    })) 
+                }
             } else {
                 await setDoc(doc(db, "users", user.uid), {
                     userId: user.uid,
@@ -88,6 +100,7 @@ export const LoginMenu = () => {
                     lastName: "",
                     educationLevel: "",
                     organization: "",
+                    isAdmin: false,
                     website: "",
                     industry: "",
                     vision: "",
@@ -95,8 +108,8 @@ export const LoginMenu = () => {
                 });
                 dispatch(setRole({
                     role: "employer"
-                }))   
-            }         
+                }))
+            }
             // dispatch(setUserAuthenticated(true));
 
         } catch (err) {

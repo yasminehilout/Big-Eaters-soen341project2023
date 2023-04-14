@@ -1,4 +1,4 @@
-import { updateDoc, doc } from 'firebase/firestore';
+import { updateDoc, doc, getDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { db, storage } from "../config/firebase";
@@ -37,7 +37,6 @@ export const EmployerProfile = () => {
      * profile data.
      */
     const editProfile = async (user) => {
-        //console.log("user signed in", user.uid, newFirstName, newLastName, newOrganization)
         const employerprofileDocRef = doc(db, "users", user.uid);
         await updateDoc(employerprofileDocRef, {
             "firstName": newFirstName,
@@ -57,6 +56,34 @@ export const EmployerProfile = () => {
         }
     };
 
+    /**
+     * This function retrieves user profile data from a Firestore database and sets it to corresponding
+     * state variables.
+     * @returns The function `getProfile` is returning the result of setting the values of `firstName`,
+     * `lastName`, `organization`, `vision`, `industry`, `website`, and `location` based on the data
+     * retrieved from the Firestore document with the specified `studentDocRef`. However, it is
+     * important to note that the function is not explicitly returning anything, as it does not have a
+     * `return` statement
+     */
+    const getProfile = async () => {
+        const studentDocRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(studentDocRef);
+        if (docSnap.exists()) {
+            return (
+                setFirstName(docSnap.data().firstName),
+                setLastName(docSnap.data().lastName),
+                setOrganization(docSnap.data().organization),
+                setVision(docSnap.data().vision),
+                setIndustry(docSnap.data().industry),
+                setWebsite(docSnap.data().website),
+                setLocation(docSnap.data().location)
+            )
+        }
+        else {
+            console.log("docSnap not found!");
+        }
+    }
+
     /* This is a React component that renders a button with a person icon. When the button is clicked,
     a modal pops up with a form to edit the user's profile information (first name, last name, and
     organization). The modal has a close button and a save button. When the save button is clicked,
@@ -64,7 +91,7 @@ export const EmployerProfile = () => {
     database, and the modal is closed. */
     return (
         <>
-            <button className='profileBtn employer-profile' onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
+            <button className='profileBtn' onClick={() => {setIsOpen(true); getProfile()}}><PersonIcon style={{ fontSize: 'small' }} /></button>
             <Modal className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)} ariaHideApp={false}>
 
                 <div className='modalBackground'>

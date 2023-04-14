@@ -249,3 +249,27 @@ button:hover {
     width: 5px;
     border-radius: 50%;
 }
+
+.action-button {
+    width: "justify-content";
+    background-color: #4c8bf5;
+    border: none;
+    border-radius: 40px;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    transition: box-shadow 0.2s;
+    color: white;
+    padding: 4px 7px;
+}
+.action-button:hover{
+    box-shadow: 0 8px 16px 0 rgba(66, 89, 202, 0.2),
+    0 6px 20px 0 rgba(66, 89, 202, 0.19);
+    background-color: #487dd8;
+}
+
+.admin-title {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+}
