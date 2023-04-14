@@ -1,4 +1,4 @@
-import { updateDoc, doc, getDoc } from 'firebase/firestore';
+import { updateDoc, doc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { db, storage } from "../config/firebase";
