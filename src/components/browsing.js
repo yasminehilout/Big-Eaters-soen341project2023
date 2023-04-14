@@ -307,9 +307,9 @@ export const Browsing = (test) => {
     return (
         <>
             {role === "admin" ?
-                <><AdminPage /></>
+                <div role="main"><AdminPage /></div>
                 :
-                <div className="browsing-div">
+                <div role="main" className="browsing-div">
                     {role === "employer" ?
                         <div className="create-job-div">
                             <input
