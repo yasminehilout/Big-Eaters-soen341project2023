@@ -13,16 +13,26 @@ import './css/logo.css';
 
 
 
-// Navbar Component
+/**
+ * The `Navbar` function is a React functional component that returns a div element with conditional
+ * rendering based on the user's authentication status and role.
+ * @returns A functional component called `Navbar` that returns a `div` element with a class name of
+ * `auth-div`, aligned to the right, and with a role of "navigation". The content of the `div` element
+ * depends on whether the user is logged in or not and their role (student or employer). If the user is
+ * logged in, it displays a logout menu, a notifications button (if
+ */
 export const Navbar = () => {
 
     const role = useSelector(getRole);
 
     const [user] = useAuthState(auth);
 
+    /* This code is defining a functional component called `Navbar`. The component returns a `div`
+    element with a class name of `auth-div`, aligned to the right, and with a role of "navigation". */
     return (
-        <div className="auth-div" align='right'>
-            
+
+        <div className="auth-div" align='right' role="navigation">
+
             {user ? <>
                 <LogoutMenu /> <img className='logo' src={logo} alt="Logo" />
                 {role==="student" ? <> <NotificationsButton /> <StudentProfile /> </> : <EmployerProfile />}

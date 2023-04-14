@@ -28,6 +28,14 @@ export const StudentProfile = () => {
     const [user] = useAuthState(auth);
 
 
+    /**
+     * The function edits a user's profile information and uploads a new resume to Firebase storage.
+     * @param user - The user object contains information about the currently signed-in user, such as
+     * their unique ID (uid).
+     * @returns If `newResume` is `null`, the function will return without uploading any file to the
+     * storage. Otherwise, the function does not have a return statement, so it will implicitly return
+     * `undefined`.
+     */
     const editProfile = async (user) => {
         //console.log("user signed in", user.uid, newFirstName, newLastName, newEducation)
         const studentprofileDocRef = doc(db, "users", user.uid);
@@ -45,9 +53,15 @@ export const StudentProfile = () => {
         }
     };
 
+    /* This is a React component that renders a modal window for editing a student's profile
+    information. The modal contains input fields for the student's first name, last name, education
+    level, and an option to upload a resume. The component uses state hooks to manage the input
+    values and the modal's open/closed state. When the "Save" button is clicked, the component calls
+    the `editProfile` function to update the user's profile information and upload the resume file
+    to Firebase storage. */
     return (
         <>
-            <button className="profileBtn" onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
+            <button className="profileBtn student-profile" onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
             <Modal className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)} ariaHideApp={false}>
 
                 <div className='modalBackground'>
@@ -80,16 +94,18 @@ export const StudentProfile = () => {
                                     onChange={(e) => setLastName(e.target.value)}
 
                                 />
+                                
+                                <div className='underline'></div>
+                                <input
+                                    className='textBox'
+                                    type="text"
+                                    maxLength="20"
+                                    placeholder="Education"
+                                    required
+                                    value={newEducation}
+                                    onChange={(e) => setEducation(e.target.value)}
 
-                                <label className='educationLabel' htmlFor="education">Education Level:</label>
-                                <select id="education" name="education" required onChange={(e) => setEducation(e.target.value)}>
-                                    <option value="" disabled>Select Education Level</option>
-                                    <option value="Bachelor">Bachelor</option>
-                                    <option value="Masters">Masters</option>
-                                    <option value="Doctorate">Doctorate</option>
-                                    <option value="Associate">Associate</option>
-
-                                </select>
+                                />
 
                                 <div className='file-upload'>
                                     <label className='resumeTitle' htmlFor='resume'>Upload Resume: </label>

@@ -1,7 +1,8 @@
-import { updateDoc, doc, } from 'firebase/firestore';
+import { updateDoc, doc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { db } from "../config/firebase";
+import { db, storage } from "../config/firebase";
+import { ref, uploadBytes } from 'firebase/storage';
 import { getAuth } from "firebase/auth";
 import React from 'react'
 import Modal from 'react-modal'
@@ -19,10 +20,22 @@ export const EmployerProfile = () => {
     const [newFirstName, setFirstName] = useState("")
     const [newLastName, setLastName] = useState("")
     const [newOrganization, setOrganization] = useState("")
+    const [newVision, setVision] = useState("")
+    const [newIndustry, setIndustry] = useState("")
+    const [newWebsite, setWebsite] = useState("")
+    const [newLocation, setLocation] = useState("")
+    const [newLogo, setLogo] = useState("")
     const [isOpen, setIsOpen] = useState(false)
 
     const [user] = useAuthState(auth);
 
+    /**
+     * The function updates the first name, last name, and organization fields of a user's profile in a
+     * Firestore database.
+     * @param user - The user parameter is an object that represents the currently signed-in user. It
+     * likely contains information such as the user's unique ID (uid), email address, and other user
+     * profile data.
+     */
     const editProfile = async (user) => {
         //console.log("user signed in", user.uid, newFirstName, newLastName, newOrganization)
         const employerprofileDocRef = doc(db, "users", user.uid);
@@ -30,15 +43,32 @@ export const EmployerProfile = () => {
             "firstName": newFirstName,
             "lastName": newLastName,
             "organization": newOrganization,
+            "website": newWebsite,
+            "industry": newIndustry,
+            "vision": newVision,
+            "location": newLocation,
         });
+        const logoRef = ref(storage, `Logos/${user.uid}`) //Can add .pdf as a file type 
+        if (newLogo == null) return;
+        try{
+            await uploadBytes(logoRef, newLogo);
+        } catch(err) {
+            console.log(err);
+        }
     };
+
+    /* This is a React component that renders a button with a person icon. When the button is clicked,
+    a modal pops up with a form to edit the user's profile information (first name, last name, and
+    organization). The modal has a close button and a save button. When the save button is clicked,
+    the `editProfile` function is called to update the user's profile information in the Firebase
+    database, and the modal is closed. */
     return (
         <>
-            <button className='profileBtn' onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
+            <button className='profileBtn employer-profile' onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
             <Modal className='profile' isOpen={isOpen} onRequestClose={() => setIsOpen(false)} ariaHideApp={false}>
 
                 <div className='modalBackground'>
-                    <div className='modalContainer'>
+                    <div className='modalContainer1'>
                         <div className='titleCloseBtn'>
                             <button className='xBtn' onClick={() => setIsOpen(false)} > X </button>
                         </div>
@@ -77,6 +107,55 @@ export const EmployerProfile = () => {
                                     value={newOrganization}
                                     onChange={(e) => setOrganization(e.target.value)}
                                 />
+                                 <div className='underline'></div>
+                                <input
+                                    className='textBox'
+                                    type="text"
+                                    placeholder="Website"
+                                    required
+                                    value={newWebsite}
+                                    onChange={(e) => setWebsite(e.target.value)}
+                                />
+                                <div className='underline'></div>
+                                <input
+                                    className='textBox'
+                                    type="text"
+                                    maxLength="50"
+                                    placeholder="Industry"
+                                    required
+                                    value={newIndustry}
+                                    onChange={(e) => setIndustry(e.target.value)}
+                                />
+                                <div className='underline'></div>
+                                <input
+                                    className='textBox'
+                                    type="text"
+                                    maxLength="150"
+                                    placeholder="Company Vision"
+                                    required
+                                    value={newVision}
+                                    onChange={(e) => setVision(e.target.value)}
+                                />
+                                <div className='underline'></div>
+                                <input
+                                    className='textBox'
+                                    type="text"
+                                    maxLength="150"
+                                    placeholder="Location"
+                                    required
+                                    value={newLocation}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                />
+                                <div className='file-upload'>
+                                    <label className='logoTitle' htmlFor='logo'>Upload Logo: </label>
+                                    <input
+                                        type="file"
+                                        id="logo"
+                                        name="logo"
+                                        //accept=".doc,.docx,.pdf"
+                                        onChange={(e) => setLogo(e.target.files[0])}
+                                    />
+                                </div>
                             </form>
                             <div className='footer'>
                                 <button className="endBtn" onClick={() => { editProfile(user); setIsOpen(false); }}>Save</button>
@@ -86,6 +165,5 @@ export const EmployerProfile = () => {
                 </div>
             </Modal>
         </>
-
     );
 }   

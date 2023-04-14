@@ -1,3 +1,6 @@
+orbs:
+  codecov: codecov/codecov@3.2.4
+
 version: 2.1
 
 jobs:
@@ -15,12 +18,14 @@ jobs:
           command: npm run build
       - run:
           name: Test
-          command: npm test
+          command: npm test -- --coverage
+      - codecov/upload:
+          token: CODECOV_TOKEN
+          file: coverage/lcov.info 
       - store_artifacts:
           path: ~/src/build
 
 workflows:
-  version: 2.1
   build-deploy:
     jobs:
       - build
