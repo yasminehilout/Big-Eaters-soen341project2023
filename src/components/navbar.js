@@ -8,6 +8,10 @@ import { useSelector } from 'react-redux'
 import { getRole } from '../features/counter/profileSlice';
 import { NotificationsButton } from './notificationsButton';
 import "./css/browsing.css";
+import logo  from './images/logo.svg';
+import './css/logo.css';
+
+
 
 /**
  * The `Navbar` function is a React functional component that returns a div element with conditional
@@ -26,14 +30,17 @@ export const Navbar = () => {
     /* This code is defining a functional component called `Navbar`. The component returns a `div`
     element with a class name of `auth-div`, aligned to the right, and with a role of "navigation". */
     return (
+
         <div className="auth-div" align='right' role="navigation">
+
             {user ? <>
-                <LogoutMenu />
+                <LogoutMenu /> <img className='logo' src={logo} alt="Logo" />
                 {role==="student" ? <> <NotificationsButton /> <StudentProfile /> </> : <EmployerProfile />}
             </> :
                 <>
                     
-                    <LoginMenu /></>
+                    <LoginMenu /><img className='logo' src={logo} alt="Logo" /></>
+                    
             }
         </div>
     )
