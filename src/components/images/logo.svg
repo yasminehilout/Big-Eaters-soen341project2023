@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 819 290">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ccc;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        stroke-width: 2px;
+      }
+
+      .cls-2, .cls-3 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3 {
+        font-family: HelveticaNeue-UltraLight, 'Helvetica Neue';
+        font-size: 105px;
+        font-weight: 100;
+        letter-spacing: .04em;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <g>
+    <circle class="cls-1" cx="50" cy="50" r="47.5"/>
+    <path d="m50,5c24.81,0,45,20.19,45,45s-20.19,45-45,45S5,74.81,5,50,25.19,5,50,5m0-5C22.39,0,0,22.39,0,50s22.39,50,50,50,50-22.39,50-50S77.61,0,50,0h0Z"/>
+  </g>
+  <g>
+    <circle class="cls-1" cx="184" cy="240" r="47.5"/>
+    <path d="m184,195c24.81,0,45,20.19,45,45s-20.19,45-45,45-45-20.19-45-45,20.19-45,45-45m0-5c-27.61,0-50,22.39-50,50s22.39,50,50,50,50-22.39,50-50-22.39-50-50-50h0Z"/>
+  </g>
+  <line class="cls-2" x1="152" y1="202" x2="77" y2="92"/>
+  <g>
+    <circle class="cls-1" cx="433" cy="240" r="47.5"/>
+    <path d="m433,195c24.81,0,45,20.19,45,45s-20.19,45-45,45-45-20.19-45-45,20.19-45,45-45m0-5c-27.61,0-50,22.39-50,50s22.39,50,50,50,50-22.39,50-50-22.39-50-50-50h0Z"/>
+  </g>
+  <line class="cls-2" x1="234" y1="240" x2="383" y2="240"/>
+  <text class="cls-3" transform="translate(133.65 163.84)"><tspan x="0" y="0">InternLinked</tspan></text>
+</svg>
