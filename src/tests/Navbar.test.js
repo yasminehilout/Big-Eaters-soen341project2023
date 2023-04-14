@@ -6,6 +6,11 @@ import { Navbar } from '../components/navbar';
 import { act } from 'react-dom/test-utils';
 
 
+/* This is a test case for the Navbar component. It checks if the LoginMenu is rendered when the user
+is not authenticated. It uses the `render` function from `@testing-library/react` to render the
+Navbar component wrapped in a Provider with a store. It then uses `screen` to check if the expected
+text is present in the rendered component. The `act` function from `react-dom/test-utils` is used to
+ensure that all updates to the component are processed before the assertions are made. */
 describe('Navbar component', () => {
     test('renders LoginMenu when user is not authenticated', () => {
         // useAuthState.mockReturnValueOnce([null]);
@@ -20,32 +25,4 @@ describe('Navbar component', () => {
         expect(screen.getByText('Sign in as an Employer')).toBeInTheDocument();
         expect(screen.queryByText('Logout')).not.toBeInTheDocument();
     });
-
-    // test('renders LogoutMenu and StudentProfile when user is authenticated and role is student', () => {
-    //     const role = 'student';
-    //     useSelector.mockReturnValueOnce(role);
-    //     useAuthState.mockReturnValueOnce([{ uid: '123', email: 'test@test.com' }]);
-    //     const { container } = render(
-    //         <Provider store={store}>
-    //             <Navbar />
-    //         </Provider>
-    //     );
-    //     expect(screen.getByText('Logout')).toBeInTheDocument();
-    //     expect(screen.queryByText('Sign in as a Student')).not.toBeInTheDocument();
-    //     expect(container.querySelector('.student-profile')).toBeInTheDocument();
-    // });
-
-    // test('renders LogoutMenu and EmployerProfile when user is authenticated and role is employer', () => {
-    //     const role = 'employer';
-    //     useSelector.mockReturnValueOnce(role);
-    //     useAuthState.mockReturnValueOnce([{ uid: '123', email: 'test@test.com' }]);
-    //     const { container } = render(
-    //         <Provider store={store}>
-    //             <Navbar />
-    //         </Provider>
-    //     );
-    //     expect(screen.getByText('Logout')).toBeInTheDocument();
-    //     expect(screen.queryByText('Sign in as an Employer')).not.toBeInTheDocument();
-    //     expect(container.querySelector('.employer-profile')).toBeInTheDocument();
-    // });
 });

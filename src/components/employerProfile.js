@@ -23,6 +23,13 @@ export const EmployerProfile = () => {
 
     const [user] = useAuthState(auth);
 
+    /**
+     * The function updates the first name, last name, and organization fields of a user's profile in a
+     * Firestore database.
+     * @param user - The user parameter is an object that represents the currently signed-in user. It
+     * likely contains information such as the user's unique ID (uid), email address, and other user
+     * profile data.
+     */
     const editProfile = async (user) => {
         //console.log("user signed in", user.uid, newFirstName, newLastName, newOrganization)
         const employerprofileDocRef = doc(db, "users", user.uid);
@@ -32,6 +39,11 @@ export const EmployerProfile = () => {
             "organization": newOrganization,
         });
     };
+    /* This is a React component that renders a button with a person icon. When the button is clicked,
+    a modal pops up with a form to edit the user's profile information (first name, last name, and
+    organization). The modal has a close button and a save button. When the save button is clicked,
+    the `editProfile` function is called to update the user's profile information in the Firebase
+    database, and the modal is closed. */
     return (
         <>
             <button className='profileBtn employer-profile' onClick={() => setIsOpen(true)}><PersonIcon style={{ fontSize: 'small' }} /></button>
@@ -86,6 +98,5 @@ export const EmployerProfile = () => {
                 </div>
             </Modal>
         </>
-
     );
 }   
