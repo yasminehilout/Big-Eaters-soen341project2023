@@ -2,9 +2,10 @@
 
 ## link: [Website](https://big-eaters.web.app/)
 
-## VIDEO DEMO OF JOB BROWSING and STUDENT PROFILE
+## Introduction Video
 
-[![thumbnail](https://user-images.githubusercontent.com/29106800/224384207-8c9d809b-c39a-4b1f-8af8-dad2b4282008.PNG)](https://youtu.be/oT4e7-VNfdk)
+https://user-images.githubusercontent.com/29106800/232936326-8d0058a7-d9b2-44dc-a54c-2414c5b90983.mov
+
 
 ## 1. Description
 
