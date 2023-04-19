@@ -4,8 +4,7 @@
 
 ## Introduction Video
 
-https://user-images.githubusercontent.com/29106800/232936326-8d0058a7-d9b2-44dc-a54c-2414c5b90983.mov
-
+https://user-images.githubusercontent.com/29106800/233113692-c78e78c6-e928-4473-8ed6-d5d700f58132.mov
 
 ## 1. Description
 
